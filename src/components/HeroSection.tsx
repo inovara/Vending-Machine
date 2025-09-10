@@ -1,222 +1,121 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ChevronRight, Play, Sparkles, Zap, Target } from 'lucide-react';
-import { smoothScrollTo } from '../utils/smoothScroll';
+import React from 'react';
+import { ChevronRight, Play, Clock, CreditCard, TrendingUp, Wifi, MapPin, Star } from 'lucide-react';
 import { navigateToSection } from '../utils/navigation';
+import { useTranslation } from '../contexts/TranslationContext';
 
 const HeroSection: React.FC = () => {
-  const heroRef = useRef<HTMLElement>(null);
-  const flagRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (heroRef.current && flagRef.current) {
-        const scrolled = window.pageYOffset;
-        const parallax = scrolled * 0.5;
-        flagRef.current.style.transform = `translateY(${parallax}px)`;
-      }
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100
-      });
-    };
-
-    // Trigger load animation
-    setTimeout(() => setIsLoaded(true), 100);
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+  const { t, isRTL } = useTranslation();
 
   return (
-    <section 
-      ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        background: `
-          radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(46, 0, 20, 0.3) 0%, transparent 50%),
-          linear-gradient(135deg, rgba(46, 0, 20, 1) 0%, rgba(107, 144, 128, 0.9) 30%, rgba(252, 208, 161, 0.8) 70%, rgba(225, 233, 230, 0.9) 100%)
-        `
-      }}
-    >
-      {/* Advanced Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Dynamic gradient orbs */}
-        <div 
-          className="absolute w-96 h-96 bg-gradient-to-br from-inovara-accent-20 to-inovara-secondary-20 rounded-full blur-3xl animate-float"
-          style={{
-            top: '10%',
-            left: '5%',
-            transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`
-          }}
-        ></div>
-        <div 
-          className="absolute w-80 h-80 bg-gradient-to-br from-inovara-primary-30 to-inovara-accent-20 rounded-full blur-2xl animate-float"
-          style={{
-            top: '20%',
-            right: '10%',
-            animationDelay: '1s',
-            transform: `translate(${mousePosition.x * -0.03}px, ${mousePosition.y * 0.03}px)`
-          }}
-        ></div>
-        <div 
-          className="absolute w-72 h-72 bg-gradient-to-br from-inovara-secondary-20 to-inovara-neutral-30 rounded-full blur-3xl animate-float"
-          style={{
-            bottom: '20%',
-            left: '15%',
-            animationDelay: '2s',
-            transform: `translate(${mousePosition.x * 0.025}px, ${mousePosition.y * -0.025}px)`
-          }}
-        ></div>
-        
-        {/* Advanced geometric patterns */}
-        <div className="absolute top-1/4 right-1/3 w-96 h-96 opacity-5">
-          <svg viewBox="0 0 400 400" className="w-full h-full">
-            <defs>
-              <linearGradient id="advancedGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(46, 0, 20, 0.8)" />
-                <stop offset="50%" stopColor="rgba(107, 144, 128, 0.6)" />
-                <stop offset="100%" stopColor="rgba(252, 208, 161, 0.4)" />
-              </linearGradient>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
-              </pattern>
-            </defs>
-            <polygon points="200,50 350,150 300,300 100,300 50,150" fill="url(#advancedGradient1)" className="animate-pulse-slow" />
-            <rect width="400" height="400" fill="url(#grid)" />
-          </svg>
-        </div>
-
-        {/* Floating particles */}
+    <section className={`relative min-h-screen flex items-center justify-center bg-hero-bg overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}>
+      {/* Enhanced Background */}
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-white/30 rounded-full animate-float"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${3 + Math.random() * 2}s`
-              }}
-            />
-          ))}
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-luxury-charcoal via-inovara-primary/90 to-luxury-charcoal"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-inovara-accent/20 via-transparent to-inovara-secondary/20"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-inovara-accent/25 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/50 via-transparent to-transparent"></div>
       </div>
 
-      {/* Abstract Elements */}
-      <div ref={flagRef} className="absolute top-10 right-10 flex space-x-4 opacity-60">
-        <div className="w-8 h-8 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full animate-float"></div>
-        <div className="w-6 h-6 bg-gradient-to-r from-inovara-accent to-inovara-primary rounded-full animate-float" style={{ animationDelay: '0.5s' }}></div>
+      {/* Subtle Pattern Overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}></div>
       </div>
 
-      {/* Advanced Main Content */}
-      <div className="relative z-10 text-center px-6 max-w-7xl mx-auto">
-        {/* Enhanced Main Headline */}
-        <h1 className={`mb-8 leading-tight transition-all mt-10 duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ animationDelay: '0.2s' }}>
-          <div className="text-3xl md:text-4xl lg:text-5xl font-light text-white/90 tracking-wider mb-2">
-            <span className="inline-block mr-3">ENTERPRISE</span>
-            <span className="inline-block text-inovara-accent font-semibold">TECHNOLOGY</span>
-            <span className="inline-block ml-3">SOLUTIONS</span>
+      {/* Main Content */}
+      <div className={`relative z-10 text-center px-6 mt-16 max-w-6xl mx-auto ${isRTL ? 'rtl' : 'ltr'}`}>
+
+        {/* Main Headline */}
+        <h1 className="mb-8 leading-tight">
+          <div className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight mb-4">
+            <span className="inline-block bg-gradient-to-r from-white via-inovara-neutral to-white bg-clip-text text-transparent">{t('hero.title').split(' ')[0]}</span>
+            <span className="inline-block mx-3 bg-gradient-to-r from-inovara-accent via-inovara-accent to-inovara-secondary bg-clip-text text-transparent">{t('hero.title').split(' ')[1]}</span>
+            <span className="inline-block bg-gradient-to-r from-white via-inovara-neutral to-white bg-clip-text text-transparent">{t('hero.title').split(' ')[2]}</span>
           </div>
-          <div className="text-lg md:text-xl lg:text-2xl font-light text-white/70 tracking-wide">
-            <span className="inline-block">BY</span>
-            <span className="inline-block mx-2 text-inovara-accent font-semibold">INOVARA</span>
+          <div className="text-xl md:text-2xl lg:text-3xl font-light text-white/90 tracking-wide">
+            <span className="inline-block">{t('hero.subtitle')}</span>
           </div>
       </h1>
 
-        {/* Enhanced Subtext */}
-        <div className={`max-w-4xl mx-auto mb-12 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ animationDelay: '0.4s' }}>
-          <p className="text-lg md:text-xl lg:text-2xl text-white/90 font-light leading-relaxed mb-6">
-            Empowering Fortune 500 companies with cutting-edge technology solutions that drive digital transformation, accelerate growth, and secure competitive advantage in the digital economy.
+        {/* Subtext */}
+        <div className="max-w-4xl mx-auto mb-12">
+          <p className="text-lg md:text-xl lg:text-2xl text-white/80 font-light leading-relaxed mb-6">
+            {t('hero.description')}
           </p>
           
-          {/* Enhanced Features */}
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-white/60">
-            <span className="flex items-center space-x-2">
-              <Zap className="w-4 h-4 text-inovara-accent" />
-              <span>AI-Powered Solutions</span>
+          {/* Features */}
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-white/70">
+            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
+              <Clock className="w-4 h-4 text-inovara-accent" />
+              <span>{t('hero.feature.24-7')}</span>
             </span>
-            <span className="flex items-center space-x-2">
-              <Target className="w-4 h-4 text-inovara-secondary" />
-              <span>Enterprise Security</span>
+            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
+              <CreditCard className="w-4 h-4 text-inovara-accent" />
+              <span>{t('hero.feature.cashless')}</span>
             </span>
-            <span className="flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-inovara-primary" />
-              <span>Global Innovation</span>
+            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
+              <TrendingUp className="w-4 h-4 text-inovara-accent" />
+              <span>{t('hero.feature.analytics')}</span>
             </span>
-            <span className="flex items-center space-x-2">
-              <Target className="w-4 h-4 text-inovara-accent" />
-              <span>Scalable Architecture</span>
+            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
+              <Wifi className="w-4 h-4 text-inovara-accent" />
+              <span>{t('hero.feature.remote')}</span>
             </span>
           </div>
         </div>
 
-        {/* Enhanced CTA Buttons */}
-        <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ animationDelay: '0.6s' }}>
+        {/* CTA Buttons */}
+        <div className={`flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
           <button 
-            className="btn-enterprise px-8 py-3 text-base focus-ring"
+            className="group px-12 py-4 bg-gradient-to-r from-inovara-accent via-inovara-accent to-inovara-secondary text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-inovara-accent/30 transition-all duration-300 transform hover:scale-105 relative overflow-hidden"
             onClick={() => navigateToSection('#contact')}
-            aria-label="Start your digital transformation journey"
+            aria-label="Get free quote for vending machines"
           >
-            <span className="flex items-center">
-              Start Your Digital Transformation
-              <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-r from-inovara-accent/20 to-inovara-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <span className={`relative flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+              {t('hero.cta.quote')}
+              <ChevronRight className={`${isRTL ? 'mr-2' : 'ml-2'} h-5 w-5 group-hover:translate-x-1 transition-transform duration-300`} />
             </span>
           </button>
           
           <button 
-            className="btn-secondary px-8 py-3 text-base focus-ring"
-            onClick={() => navigateToSection('#services')}
-            aria-label="Explore our technology solutions"
+            className="group px-8 py-4 border border-inovara-accent/50 text-white font-semibold rounded-xl hover:bg-inovara-accent/20 hover:border-inovara-accent/70 transition-all duration-300 backdrop-blur-sm"
+            onClick={() => navigateToSection('#products')}
+            aria-label="View vending machine products"
           >
-            <span className="flex items-center">
-              <Play className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-              Explore Our Solutions
+            <span className={`flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+              <Play className={`${isRTL ? 'ml-2' : 'mr-2'} h-4 w-4 group-hover:scale-110 transition-transform duration-300`} />
+              {t('hero.cta.products')}
             </span>
           </button>
         </div>
 
-        {/* Enhanced Stats */}
-        <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ animationDelay: '0.8s' }}>
-          <div className="enterprise-card text-center p-4 enterprise-hover">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1 group-hover:text-inovara-accent transition-colors duration-300">$2.5B+</div>
-            <div className="text-white/70 text-xs font-medium">Business Value Delivered</div>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="text-center p-4 bg-gradient-to-br from-inovara-accent/10 to-inovara-secondary/10 backdrop-blur-sm border border-inovara-accent/30 rounded-xl shadow-lg shadow-inovara-accent/10">
+            <div className="text-3xl md:text-4xl font-black text-white mb-1">100%</div>
+            <div className="text-inovara-accent text-sm font-medium">{t('hero.stats.machines')}</div>
           </div>
-          <div className="enterprise-card text-center p-4 enterprise-hover">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1 group-hover:text-inovara-secondary transition-colors duration-300">500+</div>
-            <div className="text-white/70 text-xs font-medium">Enterprise Clients</div>
+          <div className="text-center p-4 bg-gradient-to-br from-inovara-secondary/10 to-inovara-accent/10 backdrop-blur-sm border border-inovara-secondary/30 rounded-xl shadow-lg shadow-inovara-secondary/10">
+            <div className="text-3xl md:text-4xl font-black text-white mb-1">100%</div>
+            <div className="text-inovara-secondary text-sm font-medium">{t('hero.stats.uptime')}</div>
           </div>
-          <div className="enterprise-card text-center p-4 enterprise-hover">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1 group-hover:text-inovara-primary transition-colors duration-300">99.9%</div>
-            <div className="text-white/70 text-xs font-medium">System Uptime</div>
+          <div className="text-center p-4 bg-gradient-to-br from-inovara-accent/10 to-inovara-secondary/10 backdrop-blur-sm border border-inovara-accent/30 rounded-xl shadow-lg shadow-inovara-accent/10">
+            <div className="text-3xl md:text-4xl font-black text-white mb-1">100%</div>
+            <div className="text-inovara-accent text-sm font-medium">{t('hero.stats.support')}</div>
           </div>
-          <div className="enterprise-card text-center p-4 enterprise-hover">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1 group-hover:text-inovara-accent transition-colors duration-300">50+</div>
-            <div className="text-white/70 text-xs font-medium">Global Markets</div>
+          <div className="text-center p-4 bg-gradient-to-br from-inovara-secondary/10 to-inovara-accent/10 backdrop-blur-sm border border-inovara-secondary/30 rounded-xl shadow-lg shadow-inovara-secondary/10">
+            <div className="text-3xl md:text-4xl font-black text-white mb-1">∞</div>
+            <div className="text-inovara-secondary text-sm font-medium">{t('hero.stats.global')}</div>
           </div>
         </div>
       </div>
 
-      {/* Enhanced Scroll Indicator */}
-      <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ animationDelay: '1s' }}>
-        <div className="flex flex-col items-center space-y-2">
-          <div className="text-white/60 text-xs font-medium tracking-wider">SCROLL TO EXPLORE</div>
-          <div 
-            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center group cursor-pointer hover:border-white/60 transition-colors duration-300"
-            onClick={() => smoothScrollTo('#about', 80)}
-          >
-            <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse group-hover:bg-white/80 transition-colors duration-300"></div>
-          </div>
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
         </div>
       </div>
     </section>

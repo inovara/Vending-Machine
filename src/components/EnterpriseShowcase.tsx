@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Building, Globe, Award, Shield, Zap, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
 import { navigateToSection } from '../utils/navigation';
+import { useTranslation } from '../contexts/TranslationContext';
 
 const EnterpriseShowcase: React.FC = () => {
+  const { t, isRTL } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
@@ -27,26 +29,26 @@ const EnterpriseShowcase: React.FC = () => {
   const enterpriseFeatures = [
     {
       icon: Building,
-      title: 'Enterprise Architecture',
-      description: 'Scalable, secure, and mission-critical infrastructure designed for Fortune 500 companies.',
+      title: t('enterprise.features.scalability.title'),
+      description: t('enterprise.features.scalability.description'),
       metrics: ['99.9% Uptime', '24/7 Support', 'Global Scale']
     },
     {
       icon: Shield,
-      title: 'Security & Compliance',
-      description: 'Enterprise-grade security with SOC 2, ISO 27001, and industry-specific compliance.',
+      title: t('enterprise.features.management.title'),
+      description: t('enterprise.features.management.description'),
       metrics: ['SOC 2 Type II', 'ISO 27001', 'GDPR Compliant']
     },
     {
       icon: Zap,
-      title: 'AI & Automation',
-      description: 'Advanced artificial intelligence and automation solutions for enterprise workflows.',
+      title: t('enterprise.features.analytics.title'),
+      description: t('enterprise.features.analytics.description'),
       metrics: ['ML/AI Powered', 'Process Automation', 'Predictive Analytics']
     },
     {
       icon: Globe,
-      title: 'Global Deployment',
-      description: 'Worldwide infrastructure with multi-region deployment and local compliance.',
+      title: t('enterprise.features.integration.title'),
+      description: t('enterprise.features.integration.description'),
       metrics: ['50+ Countries', 'Multi-Cloud', 'Edge Computing']
     }
   ];
@@ -79,13 +81,13 @@ const EnterpriseShowcase: React.FC = () => {
           </div>
           
           <h2 className={`text-4xl md:text-5xl lg:text-6xl font-black mb-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ animationDelay: '0.2s' }}>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-enterprise-gold to-white">ENTERPRISE</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-enterprise-gold to-white">{t('enterprise.title')}</span>
             <br />
-            <span className="text-white">SOLUTIONS</span>
+            <span className="text-white">{t('enterprise.titleAccent')}</span>
           </h2>
           
           <p className={`text-lg md:text-xl text-white/80 max-w-3xl mx-auto font-light leading-relaxed transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ animationDelay: '0.4s' }}>
-            Trusted by Fortune 500 companies worldwide to deliver mission-critical technology solutions that drive digital transformation and competitive advantage.
+            {t('enterprise.description')}
           </p>
         </div>
 

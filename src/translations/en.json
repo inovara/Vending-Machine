@@ -1,0 +1,565 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "industries": "Industries",
+    "contact": "Contact",
+    "get-quote": "Get Quote"
+  },
+  "hero": {
+    "title": "Smart Vending Machines",
+    "subtitle": "for Your Business",
+    "description": "Revolutionary smart vending solutions with cutting-edge technology, cashless payments, and real-time analytics. Built for the future of business.",
+    "badge": {
+      "egypt": "Innovation in Egypt"
+    },
+    "features": {
+      "24-7": "24/7 Operations",
+      "cashless": "Cashless Payments",
+      "analytics": "Real-time Analytics",
+      "remote": "Remote Management"
+    },
+    "cta": {
+      "quote": "Get Free Quote",
+      "products": "View Products"
+    },
+    "stats": {
+      "machines": "Innovation Focus",
+      "uptime": "Modern Technology",
+      "support": "Dedicated Support",
+      "global": "Future Ready"
+    }
+  },
+  "products": {
+    "title": "Vending Machines",
+    "subtitle": "Smart vending machines with cashless payments, real-time analytics, and 24/7 support",
+    "smart": {
+      "title": "Smart Vending Machine",
+      "subtitle": "Complete smart vending machine with all-in-one technology solution",
+      "description": "Complete smart vending machine with all-in-one technology solution.",
+      "price": "Starting at $8,999"
+    },
+    "premium": {
+      "title": "Premium Vending Machine",
+      "subtitle": "Advanced features with premium design and enhanced security",
+      "description": "Advanced features with premium design and enhanced security.",
+      "price": "Starting at $12,999"
+    },
+    "enterprise": {
+      "title": "Enterprise Vending Machine",
+      "subtitle": "Large-scale solution for corporate environments",
+      "description": "Large-scale solution for corporate environments.",
+      "price": "Starting at $15,999"
+    },
+    "custom": {
+      "title": "Custom Vending Machine",
+      "subtitle": "Tailored solutions for specific business needs",
+      "description": "Tailored solutions for specific business needs.",
+      "price": "Contact for pricing"
+    }
+  },
+  "features": {
+    "touchscreen": "Touchscreen Interface",
+    "payment": "Multi-Payment Options",
+    "inventory": "Smart Inventory Management",
+    "temperature": "Temperature Control",
+    "monitoring": "Real-time Monitoring",
+    "advanced-touchscreen": "Advanced Touchscreen",
+    "multi-payment": "Multi-Payment Systems",
+    "smart-inventory": "Smart Inventory",
+    "climate": "Climate Control",
+    "support": "24/7 Support"
+  },
+  "about": {
+    "badge": "Who We Are",
+    "title": "INNOVATIVE VENDING",
+    "titleAccent": "TECHNOLOGY STARTUP",
+    "description": "Inovara Vending Solutions is an innovative startup revolutionizing the vending machine industry with smart technology, IoT integration, and business automation. We're building the future of intelligent vending solutions.",
+    "innovation": {
+      "title": "Innovation",
+      "description": "Pioneering the future of vending technology",
+      "details": "We develop cutting-edge solutions that transform traditional vending into intelligent, connected systems."
+    },
+    "quality": {
+      "title": "Quality",
+      "description": "Premium products and services",
+      "details": "Every machine is built to the highest standards with rigorous testing and quality assurance."
+    },
+    "reliability": {
+      "title": "Reliability",
+      "description": "Built for performance",
+      "details": "Our systems are designed for maximum operational efficiency and reliability."
+    },
+    "support": {
+      "title": "Support",
+      "description": "Dedicated technical assistance",
+      "details": "Our team is committed to providing excellent support for all your vending needs."
+    },
+    "smart": {
+      "title": "Smart Vending",
+      "description": "Advanced Machine Technology"
+    },
+    "payment": {
+      "title": "Payment Systems",
+      "description": "Cashless & Mobile Solutions"
+    },
+    "management": {
+      "title": "Management Software",
+      "description": "Analytics & Monitoring"
+    },
+    "iot": {
+      "title": "IoT Integration",
+      "description": "Connected Operations"
+    }
+  },
+  "industries": {
+    "title": "Industries We Serve",
+    "subtitle": "Smart vending solutions tailored for every industry",
+    "office": {
+      "title": "Office Buildings",
+      "description": "Enhance employee satisfaction with convenient access to snacks and beverages"
+    },
+    "healthcare": {
+      "title": "Healthcare",
+      "description": "24/7 access to healthy snacks for medical staff and visitors"
+    },
+    "manufacturing": {
+      "title": "Manufacturing",
+      "description": "Keep your workforce energized with fresh snacks and drinks"
+    },
+    "education": {
+      "title": "Education",
+      "description": "Modern vending solutions for students and faculty"
+    },
+    "hospitality": {
+      "title": "Hospitality",
+      "description": "Premium vending experience for hotels and resorts"
+    },
+    "retail": {
+      "title": "Retail",
+      "description": "Complement your retail space with smart vending solutions"
+    }
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Inovara?",
+    "subtitle": "Leading vending machine solutions in Egypt",
+    "local": {
+      "title": "Local Expertise",
+      "description": "Deep understanding of Egyptian market needs and regulations."
+    },
+    "quality": {
+      "title": "Premium Quality",
+      "description": "High-quality machines built to withstand Egyptian climate."
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Round-the-clock technical support and maintenance."
+    },
+    "custom": {
+      "title": "Custom Solutions",
+      "description": "Tailored vending solutions for your specific requirements."
+    },
+    "technology": {
+      "title": "Advanced Technology",
+      "description": "Latest smart vending technology with real-time monitoring."
+    },
+    "roi": {
+      "title": "Proven ROI",
+      "description": "Average 180% ROI within 8 months of deployment."
+    }
+  },
+  "roi": {
+    "title": "ROI Calculator",
+    "subtitle": "Calculate your potential return on investment",
+    "parameters": "Business Parameters",
+    "machines": "Number of Machines",
+    "dailyTransactions": "Daily Transactions per Machine",
+    "avgTransaction": "Average Transaction Value ($)",
+    "operatingCosts": "Operating Costs ($/month)",
+    "maintenanceCosts": "Maintenance Costs ($/month)",
+    "electricityCosts": "Electricity Costs ($/month)",
+    "rentCosts": "Rent/Location Costs ($/month)",
+    "results": "Projected Results",
+    "monthlyRevenue": "Monthly Revenue",
+    "monthlyProfit": "Monthly Profit",
+    "annualRevenue": "Annual Revenue",
+    "roi": "ROI",
+    "paybackPeriod": "Payback Period",
+    "summary": "Investment Summary",
+    "summaryText": "With {machines} machine{s}, you can expect to generate {revenue} in annual revenue with a return on investment of {roi}."
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Trusted by leading businesses across Egypt for their vending machine solutions",
+    "ahmed": {
+      "name": "Ahmed Hassan",
+      "company": "Cairo Business Center",
+      "position": "Operations Manager",
+      "content": "Inovara's vending machines have transformed our office environment. The smart technology and cashless payments have increased employee satisfaction by 40%."
+    },
+    "fatima": {
+      "name": "Dr. Fatima Al-Zahra",
+      "company": "Al-Azhar University Hospital",
+      "position": "Hospital Administrator",
+      "content": "The 24/7 availability of healthy snacks and beverages has been a game-changer for our staff and visitors. The real-time monitoring helps us maintain optimal inventory levels."
+    },
+    "mohamed": {
+      "name": "Mohamed El-Sayed",
+      "company": "Nile Manufacturing Co.",
+      "position": "HR Director",
+      "content": "Our factory workers love the convenience of having fresh snacks available during their shifts. The ROI has exceeded our expectations within the first 6 months."
+    },
+    "sarah": {
+      "name": "Sarah Mahmoud",
+      "company": "American University in Cairo",
+      "position": "Campus Services Manager",
+      "content": "The smart vending solutions have significantly improved our campus services. Students appreciate the modern payment options and variety of healthy choices."
+    },
+    "omar": {
+      "name": "Omar Farouk",
+      "company": "Four Seasons Hotel Cairo",
+      "position": "Guest Services Manager",
+      "content": "Our guests are impressed with the premium vending experience. The elegant design and smart features complement our luxury hotel environment perfectly."
+    },
+    "stats": {
+      "clients": "Happy Clients",
+      "satisfaction": "Satisfaction Rate",
+      "support": "Support",
+      "experience": "Years Experience"
+    }
+  },
+  "caseStudies": {
+    "title": "Success Stories",
+    "subtitle": "Real results from real businesses across Egypt",
+    "cairo": {
+      "title": "Cairo Business District Transformation",
+      "company": "CBD Office Complex",
+      "industry": "Commercial Real Estate",
+      "challenge": "Low employee satisfaction due to limited food options and outdated vending machines.",
+      "solution": "Deployed 15 smart vending machines with healthy options, cashless payments, and real-time inventory management.",
+      "results": {
+        "satisfaction": "Employee Satisfaction",
+        "revenue": "Revenue Generated",
+        "roi": "ROI"
+      }
+    },
+    "healthcare": {
+      "title": "Healthcare Facility Modernization",
+      "company": "Al-Azhar University Hospital",
+      "industry": "Healthcare",
+      "challenge": "Need for 24/7 food service for medical staff and visitors with strict hygiene requirements.",
+      "solution": "Installed 8 premium vending machines with temperature-controlled compartments and contactless payment options.",
+      "results": {
+        "uptime": "Uptime",
+        "satisfaction": "Customer Satisfaction",
+        "savings": "Cost Savings"
+      }
+    },
+    "manufacturing": {
+      "title": "Manufacturing Plant Efficiency",
+      "company": "Nile Manufacturing Co.",
+      "industry": "Manufacturing",
+      "challenge": "Worker productivity issues due to limited access to refreshments during long shifts.",
+      "solution": "Strategic placement of 12 vending machines across production floors with shift-specific product offerings.",
+      "results": {
+        "productivity": "Productivity",
+        "retention": "Employee Retention",
+        "revenue": "Revenue"
+      }
+    },
+    "challenge": "Challenge",
+    "solution": "Solution",
+    "results": "Results",
+    "cta": "Ready to Create Your Success Story?",
+    "ctaText": "Join hundreds of businesses across Egypt who have transformed their operations with our smart vending solutions.",
+    "ctaButton": "Start Your Success Story"
+  },
+  "quote": {
+    "title": "Get Your Free Quote",
+    "subtitle": "Tell us about your vending machine needs",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "company": "Company Name",
+    "industry": "Industry",
+    "industryOptions": {
+      "office": "Office Buildings",
+      "healthcare": "Healthcare",
+      "manufacturing": "Manufacturing",
+      "education": "Education",
+      "hospitality": "Hospitality",
+      "retail": "Retail",
+      "other": "Other"
+    },
+    "machines": "Machines Needed",
+    "machineOptions": {
+      "1-5": "1-5 machines",
+      "6-20": "6-20 machines",
+      "21-50": "21-50 machines",
+      "51-100": "51-100 machines",
+      "100+": "100+ machines"
+    },
+    "requirements": "Additional Requirements",
+    "requirementsPlaceholder": "Tell us about your specific vending machine needs...",
+    "submit": "Get Free Quote",
+    "close": "Close"
+  },
+  "industries": {
+    "title": "Industries We",
+    "titleAccent": "Serve",
+    "subtitle": "Tailored Solutions for Every Sector",
+    "description": "Our smart vending solutions are designed to meet the unique needs of different industries, providing convenience and efficiency across various sectors.",
+    "corporate": {
+      "title": "Corporate Offices",
+      "description": "Enhance employee satisfaction with convenient vending solutions in modern office environments.",
+      "features": ["Employee Wellness", "24/7 Availability", "Healthy Options", "Cashless Convenience"]
+    },
+    "healthcare": {
+      "title": "Healthcare Facilities",
+      "description": "Reliable vending solutions designed for hospitals, clinics, and medical centers.",
+      "features": ["Hygienic Design", "Medical Compliance", "Emergency Access", "Sanitized Operations"]
+    },
+    "education": {
+      "title": "Educational Institutions",
+      "description": "Smart vending solutions for schools, universities, and educational campuses.",
+      "features": ["Student-Friendly", "Educational Content", "Campus Integration", "Safety Features"]
+    },
+    "retail": {
+      "title": "Retail & Shopping",
+      "description": "Enhance customer experience with smart vending solutions in retail environments.",
+      "features": ["Customer Convenience", "Brand Integration", "High Traffic Support", "Revenue Generation"]
+    },
+    "manufacturing": {
+      "title": "Manufacturing",
+      "description": "Industrial-grade vending solutions for manufacturing facilities and production sites.",
+      "features": ["Industrial Design", "Dust Protection", "Heavy-Duty Construction", "Worker Convenience"]
+    },
+    "transportation": {
+      "title": "Transportation Hubs",
+      "description": "Reliable vending solutions for airports, train stations, and transit centers.",
+      "features": ["High Reliability", "24/7 Operation", "Traveler Convenience", "Durable Design"]
+    },
+    "cta": {
+      "title": "Ready to Transform Your Industry?",
+      "description": "Get a customized vending solution designed specifically for your industry needs.",
+      "button": "Get Industry Quote"
+    }
+  },
+  "enterprise": {
+    "title": "ENTERPRISE",
+    "titleAccent": "SOLUTIONS",
+    "subtitle": "Scalable Vending Solutions for Large Organizations",
+    "description": "Comprehensive enterprise-grade vending solutions designed to meet the complex needs of large organizations and multi-location businesses.",
+    "features": {
+      "scalability": {
+        "title": "Unlimited Scalability",
+        "description": "Scale from single machines to enterprise-wide deployments across multiple locations."
+      },
+      "management": {
+        "title": "Centralized Management",
+        "description": "Manage all your vending machines from a single, powerful dashboard."
+      },
+      "analytics": {
+        "title": "Advanced Analytics",
+        "description": "Comprehensive reporting and analytics to optimize your vending operations."
+      },
+      "integration": {
+        "title": "System Integration",
+        "description": "Seamlessly integrate with your existing business systems and workflows."
+      }
+    },
+    "benefits": {
+      "title": "Enterprise Benefits",
+      "costSavings": "Significant Cost Savings",
+      "efficiency": "Operational Efficiency",
+      "revenue": "Revenue Generation",
+      "satisfaction": "Employee Satisfaction"
+    },
+    "cta": {
+      "title": "Ready for Enterprise Deployment?",
+      "description": "Let's discuss how our enterprise solutions can transform your organization.",
+      "button": "Contact Enterprise Team"
+    }
+  },
+  "contact": {
+    "title": "Get Your Free",
+    "titleAccent": "Vending Machine Quote",
+    "subtitle": "Get in Touch",
+    "description": "Get a personalized quote for smart vending machines with cashless payments, real-time analytics, and 24/7 support. No obligation, just honest pricing.",
+    "company": {
+      "name": "Inovara Vending Solutions",
+      "tagline": "Smart Vending Technology Leader"
+    },
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "company": "Company Name",
+      "industry": "Industry",
+      "machines": "Number of Machines",
+      "message": "Message",
+      "submit": "Send Message",
+      "selectIndustry": "Select your industry",
+      "selectQuantity": "Select quantity",
+      "industryOptions": {
+        "corporate": "Corporate Offices",
+        "healthcare": "Healthcare Facilities",
+        "education": "Educational Institutions",
+        "retail": "Retail Locations",
+        "manufacturing": "Manufacturing Plants",
+        "transportation": "Transportation Hubs",
+        "other": "Other"
+      },
+      "machineOptions": {
+        "1-5": "1-5 machines",
+        "6-20": "6-20 machines",
+        "21-50": "21-50 machines",
+        "51-100": "51-100 machines",
+        "100+": "100+ machines"
+      },
+      "contactMethod": "Preferred Contact Method",
+      "contactMethods": {
+        "email": "Email",
+        "phone": "Phone",
+        "video-call": "Video Call"
+      },
+      "requirements": "Additional Requirements",
+      "requirementsPlaceholder": "Tell us about your vending requirements and business goals...",
+      "gettingQuote": "Getting Your Quote...",
+      "getQuote": "Get Free Quote"
+    },
+    "success": {
+      "title": "Quote Request Received!",
+      "message": "Thank you for your interest! We'll send you a detailed quote for your vending machines within 24 hours. No obligation, just honest pricing.",
+      "submitAnother": "Submit Another Request",
+      "downloadBrochure": "Download Brochure"
+    },
+    "info": {
+      "address": "123 Business Street, Cairo, Egypt",
+      "phone": "+20 123 456 7890",
+      "email": "info@inovara.com",
+      "hours": "Mon-Fri: 9AM-6PM"
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "description": "Join hundreds of businesses already using our smart vending solutions.",
+      "button": "Get Free Quote"
+    },
+    "solutions": {
+      "title": "Our Solutions",
+      "smartVending": "Smart Vending",
+      "paymentSystems": "Payment Systems",
+      "managementSoftware": "Management Software",
+      "iotIntegration": "IoT Integration"
+    },
+    "response": {
+      "time": "Response Time",
+      "within24Hours": "Within 24 Hours"
+    }
+  },
+  "footer": {
+    "description": "Leading provider of smart vending machine solutions in Egypt. Transform your business with our innovative technology.",
+    "quickLinks": "Quick Links",
+    "products": "Products",
+    "support": "Support",
+    "legal": "Legal",
+    "copyright": "© 2024 Inovara. All rights reserved.",
+    "company": {
+      "title": "Inovara Vending Solutions",
+      "description": "Leading provider of smart vending machine solutions in Egypt. Transform your business with our innovative technology.",
+      "tagline": "Smart Vending, Smart Business"
+    },
+    "links": {
+      "about": "About Us",
+      "services": "Services",
+      "products": "Products",
+      "industries": "Industries",
+      "contact": "Contact",
+      "quote": "Get Quote"
+    },
+    "contact": {
+      "title": "Contact Information",
+      "email": "info@inovara.com",
+      "phone": "+20 123 456 7890",
+      "address": "Cairo, Egypt"
+    },
+    "social": {
+      "title": "Follow Us",
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "github": "GitHub"
+    },
+    "offices": {
+      "title": "Our Offices",
+      "global": "Global HQ",
+      "globalCountry": "International",
+      "innovation": "Innovation Center",
+      "innovationCountry": "Technology Hub"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "return": "Return Policy"
+    }
+  },
+  "b2b": {
+    "title": "B2B",
+    "titleAccent": "FEATURES",
+    "subtitle": "Enterprise-Grade Solutions for Business",
+    "description": "Comprehensive B2B features designed to streamline your vending operations and maximize business efficiency.",
+    "features": {
+      "analytics": {
+        "title": "Advanced Analytics",
+        "description": "Real-time insights and comprehensive reporting for data-driven decisions."
+      },
+      "management": {
+        "title": "Centralized Management",
+        "description": "Manage all your vending machines from a single, powerful dashboard."
+      },
+      "integration": {
+        "title": "System Integration",
+        "description": "Seamlessly integrate with your existing business systems and workflows."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Round-the-clock technical support and maintenance services."
+      }
+    },
+    "roi": {
+      "title": "ROI Calculator",
+      "description": "Calculate your potential return on investment with our smart vending solutions.",
+      "machines": "Number of Machines",
+      "transactions": "Daily Transactions",
+      "average": "Average Transaction Value",
+      "calculate": "Calculate ROI",
+      "results": {
+        "monthlyRevenue": "Monthly Revenue",
+        "monthlyCosts": "Monthly Costs",
+        "monthlyProfit": "Monthly Profit",
+        "annualProfit": "Annual Profit",
+        "paybackPeriod": "Payback Period"
+      }
+    },
+    "cta": {
+      "title": "Ready to Scale Your Business?",
+      "description": "Get started with our B2B vending solutions and transform your operations.",
+      "button": "Get B2B Quote"
+    }
+  },
+  "common": {
+    "loading": "Loading",
+    "error": "Error",
+    "success": "Success",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "more": "More",
+    "less": "Less",
+    "readMore": "Read More",
+    "showLess": "Show Less"
+  }
+}
