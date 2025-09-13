@@ -3,77 +3,57 @@ import { Shield, Award, TrendingUp, HeadphonesIcon, CheckCircle } from 'lucide-r
 import { useTranslation } from '../contexts/TranslationContext';
 
 const WhyChooseUsSection: React.FC = () => {
-  const { isRTL } = useTranslation();
+  const { t, isRTL } = useTranslation();
+
   const features = [
     {
-      title: 'Innovative Technology',
+      title: t('why.features.innovative.title'),
       icon: Shield,
-      description: 'Cutting-edge smart vending solutions with modern hardware and software architecture.',
-      stats: '100%',
-      statLabel: 'Modern Technology',
+      description: t('why.features.innovative.description'),
+      stats: t('why.features.innovative.stats'),
+      statLabel: t('why.features.innovative.statLabel'),
       gradient: 'from-inovara-primary to-inovara-secondary',
-      features: [
-        'Smart hardware design',
-        'IoT integration',
-        'Real-time monitoring',
-        'AI-powered analytics'
-      ]
+      list: t('why.features.innovative.list') as unknown as string[],
     },
     {
-      title: 'Startup Agility',
+      title: t('why.features.agility.title'),
       icon: Award,
-      description: 'Fast, flexible, and responsive - we adapt quickly to your business needs.',
-      stats: '24/7',
-      statLabel: 'Rapid Response',
+      description: t('why.features.agility.description'),
+      stats: t('why.features.agility.stats'),
+      statLabel: t('why.features.agility.statLabel'),
       gradient: 'from-inovara-secondary to-inovara-accent',
-      features: [
-        'Quick deployment',
-        'Custom solutions',
-        'Direct communication',
-        'Agile development'
-      ]
+      list: t('why.features.agility.list') as unknown as string[],
     },
     {
-      title: 'Scalable Solutions',
+      title: t('why.features.scalable.title'),
       icon: TrendingUp,
-      description: 'From single machine to enterprise networks, our solutions grow with your business.',
-      stats: 'Unlimited',
-      statLabel: 'Scalability',
+      description: t('why.features.scalable.description'),
+      stats: t('why.features.scalable.stats'),
+      statLabel: t('why.features.scalable.statLabel'),
       gradient: 'from-inovara-accent to-inovara-neutral',
-      features: [
-        'Modular architecture',
-        'Cloud-based management',
-        'Multi-location support',
-        'Flexible configurations'
-      ]
+      list: t('why.features.scalable.list') as unknown as string[],
     },
     {
-      title: 'Dedicated Support',
+      title: t('why.features.support.title'),
       icon: HeadphonesIcon,
-      description: 'Personalized support and comprehensive assistance tailored to your business needs.',
-      stats: '100%',
-      statLabel: 'Dedicated Service',
+      description: t('why.features.support.description'),
+      stats: t('why.features.support.stats'),
+      statLabel: t('why.features.support.statLabel'),
       gradient: 'from-inovara-neutral to-inovara-primary',
-      features: [
-        'Direct team access',
-        'Remote diagnostics',
-        'Custom training',
-        'Ongoing partnership'
-      ]
+      list: t('why.features.support.list') as unknown as string[],
     }
   ];
 
-
   return (
-    <section id="why-choose-us" className={`professional-section bg-section-dark ${isRTL ? 'rtl' : 'ltr'}`}>
+    <section id="why-choose-us" className={`professional-section bg-section-light ${isRTL ? 'rtl' : 'ltr'}`}>
       <div className="professional-container">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-professional-heading mb-6">
-            Why Choose <span className="text-gradient-primary">Inovara</span>
+          <h2 className="text-professional-heading text-inovara-primary mb-6">
+            {t('why.title')} <span className="text-gradient-primary">{t('why.titleAccent')}</span>
           </h2>
-          <p className="text-professional-subheading text-white/80 max-w-3xl mx-auto">
-            We deliver exceptional value through reliable technology, proven expertise, and comprehensive support
+          <p className="text-professional-subheading text-inovara-secondary max-w-3xl mx-auto">
+            {t('why.subtitle')}
           </p>
         </div>
 
@@ -84,17 +64,17 @@ const WhyChooseUsSection: React.FC = () => {
             return (
               <div
                 key={index}
-                className="card-professional-elevated group text-center"
+                className="enterprise-card group text-center p-8"
               >
                 <div className={`w-20 h-20 bg-gradient-to-br ${feature.gradient} rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <IconComponent className="w-10 h-10 text-white" />
                 </div>
                 
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-inovara-accent transition-colors duration-300">
+                <h3 className="text-xl font-bold text-inovara-primary mb-4 group-hover:text-inovara-accent transition-colors duration-300">
                   {feature.title}
                 </h3>
                 
-                <p className="text-white/70 text-sm mb-6 leading-relaxed">
+                <p className="text-inovara-primary/70 text-sm mb-6 leading-relaxed">
                   {feature.description}
                 </p>
                 
@@ -102,15 +82,15 @@ const WhyChooseUsSection: React.FC = () => {
                   <div className="text-3xl font-black text-inovara-accent mb-1">
                     {feature.stats}
                   </div>
-                  <div className="text-white/60 text-xs font-medium uppercase tracking-wider">
+                  <div className="text-inovara-secondary text-xs font-medium uppercase tracking-wider">
                     {feature.statLabel}
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  {feature.features.map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex items-center text-sm text-white/60">
-                      <CheckCircle className="w-4 h-4 text-inovara-accent mr-2 flex-shrink-0" />
+                  {feature.list.map((item: string, itemIndex: number) => (
+                    <div key={itemIndex} className="flex items-center justify-center text-sm text-inovara-primary/70">
+                      <CheckCircle className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-2' : 'mr-2'} flex-shrink-0`} />
                       <span>{item}</span>
                     </div>
                   ))}
@@ -120,34 +100,33 @@ const WhyChooseUsSection: React.FC = () => {
           })}
         </div>
 
-
         {/* Trust Indicators */}
         <div className="bg-gradient-to-r from-inovara-primary-10 to-inovara-secondary-10 rounded-3xl p-8 md:p-12">
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Ready to Transform Your Business
+            <h3 className="text-2xl font-bold text-inovara-primary mb-4">
+              {t('why.ctaBlock.title')}
             </h3>
-            <p className="text-white/70 text-lg">
-              Join the future of smart vending with our innovative solutions designed for modern businesses
+            <p className="text-inovara-primary/80 text-lg">
+              {t('why.ctaBlock.description')}
             </p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
             <div className="text-center">
-              <div className="text-3xl font-black text-inovara-accent mb-2">100%</div>
-              <div className="text-white/70 text-sm">Modern Technology</div>
+              <div className="text-3xl font-black text-inovara-accent mb-2">{t('why.features.innovative.stats')}</div>
+              <div className="text-inovara-secondary text-sm">{t('why.ctaBlock.stats.modernTech')}</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-inovara-secondary mb-2">24/7</div>
-              <div className="text-white/70 text-sm">Rapid Response</div>
+              <div className="text-3xl font-black text-inovara-secondary mb-2">{t('why.features.agility.stats')}</div>
+              <div className="text-inovara-secondary text-sm">{t('why.ctaBlock.stats.rapidResponse')}</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-inovara-accent mb-2">100%</div>
-              <div className="text-white/70 text-sm">Dedicated Service</div>
+              <div className="text-3xl font-black text-inovara-accent mb-2">{t('why.features.support.stats')}</div>
+              <div className="text-inovara-secondary text-sm">{t('why.ctaBlock.stats.dedicatedService')}</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-inovara-primary mb-2">∞</div>
-              <div className="text-white/70 text-sm">Scalability</div>
+              <div className="text-3xl font-black text-inovara-primary mb-2">{t('why.features.scalable.statsSymbol')}</div>
+              <div className="text-inovara-secondary text-sm">{t('why.ctaBlock.stats.scalability')}</div>
             </div>
           </div>
         </div>

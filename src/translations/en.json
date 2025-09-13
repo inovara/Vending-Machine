@@ -169,6 +169,72 @@
       "description": "Average 180% ROI within 8 months of deployment."
     }
   },
+  "why": {
+    "title": "Why Choose",
+    "titleAccent": "Inovara",
+    "subtitle": "We deliver exceptional value through reliable technology, proven expertise, and comprehensive support",
+    "features": {
+      "innovative": {
+        "title": "Innovative Technology",
+        "description": "Cutting-edge smart vending solutions with modern hardware and software architecture.",
+        "stats": "100%",
+        "statLabel": "Modern Technology",
+        "list": [
+          "Smart hardware design",
+          "IoT integration",
+          "Real-time monitoring",
+          "AI-powered analytics"
+        ]
+      },
+      "agility": {
+        "title": "Startup Agility",
+        "description": "Fast, flexible, and responsive – we adapt quickly to your business needs.",
+        "stats": "24/7",
+        "statLabel": "Rapid Response",
+        "list": [
+          "Quick deployment",
+          "Custom solutions",
+          "Direct communication",
+          "Agile development"
+        ]
+      },
+      "scalable": {
+        "title": "Scalable Solutions",
+        "description": "From single machine to enterprise networks, our solutions grow with your business.",
+        "stats": "Unlimited",
+        "statsSymbol": "∞",
+        "statLabel": "Scalability",
+        "list": [
+          "Modular architecture",
+          "Cloud-based management",
+          "Multi-location support",
+          "Flexible configurations"
+        ]
+      },
+      "support": {
+        "title": "Dedicated Support",
+        "description": "Personalized support and comprehensive assistance tailored to your business needs.",
+        "stats": "100%",
+        "statLabel": "Dedicated Service",
+        "list": [
+          "Direct team access",
+          "Remote diagnostics",
+          "Custom training",
+          "Ongoing partnership"
+        ]
+      }
+    },
+    "ctaBlock": {
+      "title": "Ready to Transform Your Business",
+      "description": "Join the future of smart vending with our innovative solutions designed for modern businesses",
+      "stats": {
+        "modernTech": "Modern Technology",
+        "rapidResponse": "Rapid Response",
+        "dedicatedService": "Dedicated Service",
+        "scalability": "Scalability"
+      }
+    }
+  },
   "roi": {
     "title": "ROI Calculator",
     "subtitle": "Calculate your potential return on investment",
@@ -561,5 +627,20 @@
     "less": "Less",
     "readMore": "Read More",
     "showLess": "Show Less"
+  },
+  "chatbot": {
+    "title": "Inovara Assistant",
+    "open": "Chat with us",
+    "close": "Close chat",
+    "welcome": "Hi! I’m the Inovara Assistant. How can I help you today? You can ask about products, pricing, or support.",
+    "placeholder": "Type your message…",
+    "send": "Send",
+    "fallback": "Thanks! I’ve noted your message. For quotes, click Get Free Quote. For detailed assistance, leave your contact in the form.",
+    "reply": {
+      "quote": "I can help you start a quote. Click ‘Get Free Quote’ or share a few details here.",
+      "products": "We offer smart, premium, enterprise, and custom machines. Which are you interested in?",
+      "support": "Our team is here 24/7. You can describe your issue or use the contact form.",
+      "contact": "You can reach us via the contact section. Would you like me to guide you there?"
+    }
   }
 }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Mail, Phone, MapPin, Send, Building, Clock, ArrowRight, ShoppingCart, Users, Calculator, Download } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Mail, Phone, MapPin, Send, ArrowRight, ShoppingCart, Download } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface FormData {
