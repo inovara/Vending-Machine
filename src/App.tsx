@@ -1,25 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { TranslationProvider } from './contexts/TranslationContext';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection';
-import ProductsSection from './components/ProductsSection';
-import WhyChooseUsSection from './components/WhyChooseUsSection';
-import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import QuickQuoteModal from './components/QuickQuoteModal';
 import FloatingActionMenu from './components/FloatingActionMenu';
 import ScrollToTop from './components/ScrollToTop';
-import ProductsPage from './pages/ProductsPage';
-import ProductDetailPage from './pages/ProductDetailPage.tsx';
-import IndustriesPage from './pages/IndustriesPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsOfServicePage from './pages/TermsOfServicePage';
-import CookiePolicyPage from './pages/CookiePolicyPage';
-import DisclaimerPage from './pages/DisclaimerPage';
-import './styles/enterprise.css';
 import SlideInCta from './components/SlideInCta.tsx';
+
+// Defer non-critical sections for faster first paint
+const AboutSection = lazy(() => import('./components/AboutSection'));
+const ProductsSection = lazy(() => import('./components/ProductsSection'));
+const WhyChooseUsSection = lazy(() => import('./components/WhyChooseUsSection'));
+const ContactSection = lazy(() => import('./components/ContactSection'));
+const QuickQuoteModal = lazy(() => import('./components/QuickQuoteModal'));
+
+// Route-level code-splitting
+const ProductsPage = lazy(() => import('./pages/ProductsPage'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage.tsx'));
+const IndustriesPage = lazy(() => import('./pages/IndustriesPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
+const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage'));
+const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
+import './styles/enterprise.css';
+
+const SectionSkeleton: React.FC<{ height?: string }> = ({ height = 'h-64' }) => (
+  <div className={`w-full ${height} animate-pulse bg-inovara-neutral/10 rounded-2xl`} />
+);
 
 const Home: React.FC<{ onQuoteClick: () => void }> = ({ onQuoteClick }) => (
   <main>
@@ -28,19 +36,27 @@ const Home: React.FC<{ onQuoteClick: () => void }> = ({ onQuoteClick }) => (
     </section>
 
     <section id="about">
-      <AboutSection />
+      <Suspense fallback={<div className="px-6 py-12 max-w-7xl mx-auto"><SectionSkeleton /></div>}>
+        <AboutSection />
+      </Suspense>
     </section>
 
     <section id="products">
-      <ProductsSection onQuoteClick={onQuoteClick} />
+      <Suspense fallback={<div className="px-6 py-12 max-w-7xl mx-auto"><SectionSkeleton height="h-80" /></div>}>
+        <ProductsSection onQuoteClick={onQuoteClick} />
+      </Suspense>
     </section>
 
     <section id="why-choose-us">
-      <WhyChooseUsSection />
+      <Suspense fallback={<div className="px-6 py-12 max-w-7xl mx-auto"><SectionSkeleton /></div>}>
+        <WhyChooseUsSection />
+      </Suspense>
     </section>
 
     <section id="contact">
-      <ContactSection />
+      <Suspense fallback={<div className="px-6 py-12 max-w-7xl mx-auto"><SectionSkeleton height="h-72" /></div>}>
+        <ContactSection />
+      </Suspense>
     </section>
   </main>
 );
@@ -50,31 +66,12 @@ const App: React.FC = () => {
 
   // Modern loading state management
   useEffect(() => {
-    // Mark app as loaded immediately for smooth UX
-    
     // Update root element classes for modern loading
     const root = document.getElementById('root');
     if (root) {
       root.classList.add('app-loaded');
       root.classList.remove('app-loading');
     }
-    
-    // Preload critical resources
-    const preloadCriticalResources = () => {
-      // Preload hero section images
-      const heroImages = [
-        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=800&fit=crop'
-      ];
-      
-      heroImages.forEach(src => {
-        const img = new Image();
-        img.src = src;
-      });
-    };
-    
-    // Run preloading after initial render
-    setTimeout(preloadCriticalResources, 100);
   }, []);
 
   const openQuoteForm = () => {
@@ -102,26 +99,30 @@ const App: React.FC = () => {
         <Header onQuoteClick={() => setIsQuoteModalOpen(true)} />
 
           <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
-            <Route path="/products" element={<ProductsPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
-            <Route path="/products/:slug" element={<ProductDetailPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
-            <Route path="/industries" element={<IndustriesPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
-            
-            {/* Legal Pages */}
-            <Route path="/privacy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms" element={<TermsOfServicePage />} />
-            <Route path="/cookies" element={<CookiePolicyPage />} />
-            <Route path="/disclaimer" element={<DisclaimerPage />} />
-          </Routes>
+          <Suspense fallback={<div className="px-6 py-12 max-w-7xl mx-auto"><SectionSkeleton /></div>}>
+            <Routes>
+              <Route path="/" element={<Home onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
+              <Route path="/products" element={<ProductsPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
+              <Route path="/products/:slug" element={<ProductDetailPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
+              <Route path="/industries" element={<IndustriesPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
+              
+              {/* Legal Pages */}
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsOfServicePage />} />
+              <Route path="/cookies" element={<CookiePolicyPage />} />
+              <Route path="/disclaimer" element={<DisclaimerPage />} />
+            </Routes>
+          </Suspense>
 
         <Footer />
 
         {/* Quick Quote Modal */}
-        <QuickQuoteModal
-          isOpen={isQuoteModalOpen}
-          onClose={() => setIsQuoteModalOpen(false)}
-        />
+        <Suspense fallback={null}>
+          <QuickQuoteModal
+            isOpen={isQuoteModalOpen}
+            onClose={() => setIsQuoteModalOpen(false)}
+          />
+        </Suspense>
 
         {/* Floating Widgets */}
         <SlideInCta onGetQuote={openQuoteForm} />

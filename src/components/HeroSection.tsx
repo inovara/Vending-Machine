@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0">
         {/* Ultra-subtle gradient for depth */}
         <div className="absolute inset-0 bg-gradient-to-br from-white via-inovara-neutral/3 to-white"></div>
-        
+
         {/* Single accent element for visual interest */}
         <div className="absolute top-1/3 right-1/3 w-64 h-64 bg-gradient-to-br from-inovara-accent/2 to-inovara-secondary/2 rounded-full blur-3xl"></div>
       </div>
@@ -22,9 +22,9 @@ const HeroSection: React.FC = () => {
 
         {/* Enterprise Headline */}
         <h1 className="mb-10">
-          <div className="text-4xl md:text-5xl lg:text-6xl font-black text-inovara-primary tracking-tight mb-6 leading-[0.9]">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight mb-8 leading-[0.9]">
             {t('hero.title')}
-          </div>
+          </h2>
           <div className="text-xl md:text-2xl lg:text-3xl font-light text-inovara-primary/60 tracking-wide">
             {t('hero.subtitle')}
           </div>
@@ -60,7 +60,7 @@ const HeroSection: React.FC = () => {
         {/* Dual CTA Buttons */}
         <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
           {/* Primary CTA - Quote */}
-          <button 
+          <button
             className="group px-10 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
             onClick={() => navigateToSection('#contact')}
             aria-label="Get free quote for smart vending machines"
@@ -70,9 +70,9 @@ const HeroSection: React.FC = () => {
               <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
             </span>
           </button>
-          
+
           {/* Secondary CTA - Products */}
-          <button 
+          <button
             className="group px-8 py-4 border-2 border-inovara-primary/30 text-inovara-primary font-bold text-lg rounded-xl hover:bg-inovara-primary/5 hover:border-inovara-primary/50 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
             onClick={() => navigateToSection('#products')}
             aria-label="View smart vending machine products"
