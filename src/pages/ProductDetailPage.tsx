@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Monitor, Shield, Building2, Wrench, Star, Share2, Heart, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, Share2, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 export interface ProductDetailPageProps {
@@ -11,12 +11,11 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   const { slug } = useParams<{ slug: string }>();
   const { t, isRTL } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   // Map slug to product type
   const productMap: { [key: string]: string } = {
     'flower-vending-machine': 'flower',
-    'snack-vending-machine': 'snack', 
+    'snack-vending-machine': 'snack',
     'pizza-vending-machine': 'pizza',
     'beverage-vending-machine': 'beverage'
   };
@@ -34,10 +33,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&h=600&fit=crop&crop=center',
         'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&h=600&fit=crop&crop=center'
       ],
-      icon: Monitor,
       gradient: 'from-pink-500 to-rose-600',
-      rating: 4.9,
-      reviews: 127,
       features: ['Temperature Control', 'Automated Watering', 'Freshness Monitoring', 'Cashless Payments'],
       specifications: {
         dimensions: '120cm x 80cm x 200cm',
@@ -54,10 +50,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=center',
         'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&h=600&fit=crop&crop=center'
       ],
-      icon: Shield,
       gradient: 'from-orange-500 to-amber-600',
-      rating: 4.8,
-      reviews: 89,
       features: ['Real-time Inventory', 'Cashless Payments', 'Smart Analytics', 'Remote Management'],
       specifications: {
         dimensions: '100cm x 70cm x 180cm',
@@ -74,10 +67,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&h=600&fit=crop&crop=center',
         'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=800&h=600&fit=crop&crop=center'
       ],
-      icon: Building2,
       gradient: 'from-red-500 to-orange-600',
-      rating: 4.9,
-      reviews: 156,
       features: ['Automated Cooking', 'Fresh Ingredients', 'Customizable Options', 'Temperature Control'],
       specifications: {
         dimensions: '140cm x 90cm x 220cm',
@@ -94,10 +84,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&crop=center',
         'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center'
       ],
-      icon: Wrench,
       gradient: 'from-blue-500 to-cyan-600',
-      rating: 4.7,
-      reviews: 203,
       features: ['Multi-Temperature Zones', 'Cashless Payments', 'Consumption Analytics', 'Smart Dispensing'],
       specifications: {
         dimensions: '110cm x 75cm x 190cm',
@@ -115,7 +102,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* Hero Section */}
-      <section 
+      <section
         className="relative py-16 px-6 overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.8) 50%, rgba(255,255,255,1) 100%)'
@@ -136,7 +123,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
             <ArrowRight className={`w-4 h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
             <Link to="/products" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors">
               {t('products.breadcrumb.products')}
-          </Link>
+            </Link>
             <ArrowRight className={`w-4 h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
             <span className="text-inovara-primary font-medium">{title}</span>
           </nav>
@@ -151,23 +138,23 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
             <div className="space-y-6">
               {/* Main Image */}
               <div className="relative group">
-                <img 
-                  src={currentProduct.images[selectedImage]} 
+                <img
+                  src={currentProduct.images[selectedImage]}
                   alt={title}
                   className="w-full aspect-square object-cover rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-500"
                   loading="lazy"
                 />
-                
+
                 {/* Image Navigation */}
-                <button 
+                <button
                   onClick={() => setSelectedImage(Math.max(0, selectedImage - 1))}
                   disabled={selectedImage === 0}
                   className={`absolute top-1/2 ${isRTL ? 'right-4' : 'left-4'} transform -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                   <ChevronLeft className={`w-6 h-6 text-inovara-primary ${isRTL ? 'rotate-180' : ''}`} />
                 </button>
-                
-                <button 
+
+                <button
                   onClick={() => setSelectedImage(Math.min(currentProduct.images.length - 1, selectedImage + 1))}
                   disabled={selectedImage === currentProduct.images.length - 1}
                   className={`absolute top-1/2 ${isRTL ? 'left-4' : 'right-4'} transform -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
@@ -177,12 +164,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
 
                 {/* Action Buttons */}
                 <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} flex flex-col gap-2`}>
-                  <button 
-                    onClick={() => setIsFavorite(!isFavorite)}
-                    className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-inovara-primary'}`} />
-                  </button>
                   <button className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300">
                     <Share2 className="w-5 h-5 text-inovara-primary" />
                   </button>
@@ -200,14 +181,13 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
-                      selectedImage === index 
-                        ? 'border-inovara-primary shadow-lg' 
+                    className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
+                        ? 'border-inovara-primary shadow-lg'
                         : 'border-transparent hover:border-inovara-primary/50'
-                    }`}
+                      }`}
                   >
-                    <img 
-                      src={image} 
+                    <img
+                      src={image}
                       alt={`${title} ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
@@ -225,15 +205,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     <h1 className="text-4xl md:text-5xl font-black text-inovara-primary mb-2 leading-tight">
                       {title}
                     </h1>
-                    <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse justify-end' : 'flex-row'}`}>
-                      <div className="flex items-center gap-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`w-4 h-4 ${i < Math.floor(currentProduct.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
-                        ))}
-                        <span className="ml-2 text-inovara-primary font-semibold">{currentProduct.rating}</span>
-                      </div>
-                      <span className="text-inovara-primary/70">({currentProduct.reviews} reviews)</span>
-                    </div>
                   </div>
                 </div>
 
@@ -265,7 +236,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
 
               {/* Action Buttons */}
               <div className={`space-y-4 ${isRTL ? 'text-right' : 'text-left'}`}>
-                <button 
+                <button
                   onClick={onQuoteClick}
                   className="w-full group relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                 >
@@ -281,7 +252,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     <Play className="w-5 h-5" />
                     <span>Watch Demo Video</span>
                   </span>
-              </button>
+                </button>
               </div>
             </div>
           </div>
@@ -307,8 +278,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     <span className="text-inovara-primary/70 font-medium">{value}</span>
                   </div>
                 ))}
-          </div>
-        </div>
+              </div>
+            </div>
 
             {/* Benefits */}
             <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg">
@@ -413,8 +384,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <div className="font-semibold text-inovara-primary">Ahmed Salem</div>
                   <div className="text-sm text-inovara-primary/70">Office Manager</div>
                 </div>
-          </div>
-        </div>
+              </div>
+            </div>
 
             {/* Testimonial 3 */}
             <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -450,9 +421,9 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
             <p className="text-xl text-white/90 font-light leading-relaxed mb-8">
               Join hundreds of satisfied customers who have revolutionized their operations with our smart vending solutions.
             </p>
-            
+
             <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-              <button 
+              <button
                 onClick={onQuoteClick}
                 className="group px-12 py-5 bg-white text-inovara-primary font-bold text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30"
               >
@@ -461,8 +432,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <ArrowRight className={`w-6 h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                 </span>
               </button>
-              
-              <Link 
+
+              <Link
                 to="/products"
                 className="px-12 py-5 border-2 border-white text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-inovara-primary transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/30"
               >
@@ -472,7 +443,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
           </div>
         </div>
       </section>
-      </div>
+    </div>
   );
 };
 

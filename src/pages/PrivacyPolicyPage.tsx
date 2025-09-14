@@ -34,22 +34,19 @@ const PrivacyPolicyPage: React.FC = () => {
           {/* Hero Content */}
           <div className={`mb-16 ${isRTL ? 'text-right' : 'text-center'}`}>
             <div className={`flex items-center justify-center gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-3xl flex items-center justify-center shadow-lg">
-                <Shield className="w-8 h-8 text-white" />
-              </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
                 {t('legal.privacy.title')}
               </h1>
             </div>
             
             {/* Professional Divider */}
-            <div className={`w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mb-8 rounded-full ${isRTL ? 'ml-auto' : 'mx-auto'}`}></div>
+            <div className="w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
             
             <div className="max-w-4xl mx-auto">
-              <p className={`text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed ${isRTL ? 'text-right' : 'text-center'}`}>
+              <p className={`text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed text-center`}>
                 {t('legal.privacy.subtitle')}
               </p>
-              <p className={`text-sm text-inovara-primary/60 mt-4 ${isRTL ? 'text-right' : 'text-center'}`}>
+              <p className={`text-sm text-inovara-primary/60 mt-4 text-center`}>
                 {t('legal.lastUpdated')}: {t('legal.privacy.lastUpdated')}
               </p>
             </div>
@@ -62,14 +59,14 @@ const PrivacyPolicyPage: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           {/* Introduction */}
           <div className="mb-16">
-            <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
+            <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}>
               <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0">
+                <div className={`w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0 ${isRTL ? 'ml-4' : 'mr-4'}`}>
                   <Eye className="w-6 h-6 text-white" />
                 </div>
                 <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  <h2 className="text-2xl font-black text-inovara-primary mb-4">{t('legal.privacy.introduction.title')}</h2>
-                  <p className="text-inovara-primary/70 leading-relaxed">
+                  <h2 className={`text-2xl font-black text-inovara-primary mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.privacy.introduction.title')}</h2>
+                  <p className={`text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('legal.privacy.introduction.content')}
                   </p>
                 </div>
@@ -81,54 +78,54 @@ const PrivacyPolicyPage: React.FC = () => {
           <div className="space-y-16">
             {/* Information We Collect */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.privacy.collection.title')}</h2>
+              <h2 className={`text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.privacy.collection.title')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-6 shadow-lg">
-                  <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3">
+                <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-6 shadow-lg ${isRTL ? 'rtl' : 'ltr'}`}>
+                  <h3 className={`text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <FileText className="w-5 h-5 text-inovara-accent" />
                     {t('legal.privacy.collection.personal.title')}
                   </h3>
-                  <ul className="space-y-2 text-inovara-primary/70">
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.personal.name')}</span>
+                  <ul className={`space-y-2 text-inovara-primary/70 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.personal.name')}</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.personal.email')}</span>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.personal.email')}</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.personal.phone')}</span>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.personal.phone')}</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.personal.company')}</span>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.personal.company')}</span>
                     </li>
                   </ul>
                 </div>
 
-                <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-6 shadow-lg">
-                  <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3">
+                <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-6 shadow-lg ${isRTL ? 'rtl' : 'ltr'}`}>
+                  <h3 className={`text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <Lock className="w-5 h-5 text-inovara-secondary" />
                     {t('legal.privacy.collection.automatic.title')}
                   </h3>
-                  <ul className="space-y-2 text-inovara-primary/70">
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.automatic.ip')}</span>
+                  <ul className={`space-y-2 text-inovara-primary/70 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.automatic.ip')}</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.automatic.browser')}</span>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.automatic.browser')}</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.automatic.device')}</span>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.automatic.device')}</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{t('legal.privacy.collection.automatic.cookies')}</span>
+                    <li className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className={`w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={isRTL ? 'order-1' : 'order-2'}>{t('legal.privacy.collection.automatic.cookies')}</span>
                     </li>
                   </ul>
                 </div>
@@ -137,8 +134,8 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* How We Use Information */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.privacy.usage.title')}</h2>
-              <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg">
+              <h2 className={`text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.privacy.usage.title')}</h2>
+              <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg ${isRTL ? 'rtl' : 'ltr'}`}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[
                     { key: 'service', icon: FileText },
@@ -149,14 +146,14 @@ const PrivacyPolicyPage: React.FC = () => {
                     const IconComponent = item.icon;
                     return (
                       <div key={index} className={`flex items-start gap-4 p-4 rounded-xl bg-white/50 hover:bg-white/70 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                        <div className="w-10 h-10 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+                        <div className={`w-10 h-10 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-xl flex items-center justify-center flex-shrink-0 ${isRTL ? 'ml-4' : 'mr-4'}`}>
                           <IconComponent className="w-5 h-5 text-white" />
                         </div>
-                        <div>
-                          <h3 className="font-bold text-inovara-primary mb-2">
+                        <div className={isRTL ? 'text-right' : 'text-left'}>
+                          <h3 className={`font-bold text-inovara-primary mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>
                             {t(`legal.privacy.usage.${item.key}.title`)}
                           </h3>
-                          <p className="text-sm text-inovara-primary/70">
+                          <p className={`text-sm text-inovara-primary/70 ${isRTL ? 'text-right' : 'text-left'}`}>
                             {t(`legal.privacy.usage.${item.key}.description`)}
                           </p>
                         </div>
@@ -169,9 +166,9 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Data Protection */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.privacy.protection.title')}</h2>
-              <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
-                <p className="text-inovara-primary/70 leading-relaxed mb-6">
+              <h2 className={`text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.privacy.protection.title')}</h2>
+              <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}>
+                <p className={`text-inovara-primary/70 leading-relaxed mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {t('legal.privacy.protection.content')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -183,13 +180,13 @@ const PrivacyPolicyPage: React.FC = () => {
                     const IconComponent = item.icon;
                     return (
                       <div key={index} className={`${isRTL ? 'text-right' : 'text-center'}`}>
-                        <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <div className={`w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-2xl flex items-center justify-center mb-4 shadow-lg ${isRTL ? 'ml-auto' : 'mx-auto'}`}>
                           <IconComponent className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="font-bold text-inovara-primary mb-2">
+                        <h3 className={`font-bold text-inovara-primary mb-2 ${isRTL ? 'text-right' : 'text-center'}`}>
                           {t(`legal.privacy.protection.${item.key}.title`)}
                         </h3>
-                        <p className="text-sm text-inovara-primary/70">
+                        <p className={`text-sm text-inovara-primary/70 ${isRTL ? 'text-right' : 'text-center'}`}>
                           {t(`legal.privacy.protection.${item.key}.description`)}
                         </p>
                       </div>
@@ -201,9 +198,9 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Your Rights */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.privacy.rights.title')}</h2>
-              <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg">
-                <p className="text-inovara-primary/70 leading-relaxed mb-6">
+              <h2 className={`text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.privacy.rights.title')}</h2>
+              <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg ${isRTL ? 'rtl' : 'ltr'}`}>
+                <p className={`text-inovara-primary/70 leading-relaxed mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {t('legal.privacy.rights.intro')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -212,8 +209,8 @@ const PrivacyPolicyPage: React.FC = () => {
                     'restriction', 'objection', 'withdraw', 'complaint'
                   ].map((right, index) => (
                     <div key={index} className={`flex items-center gap-3 p-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                      <div className="w-2 h-2 bg-gradient-to-r from-inovara-accent to-inovara-secondary rounded-full flex-shrink-0"></div>
-                      <span className="font-medium text-inovara-primary">
+                      <div className={`w-2 h-2 bg-gradient-to-r from-inovara-accent to-inovara-secondary rounded-full flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                      <span className={`font-medium text-inovara-primary ${isRTL ? 'order-1' : 'order-2'}`}>
                         {t(`legal.privacy.rights.${right}`)}
                       </span>
                     </div>
@@ -224,32 +221,32 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.privacy.contact.title')}</h2>
-              <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
-                <p className="text-inovara-primary/70 leading-relaxed mb-8">
+              <h2 className={`text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.privacy.contact.title')}</h2>
+              <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}>
+                <p className={`text-inovara-primary/70 leading-relaxed mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {t('legal.privacy.contact.intro')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className={`${isRTL ? 'text-right' : 'text-center'}`}>
-                    <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <div className={`w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center mb-4 ${isRTL ? 'ml-auto' : 'mx-auto'}`}>
                       <Mail className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="font-bold text-inovara-primary mb-2">{t('legal.privacy.contact.email.title')}</h3>
-                    <p className="text-sm text-inovara-primary/70">privacy@inovara.com</p>
+                    <h3 className={`font-bold text-inovara-primary mb-2 ${isRTL ? 'text-right' : 'text-center'}`}>{t('legal.privacy.contact.email.title')}</h3>
+                    <p className={`text-sm text-inovara-primary/70 ${isRTL ? 'text-right' : 'text-center'}`}>privacy@inovara.com</p>
                   </div>
                   <div className={`${isRTL ? 'text-right' : 'text-center'}`}>
-                    <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <div className={`w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-2xl flex items-center justify-center mb-4 ${isRTL ? 'ml-auto' : 'mx-auto'}`}>
                       <Phone className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="font-bold text-inovara-primary mb-2">{t('legal.privacy.contact.phone.title')}</h3>
-                    <p className="text-sm text-inovara-primary/70">+20 123 456 7890</p>
+                    <h3 className={`font-bold text-inovara-primary mb-2 ${isRTL ? 'text-right' : 'text-center'}`}>{t('legal.privacy.contact.phone.title')}</h3>
+                    <p className={`text-sm text-inovara-primary/70 ${isRTL ? 'text-right' : 'text-center'}`}>+20 123 456 7890</p>
                   </div>
                   <div className={`${isRTL ? 'text-right' : 'text-center'}`}>
-                    <div className="w-12 h-12 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <div className={`w-12 h-12 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-2xl flex items-center justify-center mb-4 ${isRTL ? 'ml-auto' : 'mx-auto'}`}>
                       <MapPin className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="font-bold text-inovara-primary mb-2">{t('legal.privacy.contact.address.title')}</h3>
-                    <p className="text-sm text-inovara-primary/70">{t('legal.privacy.contact.address.content')}</p>
+                    <h3 className={`font-bold text-inovara-primary mb-2 ${isRTL ? 'text-right' : 'text-center'}`}>{t('legal.privacy.contact.address.title')}</h3>
+                    <p className={`text-sm text-inovara-primary/70 ${isRTL ? 'text-right' : 'text-center'}`}>{t('legal.privacy.contact.address.content')}</p>
                   </div>
                 </div>
               </div>
@@ -261,11 +258,11 @@ const PrivacyPolicyPage: React.FC = () => {
       {/* CTA Section */}
       <section className="py-24 px-6 bg-gradient-to-r from-inovara-primary to-inovara-secondary">
         <div className={`max-w-4xl mx-auto ${isRTL ? 'text-right' : 'text-center'}`}>
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-12 border border-white/20">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-6">
+          <div className={`bg-white/10 backdrop-blur-sm rounded-3xl p-12 border border-white/20 ${isRTL ? 'rtl' : 'ltr'}`}>
+            <h2 className={`text-3xl md:text-4xl font-black text-white mb-6 ${isRTL ? 'text-right' : 'text-center'}`}>
               {t('legal.privacy.cta.title')}
             </h2>
-            <p className="text-xl text-white/90 font-light leading-relaxed mb-8">
+            <p className={`text-xl text-white/90 font-light leading-relaxed mb-8 ${isRTL ? 'text-right' : 'text-center'}`}>
               {t('legal.privacy.cta.description')}
             </p>
             

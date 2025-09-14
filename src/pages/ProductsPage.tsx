@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, CheckCircle, Search, Filter, Sparkles, Monitor, Shield, Building2, Wrench, Star } from 'lucide-react';
+import { ArrowRight, CheckCircle, Search, Filter, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../contexts/TranslationContext';
 
@@ -15,7 +15,6 @@ const products = [
     category: 'Flower Vending',
     gradient: 'from-pink-500 to-rose-600',
     price: '$9,999',
-    rating: 4.9,
     features: ['Temperature Control', 'Automated Watering', 'Freshness Monitoring']
   },
   {
@@ -25,7 +24,6 @@ const products = [
     category: 'Snack Vending',
     gradient: 'from-orange-500 to-amber-600',
     price: '$7,999',
-    rating: 4.8,
     features: ['Real-time Inventory', 'Cashless Payments', 'Smart Analytics']
   },
   {
@@ -35,7 +33,6 @@ const products = [
     category: 'Food Vending',
     gradient: 'from-red-500 to-orange-600',
     price: '$18,999',
-    rating: 4.9,
     features: ['Automated Cooking', 'Fresh Ingredients', 'Customizable Options']
   },
   {
@@ -45,17 +42,16 @@ const products = [
     category: 'Beverage Vending',
     gradient: 'from-blue-500 to-cyan-600',
     price: '$6,999',
-    rating: 4.7,
     features: ['Multi-Temperature Zones', 'Cashless Payments', 'Consumption Analytics']
   }
 ];
 
 const categories = [
-  { id: 'all', name: 'All Products', icon: Sparkles },
-  { id: 'flower', name: 'Flower Vending', icon: Monitor },
-  { id: 'snack', name: 'Snack Vending', icon: Shield },
-  { id: 'pizza', name: 'Food Vending', icon: Building2 },
-  { id: 'beverage', name: 'Beverage Vending', icon: Wrench }
+  { id: 'all', name: 'All Products' },
+  { id: 'flower', name: 'Flower Vending' },
+  { id: 'snack', name: 'Snack Vending'},
+  { id: 'pizza', name: 'Food Vending' },
+  { id: 'beverage', name: 'Beverage Vending' }
 ];
 
 const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
@@ -135,7 +131,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                 {/* Search */}
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className={`absolute top-1/2 transform -translate-y-1/2 w-5 h-5 text-inovara-primary/50 ${isRTL ? 'right-4' : 'left-4'}`} />
+                    <Search className={`absolute top-1/2 transform -translate-y-1/2 w-5 h-5 text-inovara-primary/50 ${isRTL ? 'right-2' : 'left-4'}`} />
                     <input
                       type="text"
                       placeholder={t('products.searchPlaceholder')}
@@ -216,12 +212,6 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                     {/* Price Badge */}
                     <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-gradient-to-r ${product.gradient} text-white px-3 py-1 rounded-full text-sm font-bold`}>
                       {product.price}
-                    </div>
-                    
-                    {/* Rating Badge */}
-                    <div className={`absolute bottom-4 ${isRTL ? 'left-4' : 'right-4'} bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-inovara-primary flex items-center gap-1`}>
-                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                      {product.rating}
                     </div>
                   </div>
                   

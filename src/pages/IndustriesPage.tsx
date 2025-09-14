@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, Heart, GraduationCap, ShoppingBag, Factory, Train, Calculator } from 'lucide-react';
+import { ArrowRight, Building2, Heart, GraduationCap, ShoppingBag, Factory, Train, Sparkles } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface IndustriesPageProps {
@@ -74,32 +74,32 @@ const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {
           {/* Breadcrumb */}
           <nav className={`flex items-center gap-2 mb-8 text-sm ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <Link to="/" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors">
-              {t('legal.breadcrumb.home')}
+              {t('industries.breadcrumb.home')}
             </Link>
             <ArrowRight className={`w-4 h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
-            <span className="text-inovara-primary font-medium">{t('industries.title')}</span>
+            <span className="text-inovara-primary font-medium">{t('industries.breadcrumb.industries')}</span>
           </nav>
 
+
           {/* Hero Content */}
-          <div className={`mb-16 ${isRTL ? 'text-right' : 'text-center'}`}>
-            <div className={`flex items-center justify-center gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-3xl flex items-center justify-center shadow-lg">
-                <Calculator className="w-8 h-8 text-white" />
-              </div>
+          <div className="text-center mb-10">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <Sparkles className="w-8 h-8 text-inovara-accent" />
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
-                {t('industries.title')}
+              {t('industries.hero.title')}
               </h1>
+              <Sparkles className="w-8 h-8 text-inovara-accent" />
             </div>
             
             {/* Professional Divider */}
-            <div className={`w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mb-8 rounded-full ${isRTL ? 'ml-auto' : 'mx-auto'}`}></div>
+            <div className="w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
             
             <div className="max-w-4xl mx-auto">
-              <p className={`text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed ${isRTL ? 'text-right' : 'text-center'}`}>
-                {t('industries.subtitle')}
+              <p className="text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed">
+              {t('industries.hero.subtitle')}
               </p>
             </div>
-          </div>
+          </div>    
         </div>
       </section>
 
@@ -113,10 +113,10 @@ const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {
               return (
                 <div
                   key={index}
-                  className="group bg-white/80 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105"
+                  className={`group relative bg-white/80 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 ${isRTL ? 'rtl' : 'ltr'}`}
                 >
                   {/* Icon */}
-                  <div className={`w-16 h-16 bg-gradient-to-br ${industry.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                  <div className={`w-16 h-16 bg-gradient-to-br ${industry.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 ${isRTL ? 'ml-auto' : 'mr-auto'}`}>
                     <IconComponent className="w-8 h-8 text-white" />
                   </div>
 
@@ -144,8 +144,8 @@ const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {
                         
                         return featuresArray.map((feature, featureIndex) => (
                           <div key={featureIndex} className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                            <div className="w-2 h-2 bg-gradient-to-r from-inovara-accent to-inovara-secondary rounded-full flex-shrink-0"></div>
-                            <span className="text-sm text-inovara-primary/80">{typeof feature === 'string' ? feature.trim() : String(feature)}</span>
+                            <div className={`w-2 h-2 bg-gradient-to-r from-inovara-accent to-inovara-secondary rounded-full flex-shrink-0 ${isRTL ? 'order-2' : 'order-1'}`}></div>
+                            <span className={`text-sm text-inovara-primary/80 ${isRTL ? 'order-1' : 'order-2'}`}>{typeof feature === 'string' ? feature.trim() : String(feature)}</span>
                           </div>
                         ));
                       })()}
@@ -161,11 +161,11 @@ const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {
 
           {/* CTA Section */}
           <div className={`mt-20 ${isRTL ? 'text-right' : 'text-center'}`}>
-            <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-12 border border-inovara-primary/10">
-              <h2 className="text-3xl md:text-4xl font-black text-inovara-primary mb-6">
+            <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-6 shadow-lg">
+              <h2 className={`text-3xl md:text-4xl font-black text-inovara-primary mb-6 ${isRTL ? 'text-right' : 'text-center'}`}>
                 {t('industries.cta.title')}
               </h2>
-              <p className="text-xl text-inovara-primary/70 leading-relaxed mb-8 max-w-3xl mx-auto">
+              <p className={`text-xl text-inovara-primary/70 leading-relaxed mb-8 max-w-3xl ${isRTL ? 'mr-auto' : 'mx-auto'}`}>
                 {t('industries.cta.description')}
               </p>
               <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>

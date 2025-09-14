@@ -8,8 +8,7 @@ const DisclaimerPage: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Hero Section */}
-      <section 
+      <section
         className="relative py-24 px-6 overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.8) 50%, rgba(255,255,255,1) 100%)'
@@ -34,22 +33,19 @@ const DisclaimerPage: React.FC = () => {
           {/* Hero Content */}
           <div className={`mb-16 ${isRTL ? 'text-right' : 'text-center'}`}>
             <div className={`flex items-center justify-center gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-3xl flex items-center justify-center shadow-lg">
-                <AlertTriangle className="w-8 h-8 text-white" />
-              </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
                 {t('legal.disclaimer.title')}
               </h1>
             </div>
-            
+
             {/* Professional Divider */}
-            <div className={`w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mb-8 rounded-full ${isRTL ? 'ml-auto' : 'mx-auto'}`}></div>
-            
+            <div className="w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
+
             <div className="max-w-4xl mx-auto">
-              <p className={`text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed ${isRTL ? 'text-right' : 'text-center'}`}>
+              <p className={`text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed text-center`}>
                 {t('legal.disclaimer.subtitle')}
               </p>
-              <p className={`text-sm text-inovara-primary/60 mt-4 ${isRTL ? 'text-right' : 'text-center'}`}>
+              <p className={`text-sm text-inovara-primary/60 mt-4 text-center`}>
                 {t('legal.lastUpdated')}: {t('legal.disclaimer.lastUpdated')}
               </p>
             </div>
@@ -62,14 +58,14 @@ const DisclaimerPage: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           {/* Introduction */}
           <div className="mb-16">
-            <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
+            <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}>
               <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0">
+                <div className={`w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0 ${isRTL ? 'ml-4' : 'mr-4'}`}>
                   <FileText className="w-6 h-6 text-white" />
                 </div>
                 <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  <h2 className="text-2xl font-black text-inovara-primary mb-4">{t('legal.disclaimer.introduction.title')}</h2>
-                  <p className="text-inovara-primary/70 leading-relaxed">
+                  <h2 className={`text-2xl font-black text-inovara-primary mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.disclaimer.introduction.title')}</h2>
+                  <p className={`text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('legal.disclaimer.introduction.content')}
                   </p>
                 </div>
@@ -332,9 +328,9 @@ const DisclaimerPage: React.FC = () => {
             <p className="text-xl text-white/90 font-light leading-relaxed mb-8">
               {t('legal.disclaimer.cta.description')}
             </p>
-            
+
             <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-              <Link 
+              <Link
                 to="/contact"
                 className="group px-12 py-5 bg-white text-inovara-primary font-bold text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30"
               >
@@ -343,8 +339,8 @@ const DisclaimerPage: React.FC = () => {
                   <ArrowRight className={`w-6 h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                 </span>
               </Link>
-              
-              <Link 
+
+              <Link
                 to="/terms"
                 className="px-12 py-5 border-2 border-white text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-inovara-primary transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/30"
               >
@@ -354,7 +350,7 @@ const DisclaimerPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+    </div >
   );
 };
 

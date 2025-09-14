@@ -139,35 +139,73 @@
   "industries": {
     "title": "Industries We Serve",
     "subtitle": "Empowering businesses across diverse sectors with innovative smart vending solutions that drive efficiency, profitability, and exceptional customer experiences.",
+    "breadcrumb": {
+      "home": "Home",
+      "industries": "Industries"
+    },
+    "hero": {
+      "title": "Industries We Serve",
+      "subtitle": "Empowering businesses across diverse sectors with innovative smart vending solutions that drive efficiency, profitability, and exceptional customer experiences."
+    },
     "corporate": {
       "title": "Corporate Offices",
       "description": "Enhance employee satisfaction with convenient vending solutions in modern office environments.",
-      "features": ["Employee Wellness", "24/7 Availability", "Healthy Options", "Cashless Convenience"]
+      "features": [
+        "Employee Wellness",
+        "24/7 Availability",
+        "Healthy Options",
+        "Cashless Convenience"
+      ]
     },
     "healthcare": {
       "title": "Healthcare Facilities",
       "description": "Reliable vending solutions designed for hospitals, clinics, and medical centers.",
-      "features": ["Hygienic Design", "Medical Compliance", "Emergency Access", "Sanitized Operations"]
+      "features": [
+        "Hygienic Design",
+        "Medical Compliance",
+        "Emergency Access",
+        "Sanitized Operations"
+      ]
     },
     "education": {
       "title": "Educational Institutions",
       "description": "Smart vending solutions for schools, universities, and educational campuses.",
-      "features": ["Student-Friendly", "Educational Content", "Campus Integration", "Safety Features"]
+      "features": [
+        "Student-Friendly",
+        "Educational Content",
+        "Campus Integration",
+        "Safety Features"
+      ]
     },
     "retail": {
       "title": "Retail & Shopping Centers",
       "description": "Enhance customer experience with smart vending solutions in retail environments.",
-      "features": ["Customer Convenience", "Brand Integration", "High Traffic Support", "Revenue Generation"]
+      "features": [
+        "Customer Convenience",
+        "Brand Integration",
+        "High Traffic Support",
+        "Revenue Generation"
+      ]
     },
     "manufacturing": {
       "title": "Manufacturing",
       "description": "Industrial vending solutions for manufacturing facilities and production sites.",
-      "features": ["Industrial Design", "Dust Protection", "Heavy-Duty Construction", "Worker Convenience"]
+      "features": [
+        "Industrial Design",
+        "Dust Protection",
+        "Heavy-Duty Construction",
+        "Worker Convenience"
+      ]
     },
     "transportation": {
       "title": "Transportation Hubs",
       "description": "Reliable vending solutions for airports, train stations, and transit centers.",
-      "features": ["High Reliability", "24/7 Operation", "Traveler Convenience", "Durable Design"]
+      "features": [
+        "High Reliability",
+        "24/7 Operation",
+        "Traveler Convenience",
+        "Durable Design"
+      ]
     },
     "cta": {
       "title": "Ready to Transform Your Industry?",
@@ -405,48 +443,6 @@
     "requirementsPlaceholder": "Tell us about your specific vending machine needs...",
     "submit": "Get Free Quote",
     "close": "Close"
-  },
-  "industries": {
-    "title": "Industries We",
-    "titleAccent": "Serve",
-    "subtitle": "Tailored Solutions for Every Sector",
-    "description": "Our smart vending solutions are designed to meet the unique needs of different industries, providing convenience and efficiency across various sectors.",
-    "corporate": {
-      "title": "Corporate Offices",
-      "description": "Enhance employee satisfaction with convenient vending solutions in modern office environments.",
-      "features": ["Employee Wellness", "24/7 Availability", "Healthy Options", "Cashless Convenience"]
-    },
-    "healthcare": {
-      "title": "Healthcare Facilities",
-      "description": "Reliable vending solutions designed for hospitals, clinics, and medical centers.",
-      "features": ["Hygienic Design", "Medical Compliance", "Emergency Access", "Sanitized Operations"]
-    },
-    "education": {
-      "title": "Educational Institutions",
-      "description": "Smart vending solutions for schools, universities, and educational campuses.",
-      "features": ["Student-Friendly", "Educational Content", "Campus Integration", "Safety Features"]
-    },
-    "retail": {
-      "title": "Retail & Shopping",
-      "description": "Enhance customer experience with smart vending solutions in retail environments.",
-      "features": ["Customer Convenience", "Brand Integration", "High Traffic Support", "Revenue Generation"]
-    },
-    "manufacturing": {
-      "title": "Manufacturing",
-      "description": "Industrial-grade vending solutions for manufacturing facilities and production sites.",
-      "features": ["Industrial Design", "Dust Protection", "Heavy-Duty Construction", "Worker Convenience"]
-    },
-    "transportation": {
-      "title": "Transportation Hubs",
-      "description": "Reliable vending solutions for airports, train stations, and transit centers.",
-      "features": ["High Reliability", "24/7 Operation", "Traveler Convenience", "Durable Design"]
-    },
-    "cta": {
-      "title": "Ready to Transform Your Industry?",
-      "description": "Get a customized vending solution designed specifically for your industry needs.",
-      "button": "Get Free Quote",
-      "contact": "Contact Us"
-    }
   },
   "enterprise": {
     "title": "ENTERPRISE",
@@ -1177,7 +1173,7 @@
         "description": "Leading the industry with advanced AI, IoT integration, and smart automation technologies that set new standards for vending excellence.",
         "features": {
           "ai": "AI-Powered Analytics",
-          "iot": "IoT Integration", 
+          "iot": "IoT Integration",
           "automation": "Smart Automation"
         }
       },
@@ -1191,7 +1187,7 @@
         }
       },
       "excellence": {
-        "title": "Service Excellence", 
+        "title": "Service Excellence",
         "description": "Dedicated to delivering premium quality solutions with personalized service, custom configurations, and ongoing partnership for your success.",
         "features": {
           "premium": "Premium Quality",
@@ -1204,7 +1200,7 @@
         "description": "Future-ready solutions that grow with your business, offering flexibility, scalability, and adaptability for long-term success.",
         "features": {
           "scalable": "Scalable Architecture",
-          "flexible": "Flexible Deployment", 
+          "flexible": "Flexible Deployment",
           "future": "Future-Ready Technology"
         }
       }
@@ -1216,7 +1212,7 @@
     },
     "stats": {
       "machines": "Machines Deployed",
-      "uptime": "Uptime Guarantee", 
+      "uptime": "Uptime Guarantee",
       "support": "Expert Support",
       "scalability": "Future Ready"
     }
@@ -1252,92 +1248,6 @@
       "getQuote": "Get Free Quote"
     }
   },
-  "industries": {
-    "breadcrumb": {
-      "home": "Home",
-      "industries": "Industries"
-    },
-    "hero": {
-      "title": "Industries We Serve",
-      "subtitle": "Empowering businesses across diverse sectors with innovative smart vending solutions that drive efficiency, profitability, and exceptional customer experiences."
-    },
-    "stats": {
-      "clients": "Happy Clients",
-      "clientsDesc": "Satisfied customers",
-      "satisfaction": "Satisfaction Rate",
-      "satisfactionDesc": "Customer satisfaction",
-      "awards": "Industry Awards",
-      "awardsDesc": "Recognition received",
-      "support": "Expert Support",
-      "supportDesc": "Round-the-clock help",
-      "companies": "Companies",
-      "facilities": "Facilities",
-      "institutions": "Institutions",
-      "stores": "Stores",
-      "factories": "Factories",
-      "stations": "Stations"
-    },
-    "corporate": {
-      "title": "Corporate Offices",
-      "description": "Enhance employee satisfaction with smart vending solutions in corporate environments.",
-      "features": {
-        "employee": "Employee Satisfaction",
-        "efficiency": "Operational Efficiency",
-        "analytics": "Usage Analytics"
-      }
-    },
-    "education": {
-      "title": "Educational Institutions",
-      "description": "Provide convenient access to snacks and beverages for students and staff.",
-      "features": {
-        "convenience": "Student Convenience",
-        "revenue": "Revenue Generation",
-        "management": "Easy Management"
-      }
-    },
-    "retail": {
-      "title": "Retail & Shopping Centers",
-      "description": "Boost customer experience and increase revenue with smart vending solutions.",
-      "features": {
-        "customer": "Customer Experience",
-        "revenue": "Revenue Boost",
-        "space": "Space Efficiency"
-      }
-    },
-    "manufacturing": {
-      "title": "Manufacturing & Industrial",
-      "description": "Support workforce productivity with 24/7 access to refreshments.",
-      "features": {
-        "productivity": "Workforce Productivity",
-        "access": "24/7 Access",
-        "maintenance": "Low Maintenance"
-      }
-    },
-    "transportation": {
-      "title": "Transportation Hubs",
-      "description": "Serve travelers with convenient access to food and beverages.",
-      "features": {
-        "travelers": "Traveler Convenience",
-        "reliability": "High Reliability",
-        "profit": "Profit Maximization"
-      }
-    },
-    "hospitality": {
-      "title": "Hospitality & Hotels",
-      "description": "Enhance guest experience with premium vending solutions.",
-      "features": {
-        "guest": "Guest Experience",
-        "premium": "Premium Solutions",
-        "service": "24/7 Service"
-      }
-    },
-    "cta": {
-      "title": "Ready to Transform Your Industry?",
-      "description": "Discover how our smart vending solutions can revolutionize your business operations and drive unprecedented growth.",
-      "getQuote": "Get Free Quote",
-      "viewProducts": "View Our Products"
-    }
-  },
   "fab": {
     "open": "Open menu",
     "close": "Close menu",
@@ -1361,7 +1271,7 @@
         "description": "Cutting-edge technology and smart automation"
       },
       "reliability": {
-        "title": "Reliability", 
+        "title": "Reliability",
         "description": "Consistent performance and dependable systems"
       },
       "excellence": {

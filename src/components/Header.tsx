@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
   const navigationItems = [
     { name: t('nav.home'), href: '#home', type: 'scroll' },
     { name: t('nav.about'), href: '#about', type: 'scroll' },
-    { name: t('nav.products'), href: '#products', type: 'page' },
+    { name: t('nav.products'), href: '/products', type: 'page' },
     { name: t('nav.industries'), href: '/industries', type: 'page' },
     { name: t('nav.contact'), href: '#contact', type: 'scroll' }
   ];
@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
 
   const handleNavClick = (href: string, type: string) => {
     setIsMenuOpen(false);
-    
+
     if (type === 'page') {
       // Navigate to different page
       navigate(href);
@@ -70,8 +70,8 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-          ? 'bg-white backdrop-blur-xl border-b border-inovara-primary/30 shadow-2xl shadow-inovara-primary/15'
-          : 'bg-transparent'
+        ? 'bg-white backdrop-blur-xl border-b border-inovara-primary/30 shadow-2xl shadow-inovara-primary/15'
+        : 'bg-transparent'
         } ${isRTL ? 'rtl' : 'ltr'}`}
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,12 +89,12 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
                   className={`h-10 w-auto transition-all duration-500 group-hover:scale-110 filter brightness-0 saturate-100 drop-shadow-lg'`}
                 />
                 <div className={`absolute -top-1 ${isRTL ? '-left-1' : '-right-1'} w-2 h-2 rounded-full transition-all duration-500 ${isScrolled
-                    ? 'bg-inovara-accent animate-pulse shadow-lg shadow-inovara-accent/50'
-                    : 'bg-inovara-accent animate-pulse'
+                  ? 'bg-inovara-accent animate-pulse shadow-lg shadow-inovara-accent/50'
+                  : 'bg-inovara-accent animate-pulse'
                   }`}></div>
                 <div className={`absolute inset-0 rounded-lg transition-all duration-500 ${isScrolled
-                    ? 'bg-gradient-to-r from-inovara-accent/20 to-inovara-secondary/20 opacity-0 group-hover:opacity-100'
-                    : 'bg-gradient-to-r from-inovara-accent/10 to-inovara-secondary/10 opacity-0 group-hover:opacity-100'
+                  ? 'bg-gradient-to-r from-inovara-accent/20 to-inovara-secondary/20 opacity-0 group-hover:opacity-100'
+                  : 'bg-gradient-to-r from-inovara-accent/10 to-inovara-secondary/10 opacity-0 group-hover:opacity-100'
                   }`}></div>
               </div>
             </button>
@@ -107,8 +107,8 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
                 <button
                   onClick={() => handleNavClick(item.href, item.type)}
                   className={`relative px-4 py-2 transition-all duration-300 font-medium text-base group ${isScrolled
-                      ? 'text-inovara-primary hover:text-inovara-accent'
-                      : 'text-inovara-primary/90 hover:text-inovara-accent'
+                    ? 'text-inovara-primary hover:text-inovara-accent'
+                    : 'text-inovara-primary/90 hover:text-inovara-accent'
                     }`}
                 >
                   <span className={`relative z-10 flex items-center ${isRTL ? 'space-x-reverse space-x-2 flex-row-reverse' : 'space-x-2'}`}>

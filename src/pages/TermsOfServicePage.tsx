@@ -8,8 +8,7 @@ const TermsOfServicePage: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Hero Section */}
-      <section 
+      <section
         className="relative py-24 px-6 overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.8) 50%, rgba(255,255,255,1) 100%)'
@@ -17,8 +16,8 @@ const TermsOfServicePage: React.FC = () => {
       >
         {/* Subtle Background Effects */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
+          <div className={`absolute top-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl ${isRTL ? 'left-1/4' : 'right-1/4'}`}></div>
+          <div className={`absolute bottom-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl ${isRTL ? 'right-1/4' : 'left-1/4'}`}></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto">
@@ -34,22 +33,19 @@ const TermsOfServicePage: React.FC = () => {
           {/* Hero Content */}
           <div className={`mb-16 ${isRTL ? 'text-right' : 'text-center'}`}>
             <div className={`flex items-center justify-center gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-3xl flex items-center justify-center shadow-lg">
-                <Scale className="w-8 h-8 text-white" />
-              </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
                 {t('legal.terms.title')}
               </h1>
             </div>
-            
+
             {/* Professional Divider */}
-            <div className={`w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mb-8 rounded-full ${isRTL ? 'ml-auto' : 'mx-auto'}`}></div>
-            
+            <div className="w-32 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
+
             <div className="max-w-4xl mx-auto">
-              <p className={`text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed ${isRTL ? 'text-right' : 'text-center'}`}>
+              <p className={`text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed text-center`}>
                 {t('legal.terms.subtitle')}
               </p>
-              <p className={`text-sm text-inovara-primary/60 mt-4 ${isRTL ? 'text-right' : 'text-center'}`}>
+              <p className={`text-sm text-inovara-primary/60 mt-4 text-center`}>
                 {t('legal.lastUpdated')}: {t('legal.terms.lastUpdated')}
               </p>
             </div>
@@ -62,14 +58,14 @@ const TermsOfServicePage: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           {/* Introduction */}
           <div className="mb-16">
-            <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
+            <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}>
               <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0">
+                <div className={`w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0 ${isRTL ? 'ml-4' : 'mr-4'}`}>
                   <FileText className="w-6 h-6 text-white" />
                 </div>
                 <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  <h2 className="text-2xl font-black text-inovara-primary mb-4">{t('legal.terms.introduction.title')}</h2>
-                  <p className="text-inovara-primary/70 leading-relaxed">
+                  <h2 className={`text-2xl font-black text-inovara-primary mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.terms.introduction.title')}</h2>
+                  <p className={`text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('legal.terms.introduction.content')}
                   </p>
                 </div>
@@ -81,7 +77,7 @@ const TermsOfServicePage: React.FC = () => {
           <div className="space-y-16">
             {/* Acceptance of Terms */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.terms.acceptance.title')}</h2>
+              <h2 className={`text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.terms.acceptance.title')}</h2>
               <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg">
                 <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                   <div className="w-10 h-10 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -375,9 +371,9 @@ const TermsOfServicePage: React.FC = () => {
             <p className="text-xl text-white/90 font-light leading-relaxed mb-8">
               {t('legal.terms.cta.description')}
             </p>
-            
+
             <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-              <Link 
+              <Link
                 to="/contact"
                 className="group px-12 py-5 bg-white text-inovara-primary font-bold text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30"
               >
@@ -386,8 +382,8 @@ const TermsOfServicePage: React.FC = () => {
                   <ArrowRight className={`w-6 h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                 </span>
               </Link>
-              
-              <Link 
+
+              <Link
                 to="/privacy"
                 className="px-12 py-5 border-2 border-white text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-inovara-primary transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/30"
               >
