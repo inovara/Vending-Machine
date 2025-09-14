@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from '../../contexts/TranslationContext';
 
+// Declare gtag for TypeScript
+declare global {
+  interface Window {
+    gtag?: (command: string, action: string, parameters?: Record<string, any>) => void;
+  }
+}
+
 interface UseHomePageProps {
   onQuoteClick: () => void;
 }

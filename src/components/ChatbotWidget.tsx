@@ -1,119 +1,259 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, X, Sparkles } from 'lucide-react';
+import { X, Send, Bot, User, Loader2 } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
-interface ChatMessage {
+interface Message {
   id: string;
-  role: 'user' | 'bot';
   text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
 }
 
-const ChatbotWidget: React.FC = () => {
+interface ChatbotWidgetProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
   const { t, isRTL } = useTranslation();
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [input, setInput] = useState('');
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (open && messages.length === 0) {
-      setMessages([
-        { id: 'welcome', role: 'bot', text: t('chatbot.welcome') },
-      ]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      text: t('chatbot.welcome'),
+      sender: 'bot',
+      timestamp: new Date()
     }
-  }, [open]);
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  // Focus input when widget opens
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
     }
-  }, [messages, open]);
+  }, [isOpen]);
 
-  const handleSend = () => {
-    const trimmed = input.trim();
-    if (!trimmed) return;
-    const userMsg: ChatMessage = { id: `${Date.now()}-u`, role: 'user', text: trimmed };
-    setMessages((prev) => [...prev, userMsg]);
-    setInput('');
-
-    // Simple heuristic replies to capture leads and guide users
-    setTimeout(() => {
-      let reply = t('chatbot.fallback');
-      const lower = trimmed.toLowerCase();
-      if (lower.includes('price') || lower.includes('quote')) reply = t('chatbot.reply.quote');
-      else if (lower.includes('product') || lower.includes('machine')) reply = t('chatbot.reply.products');
-      else if (lower.includes('support')) reply = t('chatbot.reply.support');
-      else if (lower.includes('contact')) reply = t('chatbot.reply.contact');
-
-      const botMsg: ChatMessage = { id: `${Date.now()}-b`, role: 'bot', text: reply };
-      setMessages((prev) => [...prev, botMsg]);
-    }, 400);
+  // Sample responses for demo
+  const getBotResponse = (userMessage: string): string => {
+    const message = userMessage.toLowerCase();
+    
+    if (message.includes('price') || message.includes('cost')) {
+      return t('chatbot.responses.pricing');
+    } else if (message.includes('product') || message.includes('machine')) {
+      return t('chatbot.responses.products');
+    } else if (message.includes('contact') || message.includes('phone') || message.includes('email')) {
+      return t('chatbot.responses.contact');
+    } else if (message.includes('quote') || message.includes('request')) {
+      return t('chatbot.responses.quote');
+    } else if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+      return t('chatbot.responses.greeting');
+    } else {
+      return t('chatbot.responses.default');
+    }
   };
 
-  return (
-    <div className={`fixed z-40 ${isRTL ? 'left-6' : 'right-6'} bottom-12`}> {/* offset above quote button */}
-      {/* Toggle Button */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="group relative bg-gradient-to-r from-inovara-secondary to-inovara-accent text-white font-bold rounded-full p-4 shadow-2xl hover:shadow-inovara-accent/25 transition-all duration-300 transform hover:scale-110"
-        aria-label={open ? t('chatbot.close') : t('chatbot.open')}
-      >
-        {open ? <X className="w-6 h-6" aria-hidden="true" /> : <MessageCircle className="w-6 h-6" aria-hidden="true" />}
-        <div className={`absolute bottom-full mb-2 px-3 py-2 bg-luxury-charcoal text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap ${isRTL ? 'left-0' : 'right-0'}`}>
-          {open ? t('chatbot.close') : t('chatbot.open')}
-        </div>
-      </button>
+  const handleSendMessage = async () => {
+    if (!inputValue.trim()) return;
 
-      {/* Panel */}
-      {open && (
-        <div className={`mt-3 w-80 max-w-[90vw] bg-white/90 backdrop-blur-md border border-inovara-neutral-20 rounded-2xl shadow-2xl overflow-hidden ${isRTL ? 'text-right' : 'text-left'}`}>
-          <div className="px-4 py-3 bg-gradient-to-r from-inovara-primary-10 to-inovara-secondary-10 flex items-center justify-between">
-            <div className={`flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <Sparkles className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-2' : 'mr-2'}`} aria-hidden="true" />
-              <span className="text-inovara-primary font-semibold text-sm">{t('chatbot.title')}</span>
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: inputValue.trim(),
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsTyping(true);
+
+    // Simulate bot response delay
+    setTimeout(() => {
+      const botResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: getBotResponse(userMessage.text),
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, botResponse]);
+      setIsTyping(false);
+    }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const quickQuestions = [
+    t('chatbot.quickQuestions.pricing'),
+    t('chatbot.quickQuestions.products'),
+    t('chatbot.quickQuestions.contact'),
+    t('chatbot.quickQuestions.quote')
+  ];
+
+  const handleQuickQuestion = (question: string) => {
+    setInputValue(question);
+    setTimeout(() => handleSendMessage(), 100);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-end p-4">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      
+      {/* Chat Widget */}
+      <div className={`
+        relative w-full max-w-md h-[600px] bg-white rounded-2xl shadow-2xl
+        flex flex-col overflow-hidden transform transition-all duration-300
+        ${isRTL ? 'rtl' : 'ltr'}
+      `}>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-inovara-primary to-inovara-secondary p-4 flex items-center justify-between">
+          <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+              <Bot className="w-6 h-6 text-white" />
             </div>
-            <button
-              onClick={() => setOpen(false)}
-              className="text-inovara-primary/70 hover:text-inovara-primary"
-              aria-label={t('chatbot.close')}
+            <div className={isRTL ? 'text-right' : 'text-left'}>
+              <h3 className="text-white font-bold text-lg">{t('chatbot.title')}</h3>
+              <p className="text-white/80 text-sm">{t('chatbot.subtitle')}</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors duration-200"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <X className="w-4 h-4" aria-hidden="true" />
+              <div className={`
+                flex items-start gap-3 max-w-[80%]
+                ${message.sender === 'user' ? (isRTL ? 'flex-row-reverse' : 'flex-row') : (isRTL ? 'flex-row-reverse' : 'flex-row')}
+              `}>
+                {/* Avatar */}
+                <div className={`
+                  w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
+                  ${message.sender === 'user' 
+                    ? 'bg-inovara-primary text-white' 
+                    : 'bg-gray-100 text-gray-600'
+                  }
+                `}>
+                  {message.sender === 'user' ? (
+                    <User className="w-4 h-4" />
+                  ) : (
+                    <Bot className="w-4 h-4" />
+                  )}
+                </div>
+                
+                {/* Message Bubble */}
+                <div className={`
+                  px-4 py-3 rounded-2xl text-sm
+                  ${message.sender === 'user'
+                    ? 'bg-inovara-primary text-white'
+                    : 'bg-gray-100 text-gray-800'
+                  }
+                `}>
+                  <p className={isRTL ? 'text-right' : 'text-left'}>{message.text}</p>
+                  <p className={`
+                    text-xs mt-1 opacity-70
+                    ${isRTL ? 'text-right' : 'text-left'}
+                  `}>
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+          
+          {/* Typing Indicator */}
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div className="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0">
+                  <Bot className="w-4 h-4" />
+                </div>
+                <div className="bg-gray-100 text-gray-800 px-4 py-3 rounded-2xl">
+                  <div className="flex items-center gap-1">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span className="text-sm">{t('chatbot.typing')}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Quick Questions */}
+        {messages.length === 1 && (
+          <div className="px-4 pb-2">
+            <p className="text-sm text-gray-600 mb-3 font-medium">{t('chatbot.quickQuestions.title')}</p>
+            <div className="grid grid-cols-2 gap-2">
+              {quickQuestions.map((question, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleQuickQuestion(question)}
+                  className="text-xs p-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-left transition-colors duration-200"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Input */}
+        <div className="p-4 border-t border-gray-200">
+          <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder={t('chatbot.inputPlaceholder')}
+              className={`
+                flex-1 px-4 py-3 border border-gray-300 rounded-xl
+                focus:outline-none focus:ring-2 focus:ring-inovara-accent/20 focus:border-inovara-accent
+                text-sm placeholder-gray-500
+                ${isRTL ? 'text-right' : 'text-left'}
+              `}
+              disabled={isTyping}
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={!inputValue.trim() || isTyping}
+              className="p-3 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Send className="w-4 h-4" />
             </button>
           </div>
-
-          <div ref={scrollRef} className="max-h-72 overflow-y-auto px-4 py-3 space-y-2">
-            {messages.map((m) => (
-              <div
-                key={m.id}
-                className={`text-sm leading-relaxed ${m.role === 'bot' ? 'text-inovara-primary' : 'text-inovara-primary'} ${m.role === 'bot' ? 'bg-inovara-neutral-10' : 'bg-inovara-accent-10'} rounded-xl px-3 py-2 ${isRTL ? (m.role === 'bot' ? 'mr-10' : 'ml-10') : (m.role === 'bot' ? 'ml-10' : 'mr-10')}`}
-              >
-                {m.text}
-              </div>
-            ))}
-          </div>
-
-          <div className={`p-3 border-t border-inovara-neutral-20 ${isRTL ? 'text-right' : 'text-left'}`}>
-            <div className={`flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} gap-2`}>
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                className="flex-1 px-3 py-2 bg-white/70 border border-inovara-neutral-30 rounded-lg text-inovara-primary placeholder-inovara-primary/40 focus:outline-none focus:ring-2 focus:ring-inovara-accent/40"
-                placeholder={t('chatbot.placeholder')}
-                aria-label={t('chatbot.placeholder')}
-              />
-              <button
-                onClick={handleSend}
-                className="btn-enterprise px-4 py-2"
-                aria-label={t('chatbot.send')}
-              >
-                <Send className="w-4 h-4" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

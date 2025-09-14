@@ -11,6 +11,7 @@ import SlideInCta from './components/SlideInCta.tsx';
 // Lazy load pages and components for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
 const QuickQuoteModal = lazy(() => import('./components/QuickQuoteModal'));
+const ChatbotWidget = lazy(() => import('./components/ChatbotWidget'));
 
 // Route-level code-splitting
 const ProductsPage = lazy(() => import('./pages/ProductsPage'));
@@ -27,6 +28,7 @@ import { PageSkeleton } from './pages/home/loading';
 
 const App: React.FC = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   // Modern loading state management
   useEffect(() => {
@@ -43,17 +45,7 @@ const App: React.FC = () => {
   };
 
   const openChatbot = () => {
-    // Trigger chatbot widget opening
-    const chatbotButton = document.querySelector('[aria-label*="chatbot"], [aria-label*="Chat"]') as HTMLButtonElement;
-    if (chatbotButton) {
-      chatbotButton.click();
-    } else {
-      // Fallback: scroll to chatbot widget if it exists
-      const chatbotWidget = document.querySelector('[class*="chatbot"]');
-      if (chatbotWidget) {
-        chatbotWidget.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
+    setIsChatbotOpen(true);
   };
 
   
@@ -86,6 +78,14 @@ const App: React.FC = () => {
           <QuickQuoteModal
             isOpen={isQuoteModalOpen}
             onClose={() => setIsQuoteModalOpen(false)}
+          />
+        </Suspense>
+
+        {/* Chatbot Widget */}
+        <Suspense fallback={null}>
+          <ChatbotWidget
+            isOpen={isChatbotOpen}
+            onClose={() => setIsChatbotOpen(false)}
           />
         </Suspense>
 

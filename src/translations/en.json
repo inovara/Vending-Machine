@@ -1258,6 +1258,28 @@
     "quote": "Get Quote",
     "quoteSubtitle": "Free Estimate"
   },
+  "chatbot": {
+    "title": "AI Assistant",
+    "subtitle": "How can I help you today?",
+    "welcome": "Hello! I'm your AI assistant. I can help you with information about our smart vending machines, pricing, and services. What would you like to know?",
+    "inputPlaceholder": "Type your message...",
+    "typing": "AI is typing...",
+    "quickQuestions": {
+      "title": "Quick Questions:",
+      "pricing": "What are your prices?",
+      "products": "Tell me about your products",
+      "contact": "How can I contact you?",
+      "quote": "I need a quote"
+    },
+    "responses": {
+      "greeting": "Hello! I'm here to help you with information about our smart vending machine solutions. What would you like to know?",
+      "pricing": "Our pricing varies based on the type and quantity of vending machines you need. For detailed pricing information, I recommend requesting a personalized quote through our quote form. Would you like me to help you with that?",
+      "products": "We offer a comprehensive range of smart vending machines including snack machines, beverage dispensers, food vending machines, and custom solutions. Each machine features cashless payments, real-time analytics, and remote management capabilities.",
+      "contact": "You can reach us through multiple channels: WhatsApp for quick support, email for detailed inquiries, or by filling out our contact form. Our team is available to assist you with any questions about our smart vending solutions.",
+      "quote": "I'd be happy to help you get a quote! You can request a personalized quote by clicking the 'Get Quote' button in our floating menu, or I can guide you through our contact form. What type of vending machines are you interested in?",
+      "default": "I understand you're interested in our smart vending machine solutions. For more specific information, I recommend speaking with our sales team. You can contact us via WhatsApp or request a quote for personalized assistance."
+    }
+  },
   "common": {
     "back": "Back to Products",
     "more": "More Details"

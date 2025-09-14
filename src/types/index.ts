@@ -37,40 +37,6 @@ export interface Industry {
   caseStudies?: number[];
 }
 
-export interface Testimonial {
-  id: number;
-  name: string;
-  company: string;
-  position: string;
-  content: string;
-  contentKey: string;
-  rating: number;
-  image?: string;
-  industry: string;
-}
-
-export interface CaseStudy {
-  id: number;
-  title: string;
-  titleKey: string;
-  company: string;
-  industry: string;
-  challenge: string;
-  challengeKey: string;
-  solution: string;
-  solutionKey: string;
-  results: CaseStudyResult[];
-  image?: string;
-  testimonial?: Testimonial;
-}
-
-export interface CaseStudyResult {
-  metric: string;
-  metricKey: string;
-  value: string;
-  improvement: string;
-  improvementKey: string;
-}
 
 export interface Feature {
   id: number;
@@ -123,13 +89,6 @@ export interface IndustryCardProps {
   onQuoteClick: () => void;
 }
 
-export interface TestimonialCardProps {
-  testimonial: Testimonial;
-}
-
-export interface CaseStudyCardProps {
-  caseStudy: CaseStudy;
-}
 
 // Animation Types
 export interface AnimationConfig {
