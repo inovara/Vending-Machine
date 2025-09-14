@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, ShoppingCart, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { X, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
 import { storeQuote } from '../network/quote';
