@@ -110,7 +110,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-end p-4">
+    <div className={`fixed inset-0 z-50 flex items-end p-4 ${isRTL ? 'justify-start' : 'justify-end'}`}>
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -147,7 +147,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${message.sender === 'user' ? (isRTL ? 'justify-start' : 'justify-end') : (isRTL ? 'justify-end' : 'justify-start')}`}
             >
               <div className={`
                 flex items-start gap-3 max-w-[80%]
@@ -190,15 +190,15 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
           
           {/* Typing Indicator */}
           {isTyping && (
-            <div className="flex justify-start">
+            <div className={`flex ${isRTL ? 'justify-end' : 'justify-start'}`}>
               <div className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                 <div className="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0">
                   <Bot className="w-4 h-4" />
                 </div>
                 <div className="bg-gray-100 text-gray-800 px-4 py-3 rounded-2xl">
-                  <div className="flex items-center gap-1">
+                  <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className="text-sm">{t('chatbot.typing')}</span>
+                    <span className={`text-sm ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.typing')}</span>
                   </div>
                 </div>
               </div>
@@ -211,13 +211,13 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
         {/* Quick Questions */}
         {messages.length === 1 && (
           <div className="px-4 pb-2">
-            <p className="text-sm text-gray-600 mb-3 font-medium">{t('chatbot.quickQuestions.title')}</p>
+            <p className={`text-sm text-gray-600 mb-3 font-medium ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.quickQuestions.title')}</p>
             <div className="grid grid-cols-2 gap-2">
               {quickQuestions.map((question, index) => (
                 <button
                   key={index}
                   onClick={() => handleQuickQuestion(question)}
-                  className="text-xs p-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-left transition-colors duration-200"
+                  className={`text-xs p-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200 ${isRTL ? 'text-right' : 'text-left'}`}
                 >
                   {question}
                 </button>
