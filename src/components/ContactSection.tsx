@@ -1,43 +1,69 @@
 import React, { useState, useRef } from 'react';
-import { Mail, Phone, MapPin, Send, ArrowRight, Download } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, ArrowRight, Download, CheckCircle, AlertCircle } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  message: string;
-}
+import { contactUs } from '../network/contact';
+import { ContactFormData, ContactResponse } from '../types/api';
 
 const ContactSection: React.FC = () => {
   const { t, isRTL } = useTranslation();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     phone: '',
     company: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (submitError) setSubmitError(null);
   };
+
+  const { mutate: sendContactMessage, isLoading } = useMutation<ContactResponse, Error, ContactFormData>({
+    mutationFn: contactUs,
+    onSuccess: () => {
+      setIsSubmitted(true);
+      setSubmitError(null);
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: ''
+      });
+    },
+    onError: (error) => {
+      setSubmitError(error.message || t('contact.error.generic'));
+      setIsSubmitted(false);
+    }
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    
+    // Basic validation
+    if (!formData.name.trim() || !formData.email.trim()) {
+      setSubmitError(t('contact.error.requiredFields'));
+      return;
+    }
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 2000);
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitError(t('contact.error.invalidEmail'));
+      return;
+    }
+
+    sendContactMessage(formData);
   };
+
 
   return (
     <section
@@ -132,6 +158,13 @@ const ContactSection: React.FC = () => {
                 
                 {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className={`relative z-10 space-y-8 ${isRTL ? 'rtl' : 'ltr'}`}>
+                  {/* Error Message */}
+                  {submitError && (
+                    <div className={`flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-2xl ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                      <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                      <span className="text-red-700 font-medium">{submitError}</span>
+                    </div>
+                  )}
                   <div className={`grid md:grid-cols-2 gap-8 ${isRTL ? 'rtl' : 'ltr'}`}>
                     <div>
                       <label className={`block text-inovara-primary text-sm font-bold mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.name')} *</label>
@@ -203,10 +236,10 @@ const ContactSection: React.FC = () => {
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isLoading}
                     className="w-full px-8 py-5 bg-[rgb(46,0,20)] text-white hover:bg-[rgb(35,0,15)] focus:ring-4 focus:ring-inovara-accent/20 font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    {isSubmitting ? (
+                    {isLoading ? (
                       <span className={`flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                         <div className={`animate-spin rounded-full h-6 w-6 border-b-2 border-white ${isRTL ? 'ml-3' : 'mr-3'}`}></div>
                         {t('contact.form.gettingQuote')}
@@ -221,14 +254,17 @@ const ContactSection: React.FC = () => {
                 </form>
               ) : (
                 <div className={`relative z-10 text-center py-16 ${isRTL ? 'rtl' : 'ltr'}`}>
-                  <div className="w-24 h-24 bg-gradient-to-br from-[rgb(46,0,20)] to-[rgb(35,0,15)] rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl ring-4 ring-inovara-accent/20">
-                    <Send className="h-12 w-12 text-white" />
+                  <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl ring-4 ring-green-200">
+                    <CheckCircle className="h-12 w-12 text-white" />
                   </div>
                   <h3 className="text-4xl font-black text-inovara-primary mb-6">{t('contact.success.title')}</h3>
                   <p className="text-inovara-primary/80 mb-10 text-lg leading-relaxed max-w-md mx-auto">{t('contact.success.message')}</p>
                   <div className={`flex flex-col sm:flex-row gap-6 justify-center ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
                     <button
-                      onClick={() => setIsSubmitted(false)}
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setSubmitError(null);
+                      }}
                       className={`border-2 border-inovara-accent/30 text-inovara-primary bg-inovara-accent/10 hover:bg-inovara-accent/20 transition-all duration-300 flex items-center justify-center focus:ring-4 focus:ring-inovara-accent/20 px-6 py-3 rounded-2xl font-semibold shadow-md hover:shadow-lg ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
                     >
                       {t('contact.success.submitAnother')}

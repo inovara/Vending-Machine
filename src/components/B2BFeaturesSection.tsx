@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calculator, Download, Users, TrendingUp, Clock, CheckCircle, ArrowRight, FileText, Video, Phone } from 'lucide-react';
+import { Calculator, Download, Users, Clock, CheckCircle, ArrowRight, FileText, Video, Phone } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 const B2BFeaturesSection: React.FC = () => {

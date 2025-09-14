@@ -1,83 +1,54 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, CheckCircle, Search, Filter, Sparkles } from 'lucide-react';
+import { ArrowRight, CheckCircle, Sparkles, Loader2, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
+import { listProducts } from '../network/product';
+import { queryKeys } from '../services/react-query/queryKeys';
+import { Product, PaginatedResponse } from '../types/api';
 
 export interface ProductsPageProps {
   onQuoteClick: () => void;
 }
 
-const products = [
-  {
-    slug: 'flower-vending-machine',
-    key: 'flower',
-    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&h=400&fit=crop&crop=center',
-    category: 'Flower Vending',
-    gradient: 'from-pink-500 to-rose-600',
-    price: '$9,999',
-    features: ['Temperature Control', 'Automated Watering', 'Freshness Monitoring']
-  },
-  {
-    slug: 'snack-vending-machine',
-    key: 'snack',
-    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center',
-    category: 'Snack Vending',
-    gradient: 'from-orange-500 to-amber-600',
-    price: '$7,999',
-    features: ['Real-time Inventory', 'Cashless Payments', 'Smart Analytics']
-  },
-  {
-    slug: 'pizza-vending-machine',
-    key: 'pizza',
-    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop&crop=center',
-    category: 'Food Vending',
-    gradient: 'from-red-500 to-orange-600',
-    price: '$18,999',
-    features: ['Automated Cooking', 'Fresh Ingredients', 'Customizable Options']
-  },
-  {
-    slug: 'beverage-vending-machine',
-    key: 'beverage',
-    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=400&fit=crop&crop=center',
-    category: 'Beverage Vending',
-    gradient: 'from-blue-500 to-cyan-600',
-    price: '$6,999',
-    features: ['Multi-Temperature Zones', 'Cashless Payments', 'Consumption Analytics']
-  }
-];
-
-const categories = [
-  { id: 'all', name: 'All Products' },
-  { id: 'flower', name: 'Flower Vending' },
-  { id: 'snack', name: 'Snack Vending'},
-  { id: 'pizza', name: 'Food Vending' },
-  { id: 'beverage', name: 'Beverage Vending' }
-];
-
 const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
-  const { t, isRTL } = useTranslation();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { t, isRTL, language } = useTranslation();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredProducts = useMemo(() => {
-    let filtered = products;
+  const filters = {
+    page: currentPage,
+    per_page: 12,
+  };
+
+  const { 
+    data: productsResponse, 
+    isLoading, 
+    isError, 
+    refetch 
+  } = useQuery<PaginatedResponse<Product>>({
+    queryKey: [queryKeys.listProducts, filters, language],
+    queryFn: () => listProducts(filters),
+    enabled: !!language,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+    retry: 1, // Only retry once on failure
+    retryOnMount: false, // Don't retry on mount if it failed
+  });
+
+  // Extract products from API response
+  const products = useMemo(() => productsResponse?.data || [], [productsResponse?.data]);
+  // Format price with currency
+  const formatPrice = (price: string | number, currency?: string) => {
+    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+    if (isNaN(numericPrice)) return 'Price on request';
     
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(product => product.key === selectedCategory);
-    }
-    
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(product => 
-        t(`products.${product.key}.title`).toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t(`products.${product.key}.description`).toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    
-    return filtered;
-  }, [searchTerm, selectedCategory, t]);
+    return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
+      style: 'currency',
+      currency: currency || 'USD',
+      minimumFractionDigits: 0,
+    }).format(numericPrice);
+  };
+
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -124,44 +95,6 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
             </div>
           </div>
 
-          {/* Search and Filter */}
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-6 shadow-lg">
-              <div className={`flex flex-col lg:flex-row gap-6 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
-                {/* Search */}
-                <div className="flex-1">
-                  <div className="relative">
-                    <Search className={`absolute top-1/2 transform -translate-y-1/2 w-5 h-5 text-inovara-primary/50 ${isRTL ? 'right-2' : 'left-4'}`} />
-                    <input
-                      type="text"
-                      placeholder={t('products.searchPlaceholder')}
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className={`w-full pl-12 pr-4 py-4 bg-white border border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 focus:border-inovara-accent transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
-                    />
-                  </div>
-                </div>
-
-                {/* Category Filter */}
-                <div className="lg:w-80">
-                  <div className="relative">
-                    <Filter className={`absolute top-1/2 transform -translate-y-1/2 w-5 h-5 text-inovara-primary/50 ${isRTL ? 'right-4' : 'left-4'}`} />
-                    <select
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                      className={`w-full pl-12 pr-4 py-4 bg-white border border-inovara-primary/20 rounded-2xl text-inovara-primary focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 focus:border-inovara-accent transition-all duration-300 appearance-none ${isRTL ? 'text-right' : 'text-left'}`}
-                    >
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -172,108 +105,183 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
           <div className={`flex items-center justify-between mb-12 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <div>
               <h2 className="text-2xl font-black text-inovara-primary mb-2">
-                {filteredProducts.length} {t('products.resultsFound')}
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                    {t('products.loading')}
+                  </div>
+                ) : (
+                  `${products.length} ${t('products.resultsFound')}`
+                )}
               </h2>
               <p className="text-inovara-primary/70">
-                {searchTerm || selectedCategory !== 'all' 
-                  ? t('products.filteredResults') 
+                {isLoading 
+                  ? t('products.loadingDescription')
                   : t('products.allResults')
                 }
               </p>
             </div>
           </div>
 
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
-            {filteredProducts.map((product, index) => {
-              return (
+          {/* Loading State */}
+          {isLoading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
+              {Array.from({ length: 4 }).map((_, index) => (
                 <div 
-                  key={product.slug}
-                  className={`group relative bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  key={index}
+                  className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl overflow-hidden animate-pulse"
                 >
-                  {/* Image Container */}
-                  <div className="relative h-64 overflow-hidden">
-                    <img 
-                      src={product.image} 
-                      alt={t(`products.${product.key}.title`)}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                    
-                    {/* Category Badge */}
-                    <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-inovara-primary`}>
-                      {product.category}
+                  <div className="h-64 bg-gray-200"></div>
+                  <div className="p-8">
+                    <div className="h-6 bg-gray-200 rounded mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-6 w-3/4"></div>
+                    <div className="space-y-3 mb-8">
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="h-4 bg-gray-200 rounded"></div>
+                      ))}
                     </div>
-                    
-                    {/* Price Badge */}
-                    <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-gradient-to-r ${product.gradient} text-white px-3 py-1 rounded-full text-sm font-bold`}>
-                      {product.price}
+                    <div className="flex gap-4">
+                      <div className="h-12 bg-gray-200 rounded-2xl flex-1"></div>
+                      <div className="h-12 bg-gray-200 rounded-2xl w-24"></div>
                     </div>
                   </div>
-                  
-                  {/* Content */}
-                  <div className="p-8">
-                    <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                      <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                        <h3 className="text-2xl font-black text-inovara-primary mb-2 group-hover:text-inovara-accent transition-colors duration-300">
-                          {t(`products.${product.key}.title`)}
-                        </h3>
-                        <p className="text-inovara-primary/70 font-light leading-relaxed">
-                          {t(`products.${product.key}.description`)}
-                        </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Error State - Show static content with retry option */}
+          {isError && (
+            <div className="text-center py-16">
+              <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <AlertCircle className="w-12 h-12 text-yellow-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-inovara-primary mb-4">
+                {t('products.errorTitle')}
+              </h3>
+              <p className="text-inovara-primary/70 mb-8 max-w-md mx-auto">
+                {t('products.errorDescription')} Showing sample categories below.
+              </p>
+              <button
+                onClick={() => refetch()}
+                className="px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold rounded-2xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+              >
+                {t('products.retry')}
+              </button>
+            </div>
+          )}
+
+          {/* Products Grid */}
+          {!isLoading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
+              {products.map((product, index) => {
+                return (
+                  <div 
+                    key={product.id}
+                    className={`group relative bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    {/* Image Container */}
+                    <div className="relative h-64 overflow-hidden">
+                      <img 
+                        src={product.images?.[0] || product.image_url || 'https://via.placeholder.com/600x400?text=Product+Image'} 
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Product+Image';
+                        }}
+                      />
+                      
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                      
+                      
+                      {/* Price Badge */}
+                      <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white px-3 py-1 rounded-full text-sm font-bold`}>
+                        {formatPrice(product.price, product.currency)}
                       </div>
                     </div>
                     
-                    {/* Features */}
-                    <div className="space-y-3 mb-8">
-                      {product.features.map((feature, featureIndex) => (
-                        <div key={featureIndex} className={`flex items-center text-sm text-inovara-primary/80 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                          <CheckCircle className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-3' : 'mr-3'} flex-shrink-0`} />
-                          <span>{feature}</span>
+                    {/* Content */}
+                    <div className="p-8">
+                      <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                        <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                          <h3 className="text-2xl font-black text-inovara-primary mb-2 group-hover:text-inovara-accent transition-colors duration-300">
+                            {product.name}
+                          </h3>
+                          <p className="text-inovara-primary/70 font-light leading-relaxed">
+                            {product.description}
+                          </p>
                         </div>
-                      ))}
+                      </div>
+                      
+                      {/* Features */}
+                      <div className="space-y-3 mb-8">
+                        {product.features && Array.isArray(product.features) && product.features.length > 0 ? (
+                          product.features.slice(0, 3).map((feature, featureIndex) => (
+                            <div key={featureIndex} className={`flex items-center text-sm text-inovara-primary/80 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                              <CheckCircle className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-3' : 'mr-3'} flex-shrink-0`} />
+                              <span>{feature}</span>
+                            </div>
+                          ))
+                        ) : (
+                          // Fallback features when API doesn't provide them
+                          <>
+                            <div className={`flex items-center text-sm text-inovara-primary/80 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                              <CheckCircle className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-3' : 'mr-3'} flex-shrink-0`} />
+                              <span>{t('products.features.quality')}</span>
+                            </div>
+                            <div className={`flex items-center text-sm text-inovara-primary/80 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                              <CheckCircle className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-3' : 'mr-3'} flex-shrink-0`} />
+                              <span>{t('products.features.reliable')}</span>
+                            </div>
+                            <div className={`flex items-center text-sm text-inovara-primary/80 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                              <CheckCircle className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-3' : 'mr-3'} flex-shrink-0`} />
+                              <span>{t('products.features.innovative')}</span>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                      
+                      {/* Action Buttons */}
+                      <div className={`flex flex-col sm:flex-row gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+                        <Link
+                          to={`/products/${product.slug || product.id}`}
+                          className="flex-1 group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+                        >
+                          <span className={`flex items-center justify-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                            {t('products.viewDetails')}
+                            <ArrowRight className={`w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/btn:-translate-x-1' : ''}`} />
+                          </span>
+                          
+                          {/* Button Hover Effect */}
+                          <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
+                        </Link>
+                        
+                        <button
+                          onClick={onQuoteClick}
+                          className="px-6 py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
+                        >
+                          {t('contact.form.getQuote')}
+                        </button>
+                      </div>
                     </div>
                     
-                    {/* Action Buttons */}
-                    <div className={`flex flex-col sm:flex-row gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-                      <Link
-                        to={`/products/${product.slug}`}
-                        className="flex-1 group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
-                      >
-                        <span className={`flex items-center justify-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                          {t('products.viewDetails')}
-                          <ArrowRight className={`w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/btn:-translate-x-1' : ''}`} />
-                        </span>
-                        
-                        {/* Button Hover Effect */}
-                        <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
-                      </Link>
-                      
-                      <button
-                        onClick={onQuoteClick}
-                        className="px-6 py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
-                      >
-                        {t('contact.form.getQuote')}
-                      </button>
-                    </div>
+                    {/* Card Hover Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                   </div>
-                  
-                  {/* Card Hover Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
           {/* No Results */}
-          {filteredProducts.length === 0 && (
+          {!isLoading && products.length === 0 && (
             <div className="text-center py-16">
               <div className="w-24 h-24 bg-inovara-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="w-12 h-12 text-inovara-primary/50" />
+                <Sparkles className="w-12 h-12 text-inovara-primary/50" />
               </div>
               <h3 className="text-2xl font-bold text-inovara-primary mb-4">
                 {t('products.noResults')}
@@ -281,14 +289,45 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
               <p className="text-inovara-primary/70 mb-8 max-w-md mx-auto">
                 {t('products.noResultsDesc')}
               </p>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {!isLoading && productsResponse?.meta && productsResponse.meta.last_page > 1 && (
+            <div className="flex justify-center items-center gap-4 mt-12">
               <button
-                onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCategory('all');
-                }}
-                className="px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold rounded-2xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 border border-inovara-primary/20 text-inovara-primary rounded-lg hover:bg-inovara-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
               >
-                {t('products.clearFilters')}
+                {t('products.previous')}
+              </button>
+              
+              <div className="flex items-center gap-2">
+                {Array.from({ length: Math.min(5, productsResponse.meta.last_page) }, (_, i) => {
+                  const page = i + 1;
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`px-3 py-2 rounded-lg transition-all duration-300 ${
+                        currentPage === page
+                          ? 'bg-inovara-primary text-white'
+                          : 'text-inovara-primary hover:bg-inovara-primary/10'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, productsResponse.meta.last_page))}
+                disabled={currentPage === productsResponse.meta.last_page}
+                className="px-4 py-2 border border-inovara-primary/20 text-inovara-primary rounded-lg hover:bg-inovara-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              >
+                {t('products.next')}
               </button>
             </div>
           )}

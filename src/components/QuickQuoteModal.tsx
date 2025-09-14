@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, ShoppingCart, Building, Users, Calculator } from 'lucide-react';
+import { X, Send, ShoppingCart } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface QuickQuoteModalProps {
@@ -8,7 +8,7 @@ interface QuickQuoteModalProps {
 }
 
 const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) => {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',

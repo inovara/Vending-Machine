@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, TrendingUp, DollarSign, Clock, Users, BarChart3, Zap } from 'lucide-react';
+import { Calculator, TrendingUp, DollarSign, Clock, BarChart3, Zap } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 

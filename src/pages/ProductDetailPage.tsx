@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Star, Share2, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, Share2, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
+import { productDetails } from '../network/product';
+import { queryKeys } from '../services/react-query/queryKeys';
+import { Product } from '../types/api';
 
 export interface ProductDetailPageProps {
   onQuoteClick: () => void;
@@ -9,95 +13,93 @@ export interface ProductDetailPageProps {
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) => {
   const { slug } = useParams<{ slug: string }>();
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, language } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(0);
 
-  // Map slug to product type
-  const productMap: { [key: string]: string } = {
-    'flower-vending-machine': 'flower',
-    'snack-vending-machine': 'snack',
-    'pizza-vending-machine': 'pizza',
-    'beverage-vending-machine': 'beverage'
+  const { 
+    data: product, 
+    isLoading, 
+    isError, 
+    refetch 
+  } = useQuery<Product>({
+    queryKey: [queryKeys.listProducts, slug, language],
+    queryFn: () => productDetails(slug!),
+    enabled: !!slug,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+  });
+
+  // Format price with currency
+  const formatPrice = (price: string | number, currency?: string) => {
+    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+    if (isNaN(numericPrice)) return 'Price on request';
+    
+    return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
+      style: 'currency',
+      currency: currency || 'USD',
+      minimumFractionDigits: 0,
+    }).format(numericPrice);
   };
 
-  const productType = productMap[slug || ''] || 'flower';
-  const title = t(`products.${productType}.title`);
-  const description = t(`products.${productType}.description`);
-  const price = t(`products.${productType}.price`);
-
-  // Product data with enhanced information
-  const productData = {
-    'flower': {
-      images: [
-        'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&h=600&fit=crop&crop=center'
-      ],
-      gradient: 'from-pink-500 to-rose-600',
-      features: ['Temperature Control', 'Automated Watering', 'Freshness Monitoring', 'Cashless Payments'],
-      specifications: {
-        dimensions: '120cm x 80cm x 200cm',
-        weight: '180kg',
-        capacity: '50 bouquets',
-        power: '220V AC',
-        connectivity: 'WiFi, 4G, Bluetooth'
-      },
-      benefits: ['24/7 Availability', 'Reduced Waste', 'Higher Margins', 'Customer Satisfaction']
-    },
-    'snack': {
-      images: [
-        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&h=600&fit=crop&crop=center'
-      ],
-      gradient: 'from-orange-500 to-amber-600',
-      features: ['Real-time Inventory', 'Cashless Payments', 'Smart Analytics', 'Remote Management'],
-      specifications: {
-        dimensions: '100cm x 70cm x 180cm',
-        weight: '150kg',
-        capacity: '200 items',
-        power: '220V AC',
-        connectivity: 'WiFi, 4G, Ethernet'
-      },
-      benefits: ['Increased Sales', 'Better Inventory Control', 'Reduced Theft', 'Analytics Insights']
-    },
-    'pizza': {
-      images: [
-        'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=800&h=600&fit=crop&crop=center'
-      ],
-      gradient: 'from-red-500 to-orange-600',
-      features: ['Automated Cooking', 'Fresh Ingredients', 'Customizable Options', 'Temperature Control'],
-      specifications: {
-        dimensions: '140cm x 90cm x 220cm',
-        weight: '280kg',
-        capacity: '30 pizzas',
-        power: '380V AC',
-        connectivity: 'WiFi, 4G, Ethernet'
-      },
-      benefits: ['Fresh Food 24/7', 'Custom Orders', 'Consistent Quality', 'Higher Profit Margins']
-    },
-    'beverage': {
-      images: [
-        'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&crop=center',
-        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&crop=center'
-      ],
-      gradient: 'from-blue-500 to-cyan-600',
-      features: ['Multi-Temperature Zones', 'Cashless Payments', 'Consumption Analytics', 'Smart Dispensing'],
-      specifications: {
-        dimensions: '110cm x 75cm x 190cm',
-        weight: '200kg',
-        capacity: '150 bottles',
-        power: '220V AC',
-        connectivity: 'WiFi, 4G, Bluetooth'
-      },
-      benefits: ['Perfect Temperature', 'Variety of Drinks', 'Real-time Analytics', 'Low Maintenance']
-    }
+  // Get gradient color based on category
+  const getCategoryGradient = (categorySlug: string) => {
+    const gradients: Record<string, string> = {
+      'flower': 'from-pink-500 to-rose-600',
+      'snack': 'from-orange-500 to-amber-600',
+      'food': 'from-red-500 to-orange-600',
+      'beverage': 'from-blue-500 to-cyan-600',
+      'default': 'from-inovara-primary to-inovara-secondary'
+    };
+    return gradients[categorySlug] || gradients.default;
   };
 
-  const currentProduct = productData[productType as keyof typeof productData];
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <Loader2 className="w-12 h-12 animate-spin text-inovara-primary mx-auto mb-4" />
+            <p className="text-inovara-primary/70">Loading product details...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (isError || !product) {
+    return (
+      <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-inovara-primary mb-4">Product Not Found</h2>
+            <p className="text-inovara-primary/70 mb-8">The product you're looking for doesn't exist or has been removed.</p>
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => refetch()}
+                className="px-6 py-3 bg-inovara-primary text-white rounded-lg hover:bg-inovara-primary/90 transition-colors"
+              >
+                Try Again
+              </button>
+              <Link
+                to="/products"
+                className="px-6 py-3 border border-inovara-primary text-inovara-primary rounded-lg hover:bg-inovara-primary hover:text-white transition-colors"
+              >
+                View All Products
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Use product images or fallback to single image
+  const productImages = product?.images && Array.isArray(product.images) && product.images.length > 0 
+    ? product.images 
+    : [product?.image_url || 'https://via.placeholder.com/800x600?text=Product+Image'];
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -125,7 +127,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               {t('products.breadcrumb.products')}
             </Link>
             <ArrowRight className={`w-4 h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
-            <span className="text-inovara-primary font-medium">{title}</span>
+            <span className="text-inovara-primary font-medium">{product.name}</span>
           </nav>
         </div>
       </section>
@@ -139,13 +141,18 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               {/* Main Image */}
               <div className="relative group">
                 <img
-                  src={currentProduct.images[selectedImage]}
-                  alt={title}
+                  src={productImages[selectedImage]}
+                  alt={product.name}
                   className="w-full aspect-square object-cover rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-500"
                   loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Product+Image';
+                  }}
                 />
 
                 {/* Image Navigation */}
+                {productImages.length > 1 && (
+                  <>
                 <button
                   onClick={() => setSelectedImage(Math.max(0, selectedImage - 1))}
                   disabled={selectedImage === 0}
@@ -155,12 +162,14 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 </button>
 
                 <button
-                  onClick={() => setSelectedImage(Math.min(currentProduct.images.length - 1, selectedImage + 1))}
-                  disabled={selectedImage === currentProduct.images.length - 1}
+                      onClick={() => setSelectedImage(Math.min(productImages.length - 1, selectedImage + 1))}
+                      disabled={selectedImage === productImages.length - 1}
                   className={`absolute top-1/2 ${isRTL ? 'left-4' : 'right-4'} transform -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                   <ChevronRight className={`w-6 h-6 text-inovara-primary ${isRTL ? 'rotate-180' : ''}`} />
                 </button>
+                  </>
+                )}
 
                 {/* Action Buttons */}
                 <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} flex flex-col gap-2`}>
@@ -170,14 +179,17 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 </div>
 
                 {/* Category Badge */}
-                <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-gradient-to-r ${currentProduct.gradient} text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg`}>
-                  {t(`products.${productType}.category`)}
-                </div>
+                {product.category && (
+                  <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-gradient-to-r ${getCategoryGradient(product.category.slug)} text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg`}>
+                    {product.category.name}
+                  </div>
+                )}
               </div>
 
               {/* Thumbnail Images */}
+              {productImages.length > 1 && (
               <div className="flex gap-4 overflow-x-auto pb-2">
-                {currentProduct.images.map((image, index) => (
+                  {productImages.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
@@ -188,12 +200,16 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   >
                     <img
                       src={image}
-                      alt={`${title} ${index + 1}`}
+                        alt={`${product.name} ${index + 1}`}
                       className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://via.placeholder.com/200x200?text=Image';
+                        }}
                     />
                   </button>
                 ))}
               </div>
+              )}
             </div>
 
             {/* Product Information */}
@@ -203,19 +219,19 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                   <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
                     <h1 className="text-4xl md:text-5xl font-black text-inovara-primary mb-2 leading-tight">
-                      {title}
+                      {product.name}
                     </h1>
                   </div>
                 </div>
 
                 <p className={`text-xl text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
-                  {description}
+                  {product.description}
                 </p>
               </div>
 
               {/* Price */}
               <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-2xl p-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-                <div className="text-3xl font-black text-inovara-primary mb-2">{price}</div>
+                <div className="text-3xl font-black text-inovara-primary mb-2">{formatPrice(product.price, product.currency)}</div>
                 <div className="text-inovara-primary/70">Starting price - Contact for custom quotes</div>
               </div>
 
@@ -225,12 +241,34 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   Key Features
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {currentProduct.features.map((feature, index) => (
-                    <div key={index} className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                      <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                      <span className="font-medium text-inovara-primary">{feature}</span>
-                    </div>
-                  ))}
+                  {product.features && Array.isArray(product.features) && product.features.length > 0 ? (
+                    product.features.map((feature, index) => (
+                      <div key={index} className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-inovara-primary">{feature}</span>
+                      </div>
+                    ))
+                  ) : (
+                    // Fallback features when API doesn't provide them
+                    <>
+                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-inovara-primary">High Quality Materials</span>
+                      </div>
+                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-inovara-primary">Reliable Performance</span>
+                      </div>
+                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-inovara-primary">Innovative Technology</span>
+                      </div>
+                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-inovara-primary">Easy Maintenance</span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -272,7 +310,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
             <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg">
               <h3 className="text-2xl font-black text-inovara-primary mb-6">Specifications</h3>
               <div className="space-y-4">
-                {Object.entries(currentProduct.specifications).map(([key, value]) => (
+                {product.specifications && typeof product.specifications === 'object' && Object.entries(product.specifications).map(([key, value]) => (
                   <div key={key} className={`flex items-center justify-between py-3 px-4 bg-white/50 rounded-xl ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                     <span className="font-semibold text-inovara-primary capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
                     <span className="text-inovara-primary/70 font-medium">{value}</span>
@@ -285,7 +323,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
             <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg">
               <h3 className="text-2xl font-black text-inovara-primary mb-6">Business Benefits</h3>
               <div className="space-y-4">
-                {currentProduct.benefits.map((benefit, index) => (
+                {product.benefits && Array.isArray(product.benefits) && product.benefits.map((benefit, index) => (
                   <div key={index} className={`flex items-center gap-4 p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                     <div className="w-10 h-10 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-xl flex items-center justify-center flex-shrink-0">
                       <Zap className="w-5 h-5 text-white" />

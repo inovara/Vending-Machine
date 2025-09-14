@@ -18,7 +18,7 @@ export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
     fillMode = 'forwards'
   } = options;
 
-  const elementRef = useRef<HTMLElement | null>(null);
+  const elementRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
 
@@ -71,7 +71,7 @@ export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
 
 export const useStaggeredAnimation = (itemCount: number, staggerDelay: number = 100) => {
   const [visibleItems, setVisibleItems] = useState<number[]>([]);
-  const containerRef = useRef<HTMLElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -116,7 +116,7 @@ export const useStaggeredAnimation = (itemCount: number, staggerDelay: number = 
 
 export const useParallaxScroll = (speed: number = 0.5) => {
   const [offset, setOffset] = useState(0);
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -146,7 +146,7 @@ export const useParallaxScroll = (speed: number = 0.5) => {
 
 export const useHoverAnimation = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);

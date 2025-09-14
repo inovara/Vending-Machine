@@ -5,7 +5,7 @@ import App from './App.tsx';
 import './index.css';
 
 // Performance monitoring (only in development)
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   // Basic performance logging
   console.log('Development mode: Performance monitoring enabled');
 }
@@ -17,12 +17,12 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: any) {
+  static getDerivedStateFromError(_error: any) {
     return { hasError: true };
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
-    console.error('Error caught by boundary:', error, errorInfo);
+  componentDidCatch(_error: any, errorInfo: any) {
+    console.error('Error caught by boundary:', _error, errorInfo);
   }
 
   render() {
@@ -66,7 +66,7 @@ root.render(
 );
 
 // Service Worker registration for PWA capabilities (only in production)
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then((registration) => {

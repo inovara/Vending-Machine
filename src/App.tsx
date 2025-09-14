@@ -1,5 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { TranslationProvider } from './contexts/TranslationContext';
+import QueryProvider from './services/react-query';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -57,8 +58,9 @@ const App: React.FC = () => {
 
   
   return (
-    <TranslationProvider>
-      <div className="min-h-screen font-display overflow-x-hidden">
+    <QueryProvider>
+      <TranslationProvider>
+        <div className="min-h-screen font-display overflow-x-hidden">
         <Header onQuoteClick={() => setIsQuoteModalOpen(true)} />
 
           <ScrollToTop />
@@ -95,8 +97,9 @@ const App: React.FC = () => {
           whatsappNumber="+201234567890"
           whatsappMessage="Hello! I'm interested in your smart vending machine solutions. Can you provide more information?"
         />
-      </div>
-    </TranslationProvider>
+        </div>
+      </TranslationProvider>
+    </QueryProvider>
   );
 };
 
