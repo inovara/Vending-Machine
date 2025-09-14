@@ -1280,6 +1280,37 @@
       "default": "I understand you're interested in our smart vending machine solutions. For more specific information, I recommend speaking with our sales team. You can contact us via WhatsApp or request a quote for personalized assistance."
     }
   },
+  "productDetail": {
+    "loading": "Loading product details...",
+    "notFound": "Product Not Found",
+    "notFoundDesc": "The product you're looking for doesn't exist or has been removed.",
+    "tryAgain": "Try Again",
+    "viewAllProducts": "View All Products",
+    "keyFeatures": "Key Features",
+    "technicalSpecs": "Technical Specifications",
+    "technicalSpecsDesc": "Detailed technical information about this vending machine",
+    "specifications": "Specifications",
+    "businessBenefits": "Business Benefits",
+    "whyChoose": "Why Choose Our Vending Machines?",
+    "whyChooseDesc": "Trusted by businesses worldwide",
+    "warranty": "2-Year Warranty",
+    "warrantyDesc": "Comprehensive warranty coverage with 24/7 technical support and maintenance services.",
+    "freeInstallation": "Free Installation",
+    "freeInstallationDesc": "Professional installation and setup included with every purchase, anywhere in Egypt.",
+    "expertSupport": "Expert Support",
+    "expertSupportDesc": "Dedicated customer success team and training programs for optimal machine performance.",
+    "cta": "Ready to Transform Your Business?",
+    "ctaDesc": "Join hundreds of satisfied customers who have revolutionized their operations with our smart vending solutions.",
+    "getFreeQuote": "Get Free Quote",
+    "watchDemo": "Watch Demo Video",
+    "startingPrice": "Starting price - Contact for custom quotes",
+    "fallbackFeatures": {
+      "quality": "High Quality Materials",
+      "reliability": "Reliable Performance",
+      "innovation": "Innovative Technology",
+      "maintenance": "Easy Maintenance"
+    }
+  },
   "common": {
     "back": "Back to Products",
     "more": "More Details"

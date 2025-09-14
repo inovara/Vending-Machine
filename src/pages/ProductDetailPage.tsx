@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Star, Share2, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Share2, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
 import { productDetails } from '../network/product';
@@ -60,7 +60,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <Loader2 className="w-12 h-12 animate-spin text-inovara-primary mx-auto mb-4" />
-            <p className="text-inovara-primary/70">Loading product details...</p>
+            <p className="text-inovara-primary/70">{t('productDetail.loading')}</p>
           </div>
         </div>
       </div>
@@ -74,20 +74,20 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-inovara-primary mb-4">Product Not Found</h2>
-            <p className="text-inovara-primary/70 mb-8">The product you're looking for doesn't exist or has been removed.</p>
+            <h2 className="text-2xl font-bold text-inovara-primary mb-4">{t('productDetail.notFound')}</h2>
+            <p className="text-inovara-primary/70 mb-8">{t('productDetail.notFoundDesc')}</p>
             <div className="flex gap-4 justify-center">
               <button
                 onClick={() => refetch()}
                 className="px-6 py-3 bg-inovara-primary text-white rounded-lg hover:bg-inovara-primary/90 transition-colors"
               >
-                Try Again
+                {t('productDetail.tryAgain')}
               </button>
               <Link
                 to="/products"
                 className="px-6 py-3 border border-inovara-primary text-inovara-primary rounded-lg hover:bg-inovara-primary hover:text-white transition-colors"
               >
-                View All Products
+                {t('productDetail.viewAllProducts')}
               </Link>
             </div>
           </div>
@@ -133,22 +133,26 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       </section>
 
       {/* Main Product Section */}
-      <section className="py-12 px-6 bg-white">
+      <section className="py-20 px-6 bg-gradient-to-br from-white via-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Product Gallery */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Main Image */}
               <div className="relative group">
-                <img
-                  src={productImages[selectedImage]}
-                  alt={product.name}
-                  className="w-full aspect-square object-cover rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-500"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Product+Image';
-                  }}
-                />
+                <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/10 to-inovara-secondary/10 rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
+                <div className="relative overflow-hidden rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-500">
+                  <img
+                    src={productImages[selectedImage]}
+                    alt={product.name}
+                    className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Product+Image';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
 
                 {/* Image Navigation */}
                 {productImages.length > 1 && (
@@ -182,7 +186,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 {product.category && (
                   <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-gradient-to-r ${getCategoryGradient(product.category.slug)} text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg`}>
                     {product.category.name}
-                  </div>
+                </div>
                 )}
               </div>
 
@@ -232,16 +236,24 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               {/* Price */}
               <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-2xl p-6 ${isRTL ? 'text-right' : 'text-left'}`}>
                 <div className="text-3xl font-black text-inovara-primary mb-2">{formatPrice(product.price, product.currency)}</div>
-                <div className="text-inovara-primary/70">Starting price - Contact for custom quotes</div>
+                <div className="text-inovara-primary/70">{t('productDetail.startingPrice')}</div>
               </div>
 
               {/* Features */}
               <div>
                 <h3 className={`text-2xl font-black text-inovara-primary mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  Key Features
+                  {t('productDetail.keyFeatures')}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {product.features && Array.isArray(product.features) && product.features.length > 0 ? (
+                  {product.features && typeof product.features === 'string' ? (
+                    // Handle string features (split by line breaks)
+                    (product.features as string).split('\n').filter((feature: string) => feature.trim()).map((feature: string, index: number) => (
+                      <div key={index} className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-inovara-primary">{feature.trim()}</span>
+                      </div>
+                    ))
+                  ) : product.features && Array.isArray(product.features) && product.features.length > 0 ? (
                     product.features.map((feature, index) => (
                       <div key={index} className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                         <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
@@ -253,19 +265,19 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     <>
                       <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                         <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">High Quality Materials</span>
+                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.quality')}</span>
                       </div>
                       <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                         <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">Reliable Performance</span>
+                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.reliability')}</span>
                       </div>
                       <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                         <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">Innovative Technology</span>
+                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.innovation')}</span>
                       </div>
                       <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                         <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">Easy Maintenance</span>
+                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.maintenance')}</span>
                       </div>
                     </>
                   )}
@@ -279,7 +291,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   className="w-full group relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                 >
                   <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <span>Get Free Quote</span>
+                    <span>{t('productDetail.getFreeQuote')}</span>
                     <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                   </span>
                   <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
@@ -288,7 +300,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 <button className="w-full py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20">
                   <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <Play className="w-5 h-5" />
-                    <span>Watch Demo Video</span>
+                    <span>{t('productDetail.watchDemo')}</span>
                   </span>
                 </button>
               </div>
@@ -301,34 +313,45 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       <section className="py-24 px-6 bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-inovara-primary mb-4">Technical Specifications</h2>
-            <p className="text-xl text-inovara-primary/70">Detailed technical information about this vending machine</p>
+            <h2 className="text-4xl font-black text-inovara-primary mb-4">{t('productDetail.technicalSpecs')}</h2>
+            <p className="text-xl text-inovara-primary/70">{t('productDetail.technicalSpecsDesc')}</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Specifications */}
+          {/* Specifications - Full Width */}
+          <div className="max-w-4xl mx-auto">
             <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg">
-              <h3 className="text-2xl font-black text-inovara-primary mb-6">Specifications</h3>
-              <div className="space-y-4">
-                {product.specifications && typeof product.specifications === 'object' && Object.entries(product.specifications).map(([key, value]) => (
-                  <div key={key} className={`flex items-center justify-between py-3 px-4 bg-white/50 rounded-xl ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                    <span className="font-semibold text-inovara-primary capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
-                    <span className="text-inovara-primary/70 font-medium">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Benefits */}
-            <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg">
-              <h3 className="text-2xl font-black text-inovara-primary mb-6">Business Benefits</h3>
-              <div className="space-y-4">
-                {product.benefits && Array.isArray(product.benefits) && product.benefits.map((benefit, index) => (
-                  <div key={index} className={`flex items-center gap-4 p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                    <div className="w-10 h-10 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Zap className="w-5 h-5 text-white" />
+              <h3 className="text-2xl font-black text-inovara-primary mb-8 text-center">{t('productDetail.specifications')}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {product.specifications && typeof product.specifications === 'string' ? (
+                  // Handle string specifications (split by line breaks)
+                  (product.specifications as string).split('\n').filter((spec: string) => spec.trim()).map((spec: string, index: number) => {
+                    const [key, ...valueParts] = spec.split(':');
+                    const value = valueParts.join(':').trim();
+                    return (
+                      <div key={index} className={`group p-6 bg-gradient-to-br from-white/80 to-white/60 rounded-2xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 hover:shadow-lg ${isRTL ? 'text-right' : 'text-left'}`}>
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <Zap className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-inovara-primary text-lg mb-2">{key?.trim() || spec.trim()}</h4>
+                            {value && <p className="text-inovara-primary/70 font-medium leading-relaxed">{value}</p>}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : product.specifications && typeof product.specifications === 'object' && Object.entries(product.specifications).map(([key, value]) => (
+                  <div key={key} className={`group p-6 bg-gradient-to-br from-white/80 to-white/60 rounded-2xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 hover:shadow-lg ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                        <Zap className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-bold text-inovara-primary text-lg mb-2">{key.replace(/([A-Z])/g, ' $1')}</h4>
+                        <p className="text-inovara-primary/70 font-medium leading-relaxed">{value}</p>
+                      </div>
                     </div>
-                    <span className="font-medium text-inovara-primary">{benefit}</span>
                   </div>
                 ))}
               </div>
@@ -338,145 +361,129 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-24 px-6 bg-white">
+      <section className="py-24 px-6 bg-gradient-to-br from-gray-50 via-white to-gray-50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-inovara-primary mb-4">Why Choose Our Vending Machines?</h2>
-            <p className="text-xl text-inovara-primary/70">Trusted by businesses worldwide</p>
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-inovara-primary/10 to-inovara-secondary/10 px-6 py-3 rounded-full mb-6">
+              <div className="w-2 h-2 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full"></div>
+              <span className="text-sm font-bold text-inovara-primary uppercase tracking-wider">Why Choose Us</span>
+              <div className="w-2 h-2 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full"></div>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-inovara-primary mb-6 leading-tight">{t('productDetail.whyChoose')}</h2>
+            <p className="text-xl text-inovara-primary/70 max-w-3xl mx-auto leading-relaxed">{t('productDetail.whyChooseDesc')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Trust Features */}
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <ShieldIcon className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="text-xl font-black text-inovara-primary mb-4">2-Year Warranty</h3>
-              <p className="text-inovara-primary/70 leading-relaxed">Comprehensive warranty coverage with 24/7 technical support and maintenance services.</p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Truck className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="text-xl font-black text-inovara-primary mb-4">Free Installation</h3>
-              <p className="text-inovara-primary/70 leading-relaxed">Professional installation and setup included with every purchase, anywhere in Egypt.</p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Users className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="text-xl font-black text-inovara-primary mb-4">Expert Support</h3>
-              <p className="text-inovara-primary/70 leading-relaxed">Dedicated customer success team and training programs for optimal machine performance.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-24 px-6 bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-inovara-primary mb-4">What Our Customers Say</h2>
-            <p className="text-xl text-inovara-primary/70">Real feedback from satisfied customers</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <blockquote className="text-inovara-primary/80 leading-relaxed mb-6">
-                "The flower vending machine has revolutionized our business. Sales increased by 40% and customers love the convenience."
-              </blockquote>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">MR</span>
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
+              <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-inovara-primary/10 group-hover:border-inovara-primary/20 transition-all duration-300 group-hover:shadow-2xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <ShieldIcon className="w-8 h-8 text-white" />
                 </div>
-                <div>
-                  <div className="font-semibold text-inovara-primary">Mohamed Rashed</div>
-                  <div className="text-sm text-inovara-primary/70">Flower Shop Owner</div>
+                <h3 className="text-2xl font-black text-inovara-primary mb-4 text-center">{t('productDetail.warranty')}</h3>
+                <p className="text-inovara-primary/70 leading-relaxed text-center">{t('productDetail.warrantyDesc')}</p>
+                <div className="mt-6 flex justify-center">
+                  <div className="w-12 h-1 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full"></div>
                 </div>
               </div>
             </div>
 
-            {/* Testimonial 2 */}
-            <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <blockquote className="text-inovara-primary/80 leading-relaxed mb-6">
-                "Excellent customer service and the pizza machine works flawlessly. Our office productivity has improved significantly."
-              </blockquote>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">AS</span>
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl transform -rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
+              <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-inovara-primary/10 group-hover:border-inovara-primary/20 transition-all duration-300 group-hover:shadow-2xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <Truck className="w-8 h-8 text-white" />
                 </div>
-                <div>
-                  <div className="font-semibold text-inovara-primary">Ahmed Salem</div>
-                  <div className="text-sm text-inovara-primary/70">Office Manager</div>
+                <h3 className="text-2xl font-black text-inovara-primary mb-4 text-center">{t('productDetail.freeInstallation')}</h3>
+                <p className="text-inovara-primary/70 leading-relaxed text-center">{t('productDetail.freeInstallationDesc')}</p>
+                <div className="mt-6 flex justify-center">
+                  <div className="w-12 h-1 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full"></div>
                 </div>
               </div>
             </div>
 
-            {/* Testimonial 3 */}
-            <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="flex items-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <blockquote className="text-inovara-primary/80 leading-relaxed mb-6">
-                "Smart analytics and real-time monitoring make inventory management effortless. Highly recommended!"
-              </blockquote>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">FA</span>
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
+              <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-inovara-primary/10 group-hover:border-inovara-primary/20 transition-all duration-300 group-hover:shadow-2xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <Users className="w-8 h-8 text-white" />
                 </div>
-                <div>
-                  <div className="font-semibold text-inovara-primary">Fatma Ahmed</div>
-                  <div className="text-sm text-inovara-primary/70">Retail Manager</div>
+                <h3 className="text-2xl font-black text-inovara-primary mb-4 text-center">{t('productDetail.expertSupport')}</h3>
+                <p className="text-inovara-primary/70 leading-relaxed text-center">{t('productDetail.expertSupportDesc')}</p>
+                <div className="mt-6 flex justify-center">
+                  <div className="w-12 h-1 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full"></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* CTA Section */}
-      <section className="py-24 px-6 bg-gradient-to-r from-inovara-primary to-inovara-secondary">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-12 border border-white/20">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-6">
-              Ready to Transform Your Business?
+      <section className="relative py-32 px-6 overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary via-inovara-secondary to-inovara-accent"></div>
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-3 bg-white/20 px-6 py-3 rounded-full mb-8">
+              <div className="w-2 h-2 bg-white rounded-full"></div>
+              <span className="text-sm font-bold text-white uppercase tracking-wider">Ready to Start?</span>
+              <div className="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">
+              {t('productDetail.cta')}
             </h2>
-            <p className="text-xl text-white/90 font-light leading-relaxed mb-8">
-              Join hundreds of satisfied customers who have revolutionized their operations with our smart vending solutions.
+            <p className="text-xl md:text-2xl text-white/90 font-light leading-relaxed mb-12 max-w-3xl mx-auto">
+              {t('productDetail.ctaDesc')}
             </p>
 
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col sm:flex-row gap-6 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <button
                 onClick={onQuoteClick}
-                className="group px-12 py-5 bg-white text-inovara-primary font-bold text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30"
+                className="group relative px-16 py-6 bg-white text-inovara-primary font-black text-xl rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30 overflow-hidden"
               >
-                <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                  Get Free Quote
+                <div className="absolute inset-0 bg-gradient-to-r from-inovara-primary/10 to-inovara-secondary/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
+                <span className={`relative flex items-center justify-center gap-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {t('productDetail.getFreeQuote')}
                   <ArrowRight className={`w-6 h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                 </span>
               </button>
 
               <Link
                 to="/products"
-                className="px-12 py-5 border-2 border-white text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-inovara-primary transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/30"
+                className="group px-16 py-6 border-2 border-white text-white font-black text-xl rounded-2xl hover:bg-white hover:text-inovara-primary transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/30 relative overflow-hidden"
               >
-                View All Products
+                <div className="absolute inset-0 bg-white translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300"></div>
+                <span className="relative group-hover:text-inovara-primary transition-colors duration-300">
+                  {t('productDetail.viewAllProducts')}
+                </span>
               </Link>
+            </div>
+
+            {/* Additional Info */}
+            <div className="mt-12 flex flex-wrap justify-center items-center gap-8 text-white/70">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                <span className="text-sm font-medium">Free Consultation</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                <span className="text-sm font-medium">24/7 Support</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                <span className="text-sm font-medium">Fast Delivery</span>
+              </div>
             </div>
           </div>
         </div>
