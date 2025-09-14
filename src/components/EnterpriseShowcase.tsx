@@ -4,7 +4,7 @@ import { navigateToSection } from '../utils/navigation';
 import { useTranslation } from '../contexts/TranslationContext';
 
 const EnterpriseShowcase: React.FC = () => {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);

@@ -5,22 +5,20 @@ export default {
     extend: {
       colors: {
         'inovara': {
-          'primary': 'rgba(46, 0, 20, 1)',      // Deep Burgundy - Primary brand color
-          'secondary': 'rgba(107, 144, 128, 1)', // Muted Green - Secondary brand color
-          'accent': 'rgba(252, 208, 161, 1)',    // Warm Peach-Gold - Accent color
-          'neutral': 'rgba(225, 233, 230, 1)',   // Soft Ivory - Neutral color
-          'sage': 'rgba(196, 211, 204, 1)',      // Sage Green - Additional neutral
-          'blush': 'rgba(210, 204, 206, 1)',     // Blush - Additional accent
-          // Legacy color names for backward compatibility
-          'burgundy': 'rgba(46, 0, 20, 1)',
-          'green': 'rgba(107, 144, 128, 1)',
-          'peach': 'rgba(252, 208, 161, 1)',
-          'ivory': 'rgba(225, 233, 230, 1)',
+          // Core Brand Colors - Authoritative Palette
+          'primary': 'rgba(46, 0, 20, 1)',      // Deep Burgundy - Headings/CTAs/Key Icons
+          'secondary': 'rgba(107, 144, 128, 1)', // Muted Green - Secondary Emphasis/Chips
+          'accent': 'rgba(252, 208, 161, 1)',    // Warm Peach-Gold - Highlights/Stats/Focus
+          'neutral': 'rgba(225, 233, 230, 1)',   // Soft Ivory - Backgrounds/Cards
+          'sage': 'rgba(196, 211, 204, 1)',      // Sage Green - Subtle Panels/Dividers
+          'blush': 'rgba(210, 204, 206, 1)',     // Blush - Very Light Separators
+          
           // Opacity variants for consistent usage
           'primary-10': 'rgba(46, 0, 20, 0.1)',
           'primary-20': 'rgba(46, 0, 20, 0.2)',
           'primary-30': 'rgba(46, 0, 20, 0.3)',
           'primary-50': 'rgba(46, 0, 20, 0.5)',
+          'primary-70': 'rgba(46, 0, 20, 0.7)',   // Body text on light backgrounds
           'primary-80': 'rgba(46, 0, 20, 0.8)',
           'secondary-10': 'rgba(107, 144, 128, 0.1)',
           'secondary-20': 'rgba(107, 144, 128, 0.2)',
@@ -47,6 +45,19 @@ export default {
           'blush-30': 'rgba(210, 204, 206, 0.3)',
           'blush-50': 'rgba(210, 204, 206, 0.5)',
           'blush-80': 'rgba(210, 204, 206, 0.8)',
+          
+          // State Management Colors
+          'hover-primary': 'rgba(35, 0, 15, 1)',     // Darken Primary by ~8%
+          'hover-secondary': 'rgba(85, 115, 102, 1)', // Darken Secondary by ~8%
+          'hover-accent': 'rgba(240, 195, 140, 1)',   // Darken Accent by ~8%
+          'disabled': 'rgba(46, 0, 20, 0.55)',        // 55% opacity for disabled
+          'disabled-bg': 'rgba(225, 233, 230, 0.3)',  // Disabled background
+          
+          // Legacy color names for backward compatibility
+          'burgundy': 'rgba(46, 0, 20, 1)',
+          'green': 'rgba(107, 144, 128, 1)',
+          'peach': 'rgba(252, 208, 161, 1)',
+          'ivory': 'rgba(225, 233, 230, 1)',
         },
         'luxury': {
           'dark': '#0a0a0a',
@@ -193,10 +204,16 @@ export default {
         'inovara-secondary': 'linear-gradient(135deg, rgba(107, 144, 128, 1) 0%, rgba(107, 144, 128, 0.9) 50%, rgba(107, 144, 128, 0.8) 100%)',
         'inovara-accent': 'linear-gradient(135deg, rgba(252, 208, 161, 1) 0%, rgba(252, 208, 161, 0.9) 50%, rgba(252, 208, 161, 0.8) 100%)',
         
-        // Unified section backgrounds with enhanced harmony
+        // Unified Background System - Two Wash Styles
+        'wash-a': 'linear-gradient(to bottom, transparent, rgb(225 233 230 / 0.2))',
+        'wash-b-hero': 'linear-gradient(to bottom, rgba(252,208,161,0.12), transparent, rgba(107,144,128,0.12))',
+        'wash-b-footer': 'linear-gradient(to top, rgba(107,144,128,0.10), transparent, rgba(252,208,161,0.10))',
+        
+        // Legacy section backgrounds (keeping for compatibility)
         'hero-bg': 'linear-gradient(135deg, rgba(46, 0, 20, 1) 0%, rgba(107, 144, 128, 0.9) 25%, rgba(196, 211, 204, 0.8) 50%, rgba(252, 208, 161, 0.7) 75%, rgba(225, 233, 230, 0.9) 100%)',
-        'section-dark': 'linear-gradient(135deg, #0a0a0a 0%, rgba(46, 0, 20, 0.1) 30%, #1a1a1a 50%, rgba(107, 144, 128, 0.05) 70%, #2a2a2a 100%)',
-        'section-light': 'linear-gradient(135deg, rgba(225, 233, 230, 0.9) 0%, rgba(196, 211, 204, 0.7) 30%, rgba(210, 204, 206, 0.5) 50%, rgba(252, 208, 161, 0.2) 100%)',
+        'section-wash': 'radial-gradient(1200px 600px at 50% -10%, rgba(252, 208, 161, 0.1), transparent), radial-gradient(1000px 500px at 80% 10%, rgba(107, 144, 128, 0.1), transparent), linear-gradient(135deg, rgba(225, 233, 230, 1) 0%, rgba(196, 211, 204, 0.2) 100%)',
+        'section-light': 'radial-gradient(1200px 600px at 50% -10%, rgba(252, 208, 161, 0.1), transparent), radial-gradient(1000px 500px at 80% 10%, rgba(107, 144, 128, 0.1), transparent), linear-gradient(135deg, rgba(225, 233, 230, 0.95) 0%, rgba(196, 211, 204, 0.5) 30%, rgba(210, 204, 206, 0.3) 50%, rgba(252, 208, 161, 0.1) 100%)',
+        'section-dark': 'radial-gradient(1200px 600px at 50% -10%, rgba(252, 208, 161, 0.08), transparent), radial-gradient(1000px 500px at 80% 10%, rgba(107, 144, 128, 0.08), transparent), linear-gradient(135deg, #0a0a0a 0%, rgba(46, 0, 20, 0.05) 30%, #1a1a1a 50%, rgba(107, 144, 128, 0.02) 70%, #2a2a2a 100%)',
         'card-bg': 'linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(46, 0, 20, 0.1) 30%, rgba(42, 42, 42, 0.6) 100%)',
         
         // Accent gradients

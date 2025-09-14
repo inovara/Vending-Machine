@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Building, Target, Award, Zap, Shield, TrendingUp, CheckCircle } from 'lucide-react';
+import { Sparkles, Shield, Award, TrendingUp } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 const AboutSection: React.FC = () => {
@@ -8,93 +8,89 @@ const AboutSection: React.FC = () => {
 
   const companyValues = [
     {
-      icon: Award,
-      title: t('about.reliability.title'),
-      description: t('about.reliability.description'),
-      metrics: ['High Performance', 'Reliable Systems', 'Quality Focused']
-    },
-    {
-      icon: Zap,
-      title: t('about.innovation.title'),
-      description: t('about.innovation.description'),
-      metrics: ['Smart Technology', 'IoT Integration', 'AI Analytics']
+      icon: Sparkles,
+      title: t('about.values.innovation.title'),
+      description: t('about.values.innovation.description'),
+      gradient: 'from-inovara-accent to-inovara-accent/80'
     },
     {
       icon: Shield,
-      title: t('about.quality.title'),
-      description: t('about.quality.description'),
-      metrics: ['Secure Payments', 'Data Protection', 'Modern Standards']
+      title: t('about.values.reliability.title'),
+      description: t('about.values.reliability.description'),
+      gradient: 'from-inovara-secondary to-inovara-secondary/80'
+    },
+    {
+      icon: Award,
+      title: t('about.values.excellence.title'),
+      description: t('about.values.excellence.description'),
+      gradient: 'from-inovara-primary to-inovara-primary/80'
     },
     {
       icon: TrendingUp,
-      title: t('about.support.title'),
-      description: t('about.support.description'),
-      metrics: ['Agile Development', 'Scalable Solutions', 'Future-Ready Technology']
+      title: t('about.values.growth.title'),
+      description: t('about.values.growth.description'),
+      gradient: 'from-inovara-accent to-inovara-secondary'
     }
   ];
 
   return (
     <section
       ref={sectionRef}
-      className={`professional-section bg-section-light ${isRTL ? 'rtl' : 'ltr'}`}
+      id="about"
+      className={`relative py-24 px-6 overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(245,245,245,0.8) 50%, rgba(255,255,255,1) 100%)'
+      }}
     >
-      <div className="professional-container">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className={`inline-flex items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'} px-4 py-2 bg-inovara-accent/10 border border-inovara-accent/20 rounded-full mb-8`}>
-            <Building className="w-4 h-4 text-inovara-accent" />
-            <span className="text-inovara-primary text-sm font-medium">{t('about.badge')}</span>
-          </div>
+      {/* Minimal Background Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
+      </div>
 
-          <h2 className="text-professional-heading text-inovara-primary mb-6">
-            {t('about.title')} <span className="text-gradient-primary">{t('about.titleAccent')}</span>
+      <div className="relative z-10 max-w-6xl mx-auto">
+        {/* Enterprise Header */}
+        <div className={`text-center mb-20 ${isRTL ? 'rtl' : 'ltr'}`}>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight mb-8 leading-[0.9]">
+            {t('about.title')}
           </h2>
-
-          <p className="text-professional-subheading text-inovara-secondary max-w-4xl mx-auto">
-            {t('about.description')}
-          </p>
+          
+          {/* Professional Divider */}
+          <div className="w-24 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
+          
+          <div className="max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed">
+              {t('about.description')}
+            </p>
+          </div>
         </div>
 
-        {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        {/* Enterprise Values Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {companyValues.map((value, index) => (
-            <div key={index} className="enterprise-card p-8 hover:shadow-enterprise-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-inovara-accent to-inovara-primary rounded-2xl flex items-center justify-center mb-6">
+            <div 
+              key={index} 
+              className={`group relative bg-white/80 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}
+            >
+              {/* Icon Container */}
+              <div className={`w-16 h-16 bg-gradient-to-br ${value.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 ${isRTL ? 'mx-auto' : 'mx-auto'}`}>
                 <value.icon className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-inovara-primary mb-4">{value.title}</h3>
-              <p className="text-inovara-primary/70 text-sm mb-4 leading-relaxed">{value.description}</p>
-              <div className="space-y-2">
-                {value.metrics.map((metric, metricIndex) => (
-                  <div key={metricIndex} className="flex items-center text-sm text-inovara-primary/70">
-                    <CheckCircle className={`w-4 h-4 text-inovara-accent ${isRTL ? 'ml-2' : 'mr-2'} flex-shrink-0`} />
-                    <span>{metric}</span>
-                  </div>
-                ))}
-              </div>
+              
+              {/* Content */}
+              <h3 className={`text-2xl font-black text-inovara-primary mb-4 group-hover:text-inovara-accent transition-colors duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
+                {value.title}
+              </h3>
+              <p className={`text-inovara-primary/70 font-light leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
+                {value.description}
+              </p>
+              
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           ))}
         </div>
 
-        {/* Stats Row - clean and minimal */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center p-6 bg-white/40 backdrop-blur-md border border-inovara-neutral-20 rounded-2xl">
-            <div className="text-3xl font-black text-inovara-primary mb-1">500+</div>
-            <div className="text-inovara-secondary text-sm font-medium">Machines Deployed</div>
-          </div>
-          <div className="text-center p-6 bg-white/40 backdrop-blur-md border border-inovara-neutral-20 rounded-2xl">
-            <div className="text-3xl font-black text-inovara-primary mb-1">99.9%</div>
-            <div className="text-inovara-secondary text-sm font-medium">Uptime Guarantee</div>
-          </div>
-          <div className="text-center p-6 bg-white/40 backdrop-blur-md border border-inovara-neutral-20 rounded-2xl">
-            <div className="text-3xl font-black text-inovara-primary mb-1">24/7</div>
-            <div className="text-inovara-secondary text-sm font-medium">Support</div>
-          </div>
-          <div className="text-center p-6 bg-white/40 backdrop-blur-md border border-inovara-neutral-20 rounded-2xl">
-            <div className="text-3xl font-black text-inovara-primary mb-1">Global</div>
-            <div className="text-inovara-secondary text-sm font-medium">Operations</div>
-          </div>
-        </div>
       </div>
     </section>
   );

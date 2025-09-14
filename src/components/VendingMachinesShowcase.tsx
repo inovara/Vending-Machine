@@ -7,7 +7,7 @@ interface VendingMachinesShowcaseProps {
   onQuoteClick?: () => void;
 }
 
-const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick }) => {
+const VendingMachinesShowcase: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick }) => {
   const { t, isRTL } = useTranslation();
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
       id: 'pizza',
       title: t('showcase.pizza.title'),
       description: t('showcase.pizza.description'),
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center',
+      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop&crop=center',
       category: t('showcase.pizza.category'),
       icon: Building2,
       gradient: 'from-red-500 to-orange-600',
@@ -64,7 +64,7 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
 
   return (
     <section 
-      id="products" 
+      id="vending-machines-showcase" 
       className={`relative py-24 px-6 overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
       style={{
         background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.8) 50%, rgba(255,255,255,1) 100%)'
@@ -122,6 +122,11 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
                   {/* Category Badge */}
                   <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-inovara-primary`}>
                     {machine.category}
+                  </div>
+                  
+                  {/* Icon Badge */}
+                  <div className={`absolute ${isRTL ? 'right-4' : 'left-4'} bottom-4 w-10 h-10 bg-gradient-to-br ${machine.gradient} rounded-xl flex items-center justify-center shadow-lg`}>
+                    <IconComponent className="w-5 h-5 text-white" />
                   </div>
                 </div>
                 
@@ -197,4 +202,4 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
   );
 };
 
-export default ProductsSection;
+export default VendingMachinesShowcase;

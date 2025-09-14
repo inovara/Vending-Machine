@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Calculator } from 'lucide-react';
 import logo from '../../inovaralo.svg';
 import { smoothScrollTo } from '../utils/smoothScroll';
@@ -13,15 +14,17 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t, isRTL } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
-    { name: t('nav.home'), href: '#home' },
-    { name: t('nav.about'), href: '#about' },
-    { name: t('nav.products'), href: '#products' },
-    { name: t('nav.industries'), href: '#enterprise' },
-    { name: t('nav.contact'), href: '#contact' }
+    { name: t('nav.home'), href: '#home', type: 'scroll' },
+    { name: t('nav.about'), href: '#about', type: 'scroll' },
+    { name: t('nav.products'), href: '#products', type: 'page' },
+    { name: t('nav.industries'), href: '/industries', type: 'page' },
+    { name: t('nav.contact'), href: '#contact', type: 'scroll' }
   ];
 
   useEffect(() => {
@@ -30,8 +33,6 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
@@ -46,15 +47,30 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
     };
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string, type: string) => {
     setIsMenuOpen(false);
-    smoothScrollTo(href, 80);
+    
+    if (type === 'page') {
+      // Navigate to different page
+      navigate(href);
+    } else if (type === 'scroll') {
+      // If we're on homepage, scroll to section
+      if (location.pathname === '/') {
+        smoothScrollTo(href, 80);
+      } else {
+        // If we're on different page, navigate to homepage and scroll
+        navigate('/');
+        setTimeout(() => {
+          smoothScrollTo(href, 80);
+        }, 100);
+      }
+    }
   };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-          ? 'bg-gradient-to-r from-luxury-charcoal/98 via-luxury-charcoal/95 to-luxury-charcoal/98 backdrop-blur-xl border-b border-inovara-accent/30 shadow-2xl shadow-inovara-accent/10'
+          ? 'bg-white backdrop-blur-xl border-b border-inovara-primary/30 shadow-2xl shadow-inovara-primary/15'
           : 'bg-transparent'
         } ${isRTL ? 'rtl' : 'ltr'}`}
     >
@@ -63,17 +79,14 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
           {/* Logo */}
           <div className="flex items-center flex-shrink-0">
             <button
-              onClick={() => handleNavClick('#home')}
+              onClick={() => navigate('/')}
               className="relative group flex items-center"
             >
               <div className="relative">
                 <img
                   src={logo}
                   alt="Inovara Logo"
-                  className={`h-10 w-auto transition-all duration-500 group-hover:scale-110 ${isScrolled
-                      ? 'filter brightness-0 invert drop-shadow-lg'
-                      : 'filter brightness-0 invert drop-shadow-md'
-                    }`}
+                  className={`h-10 w-auto transition-all duration-500 group-hover:scale-110 filter brightness-0 saturate-100 drop-shadow-lg'`}
                 />
                 <div className={`absolute -top-1 ${isRTL ? '-left-1' : '-right-1'} w-2 h-2 rounded-full transition-all duration-500 ${isScrolled
                     ? 'bg-inovara-accent animate-pulse shadow-lg shadow-inovara-accent/50'
@@ -92,10 +105,10 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
             {(isRTL ? [...navigationItems].reverse() : navigationItems).map((item) => (
               <div key={item.name} className="relative group">
                 <button
-                  onClick={() => handleNavClick(item.href)}
+                  onClick={() => handleNavClick(item.href, item.type)}
                   className={`relative px-4 py-2 transition-all duration-300 font-medium text-base group ${isScrolled
-                      ? 'text-white/90 hover:text-inovara-accent'
-                      : 'text-white/90 hover:text-inovara-accent'
+                      ? 'text-inovara-primary hover:text-inovara-accent'
+                      : 'text-inovara-primary/90 hover:text-inovara-accent'
                     }`}
                 >
                   <span className={`relative z-10 flex items-center ${isRTL ? 'space-x-reverse space-x-2 flex-row-reverse' : 'space-x-2'}`}>
@@ -103,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
                   </span>
 
                   {/* Active Indicator */}
-                  <div className={`absolute bottom-0 w-0 h-0.5 transition-all duration-300 ${isScrolled ? 'bg-inovara-accent' : 'bg-white'
+                  <div className={`absolute bottom-0 w-0 h-0.5 transition-all duration-300 ${isScrolled ? 'bg-inovara-accent' : 'bg-inovara-accent'
                     } group-hover:w-full ${isRTL ? 'right-0' : 'left-0'}`}></div>
                 </button>
               </div>
@@ -116,16 +129,16 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
 
             <button
               onClick={onQuoteClick}
-              className="group relative px-4 py-2 bg-gradient-to-r from-inovara-accent via-inovara-accent to-inovara-secondary text-white font-bold rounded-lg hover:shadow-xl hover:shadow-inovara-accent/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-0.5 overflow-hidden border border-inovara-accent/20"
+              className="group relative px-6 py-3 bg-[rgb(46,0,20)] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[rgb(46,0,20)]/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-0.5 overflow-hidden border border-[rgb(46,0,20)]/30 shadow-lg"
             >
               {/* Animated Background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-inovara-accent/30 to-inovara-secondary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-[rgb(46,0,20)]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               {/* Shimmer Effect */}
               <div className="absolute inset-0 -top-1 -left-1 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
 
               {/* Pulsing Ring */}
-              <div className="absolute inset-0 rounded-lg border-2 border-inovara-accent/50 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
+              <div className="absolute inset-0 rounded-lg border-2 border-[rgb(46,0,20)]/50 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
 
               {/* Content */}
               <span className={`relative flex items-center z-10 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -146,7 +159,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden p-2 transition-colors duration-300 relative ${isScrolled ? 'text-white hover:text-inovara-accent' : 'text-white hover:text-inovara-accent'
+            className={`lg:hidden p-2 transition-colors duration-300 relative ${isScrolled ? 'text-inovara-primary hover:text-inovara-accent' : 'text-inovara-primary/90 hover:text-inovara-accent'
               }`}
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center">
@@ -161,14 +174,14 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
         {isMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className={`lg:hidden absolute top-full left-0 right-0 bg-gradient-to-br from-luxury-charcoal/98 to-luxury-charcoal/95 backdrop-blur-xl border-t border-inovara-accent/30 shadow-2xl shadow-inovara-accent/10 z-40 ${isRTL ? 'text-right' : 'text-left'}`}
+            className={`lg:hidden absolute top-full left-0 right-0 bg-white backdrop-blur-xl border-t border-inovara-primary/30 shadow-2xl shadow-inovara-primary/15 z-40 ${isRTL ? 'text-right' : 'text-left'}`}
           >
             <nav className="px-6 py-6 space-y-1">
               {(isRTL ? [...navigationItems].reverse() : navigationItems).map((item) => (
                 <div key={item.name}>
                   <button
-                    onClick={() => handleNavClick(item.href)}
-                    className={`w-full flex items-center text-white/90 hover:text-inovara-accent transition-colors duration-300 font-medium py-3 px-3 rounded-lg hover:bg-inovara-accent/10 ${isRTL ? 'flex-row-reverse justify-between' : 'justify-between'}`}
+                    onClick={() => handleNavClick(item.href, item.type)}
+                    className={`w-full flex items-center text-inovara-primary hover:text-inovara-accent transition-colors duration-300 font-medium py-3 px-3 rounded-lg hover:bg-inovara-accent/10 ${isRTL ? 'flex-row-reverse justify-between' : 'justify-between'}`}
                   >
                     <span>{item.name}</span>
                   </button>
@@ -176,23 +189,23 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
               ))}
 
               {/* Mobile CTA */}
-              <div className="pt-6 border-t border-gray-200/50 space-y-6">
+              <div className="pt-6 border-t border-inovara-primary/30 space-y-6">
                 <div className={`flex items-center ${isRTL ? 'justify-end' : 'justify-center'}`}>
                   <LanguageSwitcher />
                 </div>
 
                 <button
                   onClick={onQuoteClick}
-                  className="group relative w-full px-4 py-2 bg-gradient-to-r from-inovara-accent via-inovara-accent to-inovara-secondary text-white font-bold rounded-lg hover:shadow-xl hover:shadow-inovara-accent/40 transition-all duration-500 transform hover:scale-105 overflow-hidden border border-inovara-accent/20"
+                  className="group relative w-full px-6 py-3 bg-[rgb(46,0,20)] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[rgb(46,0,20)]/40 transition-all duration-500 transform hover:scale-105 overflow-hidden border border-[rgb(46,0,20)]/30 shadow-lg"
                 >
                   {/* Animated Background */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-inovara-accent/30 to-inovara-secondary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-[rgb(46,0,20)]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                   {/* Shimmer Effect */}
                   <div className="absolute inset-0 -top-1 -left-1 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
 
                   {/* Pulsing Ring */}
-                  <div className="absolute inset-0 rounded-lg border-2 border-inovara-accent/50 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
+                  <div className="absolute inset-0 rounded-lg border-2 border-[rgb(46,0,20)]/50 opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
 
                   {/* Content */}
                   <span className={`relative flex items-center justify-center z-10 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>

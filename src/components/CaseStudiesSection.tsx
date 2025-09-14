@@ -132,7 +132,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({ className = '' 
   };
 
   return (
-    <section ref={elementRef as React.RefObject<HTMLDivElement>} className={`py-20 px-6 bg-gradient-to-br from-inovara-primary/5 to-inovara-secondary/10 ${className}`} style={animationStyle}>
+    <section ref={elementRef as React.RefObject<HTMLDivElement>} className={`py-20 px-6 bg-section-wash ${className}`} style={animationStyle}>
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">

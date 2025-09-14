@@ -7,14 +7,14 @@ export type Language = 'en' | 'ar';
 interface TranslationContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string) => any;
   isRTL: boolean;
 }
 
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
 
 // Helper function to get nested translation value
-const getNestedValue = (obj: Record<string, any>, path: string): string => {
+const getNestedValue = (obj: Record<string, any>, path: string): any => {
   return path.split('.').reduce((current: any, key: string) => {
     return current && current[key] !== undefined ? current[key] : null;
   }, obj) || path; // Return the key if translation not found
@@ -48,11 +48,11 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     return language === 'ar' ? arTranslations : enTranslations;
   };
 
-  const t = (key: string, variables?: Record<string, any>): string => {
+  const t = (key: string, variables?: Record<string, any>): any => {
     const translations = getTranslations();
     const translation = getNestedValue(translations, key);
     
-    if (variables) {
+    if (variables && typeof translation === 'string') {
       return interpolate(translation, variables);
     }
     

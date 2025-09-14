@@ -115,7 +115,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ className = '
   };
 
   return (
-    <section ref={elementRef} className={`py-20 px-6 bg-gradient-to-br from-inovara-neutral/5 to-inovara-sage/10 ${className}`} style={animationStyle}>
+    <section ref={elementRef} className={`py-20 px-6 bg-section-wash ${className}`} style={animationStyle}>
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
