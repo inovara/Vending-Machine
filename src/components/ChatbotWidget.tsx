@@ -124,21 +124,22 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
         ${isRTL ? 'rtl' : 'ltr'}
       `}>
         {/* Header */}
-        <div className="bg-gradient-to-r from-inovara-primary to-inovara-secondary p-4 flex items-center justify-between">
+        <div className={`bg-gradient-to-r from-inovara-primary to-inovara-secondary p-4 flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} justify-between border-b border-white/10`}>
           <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-              <Bot className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+              <Bot className="w-7 h-7 text-white" />
             </div>
             <div className={isRTL ? 'text-right' : 'text-left'}>
-              <h3 className="text-white font-bold text-lg">{t('chatbot.title')}</h3>
-              <p className="text-white/80 text-sm">{t('chatbot.subtitle')}</p>
+              <h3 className="text-white font-black text-xl leading-tight">{t('chatbot.title')}</h3>
+              <p className="text-white/90 text-sm font-medium mt-1">{t('chatbot.subtitle')}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors duration-200"
+            className={`p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-300 group ${isRTL ? 'mr-2' : 'ml-2'}`}
+            aria-label={t('common.close')}
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
           </button>
         </div>
 
