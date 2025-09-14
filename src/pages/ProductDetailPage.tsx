@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, BarChart3, Monitor, Shield, Building2, Wrench, Star, Share2, Heart, Truck, Shield as ShieldIcon, Clock, Users, Zap, ChevronLeft, ChevronRight, Play, Award, Quote } from 'lucide-react';
+import { ArrowRight, CheckCircle, Monitor, Shield, Building2, Wrench, Star, Share2, Heart, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 export interface ProductDetailPageProps {
@@ -111,7 +111,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   };
 
   const currentProduct = productData[productType as keyof typeof productData];
-  const IconComponent = currentProduct.icon;
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>

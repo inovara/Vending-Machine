@@ -13,7 +13,6 @@ const products = [
     key: 'flower',
     image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&h=400&fit=crop&crop=center',
     category: 'Flower Vending',
-    icon: Monitor,
     gradient: 'from-pink-500 to-rose-600',
     price: '$9,999',
     rating: 4.9,
@@ -24,7 +23,6 @@ const products = [
     key: 'snack',
     image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center',
     category: 'Snack Vending',
-    icon: Shield,
     gradient: 'from-orange-500 to-amber-600',
     price: '$7,999',
     rating: 4.8,
@@ -35,7 +33,6 @@ const products = [
     key: 'pizza',
     image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop&crop=center',
     category: 'Food Vending',
-    icon: Building2,
     gradient: 'from-red-500 to-orange-600',
     price: '$18,999',
     rating: 4.9,
@@ -46,7 +43,6 @@ const products = [
     key: 'beverage',
     image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=400&fit=crop&crop=center',
     category: 'Beverage Vending',
-    icon: Wrench,
     gradient: 'from-blue-500 to-cyan-600',
     price: '$6,999',
     rating: 4.7,
@@ -194,7 +190,6 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
             {filteredProducts.map((product, index) => {
-              const IconComponent = product.icon;
               return (
                 <div 
                   key={product.slug}

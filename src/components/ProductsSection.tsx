@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles, Monitor, Shield, Building2, Wrench } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface VendingMachinesShowcaseProps {
@@ -18,7 +18,6 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
       description: t('showcase.flower.description'),
       image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&h=400&fit=crop&crop=center',
       category: t('showcase.flower.category'),
-      icon: Monitor,
       gradient: 'from-pink-500 to-rose-600',
       slug: 'flower-vending-machine'
     },
@@ -28,7 +27,6 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
       description: t('showcase.snack.description'),
       image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center',
       category: t('showcase.snack.category'),
-      icon: Shield,
       gradient: 'from-orange-500 to-amber-600',
       slug: 'snack-vending-machine'
     },
@@ -38,7 +36,6 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
       description: t('showcase.pizza.description'),
       image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center',
       category: t('showcase.pizza.category'),
-      icon: Building2,
       gradient: 'from-red-500 to-orange-600',
       slug: 'pizza-vending-machine'
     },
@@ -48,7 +45,6 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
       description: t('showcase.beverage.description'),
       image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&h=400&fit=crop&crop=center',
       category: t('showcase.beverage.category'),
-      icon: Wrench,
       gradient: 'from-blue-500 to-cyan-600',
       slug: 'beverage-vending-machine'
     }
@@ -100,7 +96,6 @@ const ProductsSection: React.FC<VendingMachinesShowcaseProps> = ({ onQuoteClick 
         {/* Machines Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {machines.map((machine, index) => {
-            const IconComponent = machine.icon;
             return (
               <div 
                 key={machine.id}

@@ -88,7 +88,7 @@ const IndustriesSection: React.FC<IndustriesSectionProps> = ({ onQuoteClick }) =
                 </p>
                 
                 <div className="space-y-3 mb-6">
-                  {industry.features.map((feature, featureIndex) => (
+                  {industry.features.map((feature: string, featureIndex: number) => (
                     <div key={featureIndex} className="flex items-center text-sm text-inovara-primary/60">
                       <div className="w-2 h-2 bg-inovara-accent rounded-full mr-3 flex-shrink-0"></div>
                       <span>{feature}</span>
