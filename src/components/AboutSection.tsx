@@ -65,31 +65,33 @@ const AboutSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Enterprise Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+         {/* Enterprise Values Grid */}
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {companyValues.map((value, index) => (
             <div 
               key={index} 
-              className={`group relative bg-white/80 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-8 hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}
+              className={`group relative bg-white/80 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-10 hover:-translate-y-3 transition-all duration-700 shadow-enterprise hover:shadow-enterprise-xl hover:shadow-inovara-primary/5 animate-fadeInUp ${isRTL ? 'rtl' : 'ltr'}`}
+              style={{ animationDelay: `${index * 150}ms` }}
             >
               {/* Icon Container */}
-              <div className={`w-16 h-16 bg-gradient-to-br ${value.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 ${isRTL ? 'mx-auto' : 'mx-auto'}`}>
-                <value.icon className="w-8 h-8 text-white" />
+              <div className={`w-20 h-20 bg-gradient-to-br ${value.gradient} rounded-3xl flex items-center justify-center mb-8 shadow-enterprise-lg group-hover:scale-110 transition-transform duration-500 mx-auto`}>
+                <value.icon className="w-10 h-10 text-white" />
               </div>
               
               {/* Content */}
-              <h3 className={`text-2xl font-black text-inovara-primary mb-4 group-hover:text-inovara-accent transition-colors duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
+              <h3 className={`text-2xl font-black text-inovara-primary mb-6 group-hover:text-inovara-accent transition-colors duration-300 text-center`}>
                 {value.title}
               </h3>
-              <p className={`text-inovara-primary/70 font-light leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
+              <p className={`text-inovara-primary/70 font-light leading-relaxed text-center`}>
                 {value.description}
               </p>
               
               {/* Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
           ))}
         </div>
+
 
       </div>
     </section>
