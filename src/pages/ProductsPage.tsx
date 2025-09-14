@@ -18,6 +18,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
   const filters = {
     page: currentPage,
     per_page: 12,
+    category_id: 2,
   };
 
   const { 

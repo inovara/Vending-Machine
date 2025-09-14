@@ -21,8 +21,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
     isLoading, 
     isError 
   } = useQuery<PaginatedResponse<Product>>({
-    queryKey: [queryKeys.listProducts, { page: 1, per_page: 4 }, language],
-    queryFn: () => listProducts({ page: 1, per_page: 4 }),
+    queryKey: [queryKeys.listProducts, { page: 1, per_page: 4, category_id: 2 }, language],
+    queryFn: () => listProducts({ page: 1, per_page: 4, category_id: 2 }),
     enabled: !!language,
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000, // 10 minutes
