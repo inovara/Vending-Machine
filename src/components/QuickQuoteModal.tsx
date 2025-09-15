@@ -41,7 +41,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
         company: '',
         industry: '',
         machines: '',
-        budget: '',
         message: ''
       });
     },
@@ -84,7 +83,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
       company: '',
       industry: '',
       machines: '',
-      budget: '',
       message: ''
     });
     setSubmitError(null);
@@ -224,26 +222,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     <option value="100+" className="text-inovara-primary">{t('quote.machineOptions.100+')}</option>
                   </select>
                 </div>
-              </div>
-
-              {/* Budget Field */}
-              <div>
-                <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  {t('quote.budget')}
-                </label>
-                <select
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
-                >
-                  <option value="" className="text-inovara-primary/50">{t('quote.budget')}</option>
-                  <option value="under-10k" className="text-inovara-primary">{t('quote.budgetOptions.under10k')}</option>
-                  <option value="10k-50k" className="text-inovara-primary">{t('quote.budgetOptions.10k50k')}</option>
-                  <option value="50k-100k" className="text-inovara-primary">{t('quote.budgetOptions.50k100k')}</option>
-                  <option value="100k-500k" className="text-inovara-primary">{t('quote.budgetOptions.100k500k')}</option>
-                  <option value="500k+" className="text-inovara-primary">{t('quote.budgetOptions.500k+')}</option>
-                </select>
               </div>
 
               <div>

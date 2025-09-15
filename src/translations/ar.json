@@ -39,6 +39,8 @@
       "products": "المنتجات"
     },
     "searchPlaceholder": "البحث في المنتجات...",
+    "loading": "جاري تحميل المنتجات",
+    "loadingDescription": "يرجى الانتظار بينما نجلب لك أحدث حلول ماكينات البيع.",
     "resultsFound": "منتج موجود",
     "filteredResults": "عرض النتائج المفلترة",
     "allResults": "عرض جميع المنتجات المتاحة",
@@ -1235,10 +1237,29 @@
     "tryAgain": "حاول مرة أخرى",
     "viewAllProducts": "عرض جميع المنتجات",
     "keyFeatures": "الميزات الرئيسية",
-    "technicalSpecs": "المواصفات التقنية",
-    "technicalSpecsDesc": "معلومات تقنية مفصلة حول ماكينة البيع هذه",
+    "featuresAndSpecs": "الميزات والمواصفات",
+    "featuresAndSpecsDesc": "ميزات شاملة ومواصفات تقنية لماكينة البيع هذه",
     "specifications": "المواصفات",
     "businessBenefits": "فوائد الأعمال",
+    "businessBenefitsDesc": "المزايا الرئيسية والقيمة التجارية التي تجلبها ماكينة البيع هذه لعملياتك",
+    "businessBenefitsItems": {
+      "operations": {
+        "title": "عمليات 24/7",
+        "description": "توليد إيرادات مستمرة دون تدخل بشري"
+      },
+      "payments": {
+        "title": "دفعات آمنة",
+        "description": "خيارات دفع متعددة مع أمان متقدم"
+      },
+      "satisfaction": {
+        "title": "رضا العملاء",
+        "description": "تجربة عملاء محسنة مع التقنية الذكية"
+      },
+      "analytics": {
+        "title": "تحليلات فورية",
+        "description": "رؤى مدفوعة بالبيانات لاتخاذ قرارات تجارية أفضل"
+      }
+    },
     "whyChoose": "لماذا تختار ماكينات البيع الخاصة بنا؟",
     "whyChooseDesc": "موثوق من قبل الشركات في جميع أنحاء العالم",
     "warranty": "ضمان لمدة عامين",

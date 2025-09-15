@@ -73,7 +73,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
               {t('products.breadcrumb.home')}
             </Link>
             <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
-            <span className="text-inovara-primary font-medium px-2 py-1 rounded-lg bg-inovara-primary/5">{t('products.breadcrumb.products')}</span>
+            <span className="text-inovara-primary font-medium">{t('products.breadcrumb.products')}</span>
           </nav>
 
           {/* Unified Hero Content */}

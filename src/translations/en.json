@@ -39,6 +39,8 @@
       "products": "Products"
     },
     "searchPlaceholder": "Search products...",
+    "loading": "Loading Products",
+    "loadingDescription": "Please wait while we fetch our latest vending machine solutions for you.",
     "resultsFound": "Products Found",
     "filteredResults": "Showing filtered results",
     "allResults": "Showing all available products",
@@ -1287,10 +1289,29 @@
     "tryAgain": "Try Again",
     "viewAllProducts": "View All Products",
     "keyFeatures": "Key Features",
-    "technicalSpecs": "Technical Specifications",
-    "technicalSpecsDesc": "Detailed technical information about this vending machine",
+    "featuresAndSpecs": "Features & Specifications",
+    "featuresAndSpecsDesc": "Comprehensive features and technical specifications for this vending machine",
     "specifications": "Specifications",
     "businessBenefits": "Business Benefits",
+    "businessBenefitsDesc": "Key advantages and business value this vending machine brings to your operations",
+    "businessBenefitsItems": {
+      "operations": {
+        "title": "24/7 Operations",
+        "description": "Continuous revenue generation without human intervention"
+      },
+      "payments": {
+        "title": "Secure Payments",
+        "description": "Multiple payment options with advanced security"
+      },
+      "satisfaction": {
+        "title": "Customer Satisfaction",
+        "description": "Enhanced customer experience with smart technology"
+      },
+      "analytics": {
+        "title": "Real-time Analytics",
+        "description": "Data-driven insights for better business decisions"
+      }
+    },
     "whyChoose": "Why Choose Our Vending Machines?",
     "whyChooseDesc": "Trusted by businesses worldwide",
     "warranty": "2-Year Warranty",

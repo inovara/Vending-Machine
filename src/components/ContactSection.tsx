@@ -68,6 +68,7 @@ const ContactSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
+      id="contact"
       className={`relative py-24 px-6 overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
       style={{
         background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)'
