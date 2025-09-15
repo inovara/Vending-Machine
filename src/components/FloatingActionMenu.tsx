@@ -111,7 +111,7 @@ const FloatingActionMenu: React.FC<FloatingActionMenuProps> = ({
   return (
     <div 
       ref={menuRef}
-      className={`fixed z-50 ${isRTL ? 'left-4 md:left-6' : 'right-4 md:right-6'} bottom-4 md:bottom-6`}
+      className={`fixed z-40 ${isRTL ? 'left-4 md:left-6' : 'right-4 md:right-6'} bottom-4 md:bottom-6`}
     >
       {/* Menu Items */}
       <div className={`absolute bottom-20 ${isRTL ? 'left-0' : 'right-0'} flex flex-col-reverse gap-4 mb-4`}>
@@ -131,9 +131,10 @@ const FloatingActionMenu: React.FC<FloatingActionMenuProps> = ({
                 onClick={item.action}
                 className={`
                   group relative flex items-center gap-4 p-5 rounded-3xl shadow-lg hover:shadow-2xl
-                  transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30
+                  transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-inovara-accent/30
                   bg-gradient-to-r ${item.gradient} text-white font-semibold min-w-[240px] max-w-[280px]
-                  hover:scale-105 transform hover:${item.accent}
+                  hover:scale-105 transform hover:shadow-xl active:scale-95
+                  border border-white/20 backdrop-blur-sm
                   ${isRTL ? 'flex-row-reverse' : 'flex-row'}
                 `}
                 aria-label={`${item.label} - ${item.subtitle}`}
@@ -181,6 +182,7 @@ const FloatingActionMenu: React.FC<FloatingActionMenuProps> = ({
             : 'bg-gradient-to-br from-inovara-primary to-inovara-secondary hover:from-inovara-primary/90 hover:to-inovara-secondary/90 hover:scale-105'
           }
           flex items-center justify-center text-white overflow-hidden
+          border border-white/20 backdrop-blur-sm
         `}
         aria-label={isOpen ? t('fab.close') : t('fab.open')}
         aria-expanded={isOpen}
@@ -215,7 +217,7 @@ const FloatingActionMenu: React.FC<FloatingActionMenuProps> = ({
       {/* Backdrop blur when open */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/5 backdrop-blur-sm -z-10"
+          className="fixed inset-0 bg-black/10 backdrop-blur-sm -z-10 transition-all duration-300"
           onClick={() => setIsOpen(false)}
         />
       )}

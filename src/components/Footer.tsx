@@ -1,8 +1,14 @@
 import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Twitter, Instagram, Facebook, Linkedin, Github, Mail, Phone } from 'lucide-react';
-import { SocialLink } from '../types';
+import { Twitter, Instagram, Facebook, Linkedin, Github } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
+import logo from '../../inovara.svg';
+
+interface SocialLink {
+  name: string;
+  icon: string;
+  url: string;
+}
 
 // Footer Section Component for better code organization
 interface FooterSectionProps {
@@ -46,8 +52,7 @@ FooterSection.displayName = 'FooterSection';
 
 const Footer: React.FC = memo(() => {
   const { t, isRTL } = useTranslation();
-  const currentYear = new Date().getFullYear();
-  
+
   const socialLinks: SocialLink[] = useMemo(() => [
     { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara' },
     { name: t('footer.social.twitter'), icon: 'Twitter', url: 'https://twitter.com/inovara' },
@@ -69,10 +74,10 @@ const Footer: React.FC = memo(() => {
     { name: t('footer.legal.cookies'), url: '/cookies' },
     { name: t('footer.legal.disclaimer'), url: '/disclaimer' },
   ], [t]);
-  
+
   const renderSocialIcon = useMemo(() => (iconName: string) => {
     const iconProps = { className: "h-5 w-5" };
-    
+
     switch (iconName) {
       case 'Twitter':
         return <Twitter {...iconProps} />;
@@ -88,13 +93,7 @@ const Footer: React.FC = memo(() => {
         return null;
     }
   }, []);
-  
-  // Contact info items configuration
-  const contactItems = [
-    { icon: Mail, text: t('footer.contact.email') },
-    { icon: Phone, text: t('footer.contact.phone') },
-    { text: t('footer.contact.address') }
-  ];
+
 
   return (
     <footer className={`w-full bg-gradient-to-br from-inovara-primary via-inovara-primary/95 to-inovara-primary border-t border-inovara-accent/20 ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -106,11 +105,11 @@ const Footer: React.FC = memo(() => {
             <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
               {/* Company Branding */}
               <div className="mb-8">
-                 <img 
-                src="/inovaralo.svg" 
-                alt="Inovara Logo" 
-                className={`h-12 mb-4 filter brightness-0 invert ${isRTL ? 'ml-auto' : 'mr-auto'}`}
-              />
+                <img
+                  src={logo}
+                  alt="Inovara Logo"
+                  className={`h-12 mb-4 filter brightness-0 invert ${isRTL ? 'ml-auto' : 'mr-auto'}`}
+                />
                 <p className={`text-white/80 leading-relaxed max-w-lg ${isRTL ? 'text-right ml-auto' : 'text-left mr-auto'}`}>
                   {t('footer.company.description')}
                 </p>
@@ -120,19 +119,19 @@ const Footer: React.FC = memo(() => {
 
           {/* Quick Links - Positioned based on RTL */}
           <div className={`${isRTL ? 'lg:col-start-1 lg:col-end-2' : 'lg:col-start-3 lg:col-end-4'}`}>
-            <FooterSection 
-              title={t('footer.links.title')} 
-              links={quickLinks} 
-              isRTL={isRTL} 
+            <FooterSection
+              title={t('footer.links.title')}
+              links={quickLinks}
+              isRTL={isRTL}
             />
           </div>
 
           {/* Legal Links - Positioned based on RTL */}
           <div className={`${isRTL ? 'lg:col-start-2 lg:col-end-3' : 'lg:col-start-4 lg:col-end-5'}`}>
-            <FooterSection 
-              title={t('footer.legal.title')} 
-              links={legalLinks} 
-              isRTL={isRTL} 
+            <FooterSection
+              title={t('footer.legal.title')}
+              links={legalLinks}
+              isRTL={isRTL}
             />
           </div>
         </div>

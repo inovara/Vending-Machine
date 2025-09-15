@@ -1,4 +1,3 @@
-// @ts-expect-error - TypeScript compiler cache issue
 import { axiosInstance } from "../services/axiosInstance";
 import catchAsync from "../utils/catchAsync";
 import { Product, ProductFilter, PaginatedResponse, ApiResponse } from "../types/api";
