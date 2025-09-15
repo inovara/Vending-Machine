@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, Bot, User, Loader2 } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { X, Send, Bot, User, Loader2, MessageCircle, FileText, ShoppingCart, ExternalLink } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface Message {
@@ -7,6 +7,17 @@ interface Message {
   text: string;
   sender: 'user' | 'bot';
   timestamp: Date;
+  type?: 'text' | 'suggestion' | 'action';
+  suggestions?: string[];
+  actions?: ChatAction[];
+}
+
+interface ChatAction {
+  id: string;
+  label: string;
+  action: () => void;
+  icon?: React.ComponentType<{ className?: string }>;
+  type?: 'primary' | 'secondary';
 }
 
 interface ChatbotWidgetProps {
@@ -19,6 +30,13 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [conversationContext, setConversationContext] = useState<string[]>([]);
+  const [userPreferences, setUserPreferences] = useState<{
+    interestedIn?: string;
+    budget?: string;
+    industry?: string;
+    location?: string;
+  }>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,24 +64,224 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Sample responses for demo
-  const getBotResponse = (userMessage: string): string => {
+  // Advanced AI-like response system
+  const getBotResponse = useCallback((userMessage: string): Message => {
     const message = userMessage.toLowerCase();
+    const context = conversationContext.join(' ').toLowerCase();
     
-    if (message.includes('price') || message.includes('cost')) {
-      return t('chatbot.responses.pricing');
-    } else if (message.includes('product') || message.includes('machine')) {
-      return t('chatbot.responses.products');
-    } else if (message.includes('contact') || message.includes('phone') || message.includes('email')) {
-      return t('chatbot.responses.contact');
-    } else if (message.includes('quote') || message.includes('request')) {
-      return t('chatbot.responses.quote');
-    } else if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
-      return t('chatbot.responses.greeting');
-    } else {
-      return t('chatbot.responses.default');
+    // Update conversation context
+    setConversationContext(prev => [...prev.slice(-4), userMessage.toLowerCase()]);
+    
+    // Intent detection with multiple keywords and context
+    const intents = {
+      greeting: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'salam', 'مرحبا', 'أهلا'],
+      pricing: ['price', 'cost', 'expensive', 'cheap', 'budget', 'affordable', 'سعر', 'تكلفة', 'مكلف'],
+      products: ['product', 'machine', 'vending', 'snack', 'beverage', 'food', 'equipment', 'منتج', 'ماكينة', 'بيع'],
+      features: ['feature', 'capability', 'function', 'technology', 'smart', 'cashless', 'analytics', 'ميزة', 'تقنية'],
+      contact: ['contact', 'phone', 'email', 'address', 'location', 'office', 'تواصل', 'هاتف', 'عنوان'],
+      quote: ['quote', 'estimate', 'proposal', 'request', 'inquiry', 'عرض سعر', 'تقدير', 'طلب'],
+      support: ['help', 'support', 'issue', 'problem', 'bug', 'error', 'مساعدة', 'دعم', 'مشكلة'],
+      company: ['company', 'about', 'history', 'team', 'mission', 'شركة', 'عن', 'فريق'],
+      industries: ['industry', 'sector', 'business', 'office', 'hospital', 'school', 'retail', 'قطاع', 'صناعة'],
+      installation: ['install', 'setup', 'delivery', 'shipping', 'installation', 'تركيب', 'توصيل'],
+      maintenance: ['maintenance', 'service', 'repair', 'support', 'warranty', 'صيانة', 'خدمة', 'إصلاح'],
+      payment: ['payment', 'cash', 'card', 'digital', 'online', 'دفع', 'نقدي', 'إلكتروني'],
+      analytics: ['analytics', 'data', 'report', 'statistics', 'tracking', 'تحليلات', 'بيانات', 'تقارير']
+    };
+
+    // Extract user preferences from message
+    const extractPreferences = (msg: string) => {
+      const budgetKeywords = ['budget', 'affordable', 'expensive', 'cheap', 'ميزانية', 'رخيص', 'غالي'];
+      const industryKeywords = ['office', 'hospital', 'school', 'retail', 'restaurant', 'مكتب', 'مستشفى', 'مدرسة'];
+      
+      if (budgetKeywords.some(keyword => msg.includes(keyword))) {
+        setUserPreferences(prev => ({ ...prev, budget: msg }));
+      }
+      if (industryKeywords.some(keyword => msg.includes(keyword))) {
+        setUserPreferences(prev => ({ ...prev, industry: msg }));
+      }
+    };
+
+    extractPreferences(message);
+
+    // Determine primary intent
+    let primaryIntent = 'default';
+    let confidence = 0;
+    
+    for (const [intent, keywords] of Object.entries(intents)) {
+      const matches = keywords.filter(keyword => 
+        message.includes(keyword) || context.includes(keyword)
+      ).length;
+      if (matches > confidence) {
+        confidence = matches;
+        primaryIntent = intent;
+      }
     }
-  };
+
+    // Generate contextual response based on intent and preferences
+    const generateResponse = (intent: string): Message => {
+      const timestamp = new Date();
+      
+      switch (intent) {
+        case 'greeting':
+          return {
+            id: Date.now().toString(),
+            text: t('chatbot.responses.greeting'),
+            sender: 'bot',
+            timestamp,
+            type: 'suggestion',
+            suggestions: [
+              t('chatbot.quickQuestions.pricing'),
+              t('chatbot.quickQuestions.products'),
+              t('chatbot.quickQuestions.quote')
+            ]
+          };
+          
+        case 'pricing':
+          return {
+            id: Date.now().toString(),
+            text: userPreferences.budget 
+              ? t('chatbot.responses.pricingPersonalized')
+              : t('chatbot.responses.pricing'),
+            sender: 'bot',
+            timestamp,
+            type: 'action',
+            actions: [
+              {
+                id: 'get-quote',
+                label: t('chatbot.actions.getQuote'),
+                action: () => {
+                  // Trigger quote modal
+                  window.dispatchEvent(new CustomEvent('openQuoteModal'));
+                },
+                icon: FileText,
+                type: 'primary'
+              },
+              {
+                id: 'view-products',
+                label: t('chatbot.actions.viewProducts'),
+                action: () => {
+                  window.location.href = '/products';
+                },
+                icon: ShoppingCart,
+                type: 'secondary'
+              }
+            ]
+          };
+          
+        case 'products':
+          return {
+            id: Date.now().toString(),
+            text: t('chatbot.responses.products'),
+            sender: 'bot',
+            timestamp,
+            type: 'suggestion',
+            suggestions: [
+              t('chatbot.suggestions.snackMachines'),
+              t('chatbot.suggestions.beverageMachines'),
+              t('chatbot.suggestions.foodMachines'),
+              t('chatbot.suggestions.customSolutions')
+            ]
+          };
+          
+        case 'contact':
+          return {
+            id: Date.now().toString(),
+            text: t('chatbot.responses.contact'),
+            sender: 'bot',
+            timestamp,
+            type: 'action',
+            actions: [
+              {
+                id: 'whatsapp',
+                label: t('chatbot.actions.whatsapp'),
+                action: () => {
+                  window.open('https://wa.me/201234567890', '_blank');
+                },
+                icon: MessageCircle,
+                type: 'primary'
+              },
+              {
+                id: 'email',
+                label: t('chatbot.actions.email'),
+                action: () => {
+                  window.location.href = 'mailto:info@inovara.com';
+                },
+                icon: ExternalLink,
+                type: 'secondary'
+              }
+            ]
+          };
+          
+        case 'quote':
+          return {
+            id: Date.now().toString(),
+            text: t('chatbot.responses.quote'),
+            sender: 'bot',
+            timestamp,
+            type: 'action',
+            actions: [
+              {
+                id: 'request-quote',
+                label: t('chatbot.actions.requestQuote'),
+                action: () => {
+                  window.dispatchEvent(new CustomEvent('openQuoteModal'));
+                },
+                icon: FileText,
+                type: 'primary'
+              }
+            ]
+          };
+          
+        case 'features':
+          return {
+            id: Date.now().toString(),
+            text: t('chatbot.responses.features'),
+            sender: 'bot',
+            timestamp,
+            type: 'suggestion',
+            suggestions: [
+              t('chatbot.suggestions.cashlessPayments'),
+              t('chatbot.suggestions.realTimeAnalytics'),
+              t('chatbot.suggestions.remoteManagement'),
+              t('chatbot.suggestions.customBranding')
+            ]
+          };
+          
+        case 'industries':
+          return {
+            id: Date.now().toString(),
+            text: t('chatbot.responses.industries'),
+            sender: 'bot',
+            timestamp,
+            type: 'suggestion',
+            suggestions: [
+              t('chatbot.suggestions.offices'),
+              t('chatbot.suggestions.hospitals'),
+              t('chatbot.suggestions.schools'),
+              t('chatbot.suggestions.retail')
+            ]
+          };
+          
+        default:
+          return {
+            id: Date.now().toString(),
+            text: t('chatbot.responses.default'),
+            sender: 'bot',
+            timestamp,
+            type: 'suggestion',
+            suggestions: [
+              t('chatbot.quickQuestions.pricing'),
+              t('chatbot.quickQuestions.products'),
+              t('chatbot.quickQuestions.contact'),
+              t('chatbot.quickQuestions.quote')
+            ]
+          };
+      }
+    };
+
+    return generateResponse(primaryIntent);
+  }, [conversationContext, userPreferences, t]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
@@ -72,25 +290,22 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
       id: Date.now().toString(),
       text: inputValue.trim(),
       sender: 'user',
-      timestamp: new Date()
+      timestamp: new Date(),
+      type: 'text'
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate bot response delay
+    // Simulate realistic typing delay based on response complexity
+    const delay = 800 + Math.random() * 1200; // 0.8-2 seconds
+    
     setTimeout(() => {
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: getBotResponse(userMessage.text),
-        sender: 'bot',
-        timestamp: new Date()
-      };
-      
+      const botResponse = getBotResponse(userMessage.text);
       setMessages(prev => [...prev, botResponse]);
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
+    }, delay);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -157,7 +372,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
               className={`flex ${message.sender === 'user' ? (isRTL ? 'justify-start' : 'justify-end') : (isRTL ? 'justify-end' : 'justify-start')}`}
             >
               <div className={`
-                flex items-start gap-3 max-w-[80%]
+                flex items-start gap-3 max-w-[85%]
                 ${message.sender === 'user' ? (isRTL ? 'flex-row-reverse' : 'flex-row') : (isRTL ? 'flex-row-reverse' : 'flex-row')}
               `}>
                 {/* Avatar */}
@@ -175,21 +390,74 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
                   )}
                 </div>
                 
-                {/* Message Bubble */}
-                <div className={`
-                  px-4 py-3 rounded-2xl text-sm shadow-sm border
-                  ${message.sender === 'user'
-                    ? 'bg-gradient-to-r from-inovara-primary to-inovara-primary/90 text-white border-inovara-primary/20'
-                    : 'bg-white text-gray-800 border-gray-200'
-                  }
-                `}>
-                  <p className={isRTL ? 'text-right' : 'text-left'}>{message.text}</p>
-                  <p className={`
-                    text-xs mt-1 opacity-70
-                    ${isRTL ? 'text-right' : 'text-left'}
+                {/* Message Content */}
+                <div className="flex flex-col gap-2">
+                  {/* Message Bubble */}
+                  <div className={`
+                    px-4 py-3 rounded-2xl text-sm shadow-sm border
+                    ${message.sender === 'user'
+                      ? 'bg-gradient-to-r from-inovara-primary to-inovara-primary/90 text-white border-inovara-primary/20'
+                      : 'bg-white text-gray-800 border-gray-200'
+                    }
                   `}>
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </p>
+                    <p className={isRTL ? 'text-right' : 'text-left'}>{message.text}</p>
+                    <p className={`
+                      text-xs mt-1 opacity-70
+                      ${isRTL ? 'text-right' : 'text-left'}
+                    `}>
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </div>
+
+                  {/* Suggestions */}
+                  {message.suggestions && message.suggestions.length > 0 && (
+                    <div className={`flex flex-wrap gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+                      {message.suggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            setInputValue(suggestion);
+                            setTimeout(() => handleSendMessage(), 100);
+                          }}
+                          className={`
+                            text-xs px-3 py-2 bg-white hover:bg-inovara-primary/5 border border-gray-200 
+                            hover:border-inovara-primary/30 rounded-xl transition-all duration-200 
+                            hover:shadow-sm cursor-pointer
+                            ${isRTL ? 'text-right' : 'text-left'}
+                          `}
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Actions */}
+                  {message.actions && message.actions.length > 0 && (
+                    <div className={`flex flex-wrap gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+                      {message.actions.map((action) => {
+                        const IconComponent = action.icon;
+                        return (
+                          <button
+                            key={action.id}
+                            onClick={action.action}
+                            className={`
+                              flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                              transition-all duration-200 hover:scale-105 active:scale-95
+                              ${action.type === 'primary'
+                                ? 'bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white hover:shadow-lg'
+                                : 'bg-white border border-gray-200 text-gray-700 hover:border-inovara-primary/30 hover:bg-inovara-primary/5'
+                              }
+                              ${isRTL ? 'flex-row-reverse' : 'flex-row'}
+                            `}
+                          >
+                            {IconComponent && <IconComponent className="w-4 h-4" />}
+                            <span>{action.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
