@@ -103,45 +103,45 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Hero Section */}
+      {/* Unified Hero Section */}
       <section
-        className="relative py-16 px-6 overflow-hidden"
+        className="relative py-12 sm:py-16 px-4 sm:px-6 overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.8) 50%, rgba(255,255,255,1) 100%)'
         }}
       >
-        {/* Subtle Background Effects */}
+        {/* Unified Background Effects */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
+          <div className={`absolute top-1/4 ${isRTL ? 'left-1/4' : 'right-1/4'} w-72 sm:w-96 h-72 sm:h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl`}></div>
+          <div className={`absolute bottom-1/4 ${isRTL ? 'right-1/4' : 'left-1/4'} w-64 sm:w-80 h-64 sm:h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl`}></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto">
-          {/* Breadcrumb */}
-          <nav className={`flex items-center gap-2 mb-8 text-sm ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-            <Link to="/" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors">
+          {/* Unified Breadcrumb */}
+          <nav className={`flex items-center gap-1 sm:gap-2 mb-6 sm:mb-8 text-xs sm:text-sm ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+            <Link to="/" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors px-2 py-1 rounded-lg hover:bg-inovara-primary/5">
               {t('products.breadcrumb.home')}
             </Link>
-            <ArrowRight className={`w-4 h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
-            <Link to="/products" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors">
+            <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
+            <Link to="/products" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors px-2 py-1 rounded-lg hover:bg-inovara-primary/5">
               {t('products.breadcrumb.products')}
             </Link>
-            <ArrowRight className={`w-4 h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
-            <span className="text-inovara-primary font-medium">{product.name}</span>
+            <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
+            <span className="text-inovara-primary font-medium px-2 py-1 rounded-lg bg-inovara-primary/5">{product.name}</span>
           </nav>
         </div>
       </section>
 
-      {/* Main Product Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-white via-gray-50 to-white">
+      {/* Unified Main Product Section */}
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-gradient-to-br from-white via-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* Product Gallery */}
-            <div className="space-y-8">
-              {/* Main Image */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
+            {/* Unified Product Gallery */}
+            <div className="space-y-6 sm:space-y-8">
+              {/* Unified Main Image */}
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/10 to-inovara-secondary/10 rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
-                <div className="relative overflow-hidden rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/10 to-inovara-secondary/10 rounded-2xl sm:rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
+                <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl group-hover:shadow-2xl sm:group-hover:shadow-3xl transition-all duration-500">
                   <img
                     src={productImages[selectedImage]}
                     alt={product.name}
@@ -154,50 +154,50 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
 
-                {/* Image Navigation */}
+                {/* Unified Image Navigation */}
                 {productImages.length > 1 && (
                   <>
                 <button
                   onClick={() => setSelectedImage(Math.max(0, selectedImage - 1))}
                   disabled={selectedImage === 0}
-                  className={`absolute top-1/2 ${isRTL ? 'right-4' : 'left-4'} transform -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`absolute top-1/2 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  <ChevronLeft className={`w-6 h-6 text-inovara-primary ${isRTL ? 'rotate-180' : ''}`} />
+                  <ChevronLeft className={`w-5 h-5 sm:w-6 sm:h-6 text-inovara-primary ${isRTL ? 'rotate-180' : ''}`} />
                 </button>
 
                 <button
                       onClick={() => setSelectedImage(Math.min(productImages.length - 1, selectedImage + 1))}
                       disabled={selectedImage === productImages.length - 1}
-                  className={`absolute top-1/2 ${isRTL ? 'left-4' : 'right-4'} transform -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`absolute top-1/2 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  <ChevronRight className={`w-6 h-6 text-inovara-primary ${isRTL ? 'rotate-180' : ''}`} />
+                  <ChevronRight className={`w-5 h-5 sm:w-6 sm:h-6 text-inovara-primary ${isRTL ? 'rotate-180' : ''}`} />
                 </button>
                   </>
                 )}
 
-                {/* Action Buttons */}
-                <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} flex flex-col gap-2`}>
-                  <button className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Share2 className="w-5 h-5 text-inovara-primary" />
+                {/* Unified Action Buttons */}
+                <div className={`absolute top-3 sm:top-4 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} flex flex-col gap-2`}>
+                  <button className="w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300">
+                    <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-primary" />
                   </button>
                 </div>
 
-                {/* Category Badge */}
+                {/* Unified Category Badge */}
                 {product.category && (
-                  <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-gradient-to-r ${getCategoryGradient(product.category.slug)} text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg`}>
+                  <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r ${getCategoryGradient(product.category.slug)} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg`}>
                     {product.category.name}
                 </div>
                 )}
               </div>
 
-              {/* Thumbnail Images */}
+              {/* Unified Thumbnail Images */}
               {productImages.length > 1 && (
-              <div className="flex gap-4 overflow-x-auto pb-2">
+              <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-2">
                   {productImages.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
+                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
                         ? 'border-inovara-primary shadow-lg'
                         : 'border-transparent hover:border-inovara-primary/50'
                       }`}
@@ -216,90 +216,90 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               )}
             </div>
 
-            {/* Product Information */}
-            <div className={`space-y-8 ${isRTL ? 'rtl' : 'ltr'}`}>
-              {/* Header */}
+            {/* Unified Product Information */}
+            <div className={`space-y-6 sm:space-y-8 ${isRTL ? 'rtl' : 'ltr'}`}>
+              {/* Unified Header */}
               <div>
-                <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div className={`flex items-center gap-4 mb-3 sm:mb-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                   <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                    <h1 className="text-4xl md:text-5xl font-black text-inovara-primary mb-2 leading-tight">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-inovara-primary mb-2 leading-tight">
                       {product.name}
                     </h1>
                   </div>
                 </div>
 
-                <p className={`text-xl text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
+                <p className={`text-base sm:text-lg lg:text-xl text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
                   {product.description}
                 </p>
               </div>
 
-              {/* Price */}
-              <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-2xl p-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-                <div className="text-3xl font-black text-inovara-primary mb-2">{formatPrice(product.price, product.currency)}</div>
-                <div className="text-inovara-primary/70">{t('productDetail.startingPrice')}</div>
+              {/* Unified Price */}
+              <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <div className="text-2xl sm:text-3xl font-black text-inovara-primary mb-1 sm:mb-2">{formatPrice(product.price, product.currency)}</div>
+                <div className="text-sm sm:text-base text-inovara-primary/70">{t('productDetail.startingPrice')}</div>
               </div>
 
-              {/* Features */}
+              {/* Unified Features */}
               <div>
-                <h3 className={`text-2xl font-black text-inovara-primary mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <h3 className={`text-xl sm:text-2xl font-black text-inovara-primary mb-4 sm:mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {t('productDetail.keyFeatures')}
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {product.features && typeof product.features === 'string' ? (
                     // Handle string features (split by line breaks)
                     (product.features as string).split('\n').filter((feature: string) => feature.trim()).map((feature: string, index: number) => (
-                      <div key={index} className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">{feature.trim()}</span>
+                      <div key={index} className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white/70 rounded-lg sm:rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base text-inovara-primary">{feature.trim()}</span>
                       </div>
                     ))
                   ) : product.features && Array.isArray(product.features) && product.features.length > 0 ? (
                     product.features.map((feature, index) => (
-                      <div key={index} className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">{feature}</span>
+                      <div key={index} className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white/70 rounded-lg sm:rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base text-inovara-primary">{feature}</span>
                       </div>
                     ))
                   ) : (
                     // Fallback features when API doesn't provide them
                     <>
-                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.quality')}</span>
+                      <div className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white/70 rounded-lg sm:rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base text-inovara-primary">{t('productDetail.fallbackFeatures.quality')}</span>
                       </div>
-                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.reliability')}</span>
+                      <div className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white/70 rounded-lg sm:rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base text-inovara-primary">{t('productDetail.fallbackFeatures.reliability')}</span>
                       </div>
-                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.innovation')}</span>
+                      <div className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white/70 rounded-lg sm:rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base text-inovara-primary">{t('productDetail.fallbackFeatures.innovation')}</span>
                       </div>
-                      <div className={`flex items-center gap-3 p-4 bg-white/70 rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
-                        <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
-                        <span className="font-medium text-inovara-primary">{t('productDetail.fallbackFeatures.maintenance')}</span>
+                      <div className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white/70 rounded-lg sm:rounded-xl border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-accent flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base text-inovara-primary">{t('productDetail.fallbackFeatures.maintenance')}</span>
                       </div>
                     </>
                   )}
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className={`space-y-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+              {/* Unified Action Buttons */}
+              <div className={`space-y-3 sm:space-y-4 ${isRTL ? 'text-right' : 'text-left'}`}>
                 <button
                   onClick={onQuoteClick}
-                  className="w-full group relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-5 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+                  className="w-full group relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                 >
-                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <span className={`flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <span>{t('productDetail.getFreeQuote')}</span>
-                    <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+                    <ArrowRight className={`w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                   </span>
                   <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
                 </button>
 
-                <button className="w-full py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20">
-                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Play className="w-5 h-5" />
+                <button className="w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20">
+                  <span className={`flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Play className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>{t('productDetail.watchDemo')}</span>
                   </span>
                 </button>
