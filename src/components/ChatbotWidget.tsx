@@ -15,15 +15,8 @@ interface ChatbotWidgetProps {
 }
 
 const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
-  const { t, isRTL } = useTranslation();
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      text: t('chatbot.welcome'),
-      sender: 'bot',
-      timestamp: new Date()
-    }
-  ]);
+  const { t, isRTL, language } = useTranslation();
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -33,6 +26,18 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Initialize welcome message and update when language changes
+  useEffect(() => {
+    const welcomeMessage: Message = {
+      id: 'welcome',
+      text: t('chatbot.welcome'),
+      sender: 'bot',
+      timestamp: new Date()
+    };
+    
+    setMessages([welcomeMessage]);
+  }, [language, t]);
 
   // Focus input when widget opens
   useEffect(() => {
@@ -110,7 +115,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className={`fixed inset-0 z-50 flex items-end p-4 ${isRTL ? 'justify-start' : 'justify-end'}`}>
+    <div className={`fixed inset-0 z-[60] flex items-end p-4 ${isRTL ? 'justify-start' : 'justify-end'}`}>
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -121,6 +126,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
       <div className={`
         relative w-full max-w-md h-[600px] bg-white rounded-2xl shadow-2xl
         flex flex-col overflow-hidden transform transition-all duration-300
+        border border-gray-200/50 backdrop-blur-sm
         ${isRTL ? 'rtl' : 'ltr'}
       `}>
         {/* Header */}
@@ -171,10 +177,10 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
                 
                 {/* Message Bubble */}
                 <div className={`
-                  px-4 py-3 rounded-2xl text-sm
+                  px-4 py-3 rounded-2xl text-sm shadow-sm border
                   ${message.sender === 'user'
-                    ? 'bg-inovara-primary text-white'
-                    : 'bg-gray-100 text-gray-800'
+                    ? 'bg-gradient-to-r from-inovara-primary to-inovara-primary/90 text-white border-inovara-primary/20'
+                    : 'bg-white text-gray-800 border-gray-200'
                   }
                 `}>
                   <p className={isRTL ? 'text-right' : 'text-left'}>{message.text}</p>
@@ -196,7 +202,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
                 <div className="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="bg-gray-100 text-gray-800 px-4 py-3 rounded-2xl">
+                <div className="bg-white text-gray-800 px-4 py-3 rounded-2xl shadow-sm border border-gray-200">
                   <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <Loader2 className="w-4 h-4 animate-spin" />
                     <span className={`text-sm ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.typing')}</span>
@@ -210,7 +216,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Quick Questions */}
-        {messages.length === 1 && (
+        {messages.length === 1 && messages[0]?.id === 'welcome' && (
           <div className="px-4 pb-2">
             <p className={`text-sm text-gray-600 mb-3 font-medium ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.quickQuestions.title')}</p>
             <div className="grid grid-cols-2 gap-2">
@@ -218,7 +224,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
                 <button
                   key={index}
                   onClick={() => handleQuickQuestion(question)}
-                  className={`text-xs p-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200 ${isRTL ? 'text-right' : 'text-left'}`}
+                  className={`text-xs p-3 bg-white hover:bg-inovara-primary/5 border border-gray-200 hover:border-inovara-primary/30 rounded-xl transition-all duration-200 hover:shadow-sm ${isRTL ? 'text-right' : 'text-left'}`}
                 >
                   {question}
                 </button>
@@ -228,7 +234,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
         )}
 
         {/* Input */}
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200/50 bg-white/95 backdrop-blur-sm shadow-lg">
           <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <input
               ref={inputRef}
@@ -238,9 +244,11 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
               onKeyPress={handleKeyPress}
               placeholder={t('chatbot.inputPlaceholder')}
               className={`
-                flex-1 px-4 py-3 border border-gray-300 rounded-xl
-                focus:outline-none focus:ring-2 focus:ring-inovara-accent/20 focus:border-inovara-accent
-                text-sm placeholder-gray-500
+                flex-1 px-4 py-3 border border-gray-200 rounded-xl
+                focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 focus:border-inovara-primary
+                text-sm placeholder-gray-500 bg-white/80 backdrop-blur-sm
+                transition-all duration-200 hover:border-gray-300
+                disabled:opacity-50 disabled:cursor-not-allowed
                 ${isRTL ? 'text-right' : 'text-left'}
               `}
               disabled={isTyping}
@@ -248,9 +256,30 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isTyping}
-              className="p-3 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`
+                relative p-3 text-white rounded-xl transition-all duration-300 
+                focus:outline-none focus:ring-4 focus:ring-inovara-primary/30
+                group overflow-hidden min-w-[48px] min-h-[48px] flex items-center justify-center
+                ${!inputValue.trim() || isTyping
+                  ? 'bg-gray-300 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-inovara-primary to-inovara-secondary hover:from-inovara-primary/90 hover:to-inovara-secondary/90 hover:shadow-lg hover:scale-105 active:scale-95'
+                }
+              `}
+              aria-label={t('chatbot.sendMessage')}
             >
-              <Send className="w-4 h-4" />
+              {/* Background gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Send Icon */}
+              <Send className={`w-5 h-5 transition-transform duration-200 ${!inputValue.trim() || isTyping ? '' : 'group-hover:translate-x-0.5'}`} />
+              
+              {/* Loading spinner for typing state */}
+              {isTyping && (
+                <Loader2 className="absolute w-4 h-4 animate-spin" />
+              )}
+              
+              {/* Subtle border glow */}
+              <div className="absolute inset-0 rounded-xl border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </div>
         </div>

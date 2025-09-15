@@ -1266,6 +1266,7 @@
     "welcome": "Hello! I'm your AI assistant. I can help you with information about our smart vending machines, pricing, and services. What would you like to know?",
     "inputPlaceholder": "Type your message...",
     "typing": "AI is typing...",
+    "sendMessage": "Send message",
     "quickQuestions": {
       "title": "Quick Questions:",
       "pricing": "What are your prices?",
