@@ -154,6 +154,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                 action: () => {
                   if (onQuoteRequest) {
                     onQuoteRequest();
+                    onClose(); // Close chatbot when quote modal opens
                   }
                 },
                 icon: FileText,
@@ -229,6 +230,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                 action: () => {
                   if (onQuoteRequest) {
                     onQuoteRequest();
+                    onClose(); // Close chatbot when quote modal opens
                   }
                 },
                 icon: FileText,
@@ -285,7 +287,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
     };
 
     return generateResponse(primaryIntent);
-  }, [conversationContext, userPreferences, t, onQuoteRequest]);
+  }, [conversationContext, userPreferences, t, onQuoteRequest, onClose]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
