@@ -23,9 +23,10 @@ interface ChatAction {
 interface ChatbotWidgetProps {
   isOpen: boolean;
   onClose: () => void;
+  onQuoteRequest?: () => void;
 }
 
-const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
+const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteRequest }) => {
   const { t, isRTL, language } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -151,8 +152,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
                 id: 'get-quote',
                 label: t('chatbot.actions.getQuote'),
                 action: () => {
-                  // Trigger quote modal
-                  window.dispatchEvent(new CustomEvent('openQuoteModal'));
+                  if (onQuoteRequest) {
+                    onQuoteRequest();
+                  }
                 },
                 icon: FileText,
                 type: 'primary'
@@ -225,7 +227,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
                 id: 'request-quote',
                 label: t('chatbot.actions.requestQuote'),
                 action: () => {
-                  window.dispatchEvent(new CustomEvent('openQuoteModal'));
+                  if (onQuoteRequest) {
+                    onQuoteRequest();
+                  }
                 },
                 icon: FileText,
                 type: 'primary'
@@ -281,7 +285,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose }) => {
     };
 
     return generateResponse(primaryIntent);
-  }, [conversationContext, userPreferences, t]);
+  }, [conversationContext, userPreferences, t, onQuoteRequest]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;

@@ -86,6 +86,7 @@ const App: React.FC = () => {
           <ChatbotWidget
             isOpen={isChatbotOpen}
             onClose={() => setIsChatbotOpen(false)}
+            onQuoteRequest={openQuoteForm}
           />
         </Suspense>
 
