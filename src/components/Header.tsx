@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import logo from '../../inovaralo.svg';
+import logo from '../../inovara.svg';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { useTranslation } from '../contexts/TranslationContext';
 import LanguageSwitcher from './LanguageSwitcher';
