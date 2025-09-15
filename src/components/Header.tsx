@@ -142,11 +142,9 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
 
               {/* Content */}
               <span className={`relative flex items-center z-10 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                <Calculator className={`w-4 h-4 ${isRTL ? 'ml-2' : 'mr-2'} group-hover:rotate-12 transition-transform duration-300`} />
                 <span className="text-sm font-bold tracking-wide">
                   {t('nav.get-quote')}
                 </span>
-                <div className={`w-1.5 h-1.5 rounded-full bg-white/80 ${isRTL ? 'mr-1.5' : 'ml-1.5'} group-hover:animate-pulse`}></div>
               </span>
 
               {/* Ripple Effect */}

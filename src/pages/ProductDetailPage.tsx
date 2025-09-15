@@ -364,11 +364,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       <section className="py-24 px-6 bg-gradient-to-br from-gray-50 via-white to-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-inovara-primary/10 to-inovara-secondary/10 px-6 py-3 rounded-full mb-6">
-              <div className="w-2 h-2 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full"></div>
-              <span className="text-sm font-bold text-inovara-primary uppercase tracking-wider">Why Choose Us</span>
-              <div className="w-2 h-2 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full"></div>
-            </div>
             <h2 className="text-4xl md:text-5xl font-black text-inovara-primary mb-6 leading-tight">{t('productDetail.whyChoose')}</h2>
             <p className="text-xl text-inovara-primary/70 max-w-3xl mx-auto leading-relaxed">{t('productDetail.whyChooseDesc')}</p>
           </div>
@@ -433,12 +428,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-3 bg-white/20 px-6 py-3 rounded-full mb-8">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-              <span className="text-sm font-bold text-white uppercase tracking-wider">Ready to Start?</span>
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-            </div>
 
             <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">
               {t('productDetail.cta')}
