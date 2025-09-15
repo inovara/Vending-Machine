@@ -429,42 +429,20 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                       </div>
                     </div>
                   )) : (
-                    // Fallback specifications
-                    <>
-                      <div className={`group p-4 bg-gradient-to-r from-inovara-secondary/5 to-inovara-accent/5 rounded-xl border border-inovara-secondary/10 hover:border-inovara-secondary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    // Fallback specifications from translation data
+                    Object.entries(t('productDetail.specificationData') || {}).map(([key, value]) => (
+                      <div key={key} className={`group p-4 bg-gradient-to-r from-inovara-secondary/5 to-inovara-accent/5 rounded-xl border border-inovara-secondary/10 hover:border-inovara-secondary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
                         <div className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                           <div className="w-8 h-8 bg-gradient-to-br from-inovara-secondary to-inovara-accent rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                             <Zap className="w-4 h-4 text-white" />
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-bold text-inovara-primary text-base mb-1">Dimensions</h4>
-                            <p className="text-inovara-primary/70 font-medium text-sm leading-relaxed">Customizable based on requirements</p>
+                            <h4 className="font-bold text-inovara-primary text-base mb-1">{key.replace(/([A-Z])/g, ' $1')}</h4>
+                            <p className="text-inovara-primary/70 font-medium text-sm leading-relaxed">{String(value)}</p>
                           </div>
                         </div>
                       </div>
-                      <div className={`group p-4 bg-gradient-to-r from-inovara-secondary/5 to-inovara-accent/5 rounded-xl border border-inovara-secondary/10 hover:border-inovara-secondary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
-                        <div className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                          <div className="w-8 h-8 bg-gradient-to-br from-inovara-secondary to-inovara-accent rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                            <Zap className="w-4 h-4 text-white" />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-inovara-primary text-base mb-1">Power Consumption</h4>
-                            <p className="text-inovara-primary/70 font-medium text-sm leading-relaxed">Energy efficient design</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={`group p-4 bg-gradient-to-r from-inovara-secondary/5 to-inovara-accent/5 rounded-xl border border-inovara-secondary/10 hover:border-inovara-secondary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
-                        <div className={`flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                          <div className="w-8 h-8 bg-gradient-to-br from-inovara-secondary to-inovara-accent rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                            <Zap className="w-4 h-4 text-white" />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-inovara-primary text-base mb-1">Operating Temperature</h4>
-                            <p className="text-inovara-primary/70 font-medium text-sm leading-relaxed">-10°C to 50°C</p>
-                          </div>
-                        </div>
-                      </div>
-                    </>
+                    ))
                   )}
                 </div>
               </div>
