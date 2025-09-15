@@ -14,17 +14,7 @@ interface UseHomePageProps {
 
 export const useHomePage = ({ onQuoteClick }: UseHomePageProps) => {
   const { t, isRTL } = useTranslation();
-  const [isLoading, setIsLoading] = useState(true);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['home']));
-
-  // Initialize loading state
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Handle section visibility for performance optimization
   const handleSectionVisibility = useCallback((sectionId: string, isVisible: boolean) => {
@@ -70,7 +60,6 @@ export const useHomePage = ({ onQuoteClick }: UseHomePageProps) => {
 
   return {
     // State
-    isLoading,
     visibleSections,
     isRTL,
     

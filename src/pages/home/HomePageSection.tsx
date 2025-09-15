@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { SectionConfig } from './sections';
-import { SectionSkeleton } from './loading';
 
 interface HomePageSectionProps {
   section: SectionConfig;
@@ -31,7 +30,7 @@ export const HomePageSection: React.FC<HomePageSectionProps> = ({
     >
       <Suspense fallback={
         <div className="px-6 py-12 max-w-7xl mx-auto">
-          <SectionSkeleton height={fallbackHeight} />
+          <div className={`w-full ${fallbackHeight || 'h-64'} animate-pulse bg-inovara-neutral/10 rounded-2xl`} />
         </div>
       }>
         {needsQuoteClick && onQuoteClick ? (

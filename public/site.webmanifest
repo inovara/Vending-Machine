@@ -12,30 +12,35 @@
   "categories": ["business", "productivity", "technology"],
   "icons": [
     {
-      "src": "/favicon-16x16.png",
+      "src": "/inovaralo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/inovaralo.svg",
       "sizes": "16x16",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "/favicon-32x32.png",
+      "src": "/inovaralo.svg",
       "sizes": "32x32",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/inovaralo.svg",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "/inovaralo.svg",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/inovaralo.svg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ],
@@ -55,14 +60,15 @@
   ],
   "shortcuts": [
     {
-      "name": "Enterprise Solutions",
+      "name": "Smart Vending Solutions",
       "short_name": "Solutions",
-      "description": "View our enterprise technology solutions",
-      "url": "/#services",
+      "description": "View our smart vending machine solutions",
+      "url": "/#products",
       "icons": [
         {
-          "src": "/favicon-32x32.png",
-          "sizes": "32x32"
+          "src": "/inovaralo.svg",
+          "sizes": "32x32",
+          "type": "image/svg+xml"
         }
       ]
     },
@@ -73,8 +79,9 @@
       "url": "/#contact",
       "icons": [
         {
-          "src": "/favicon-32x32.png",
-          "sizes": "32x32"
+          "src": "/inovaralo.svg",
+          "sizes": "32x32",
+          "type": "image/svg+xml"
         }
       ]
     }

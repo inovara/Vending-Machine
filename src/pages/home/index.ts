@@ -2,7 +2,6 @@
 export { default as HomePage } from '../HomePage';
 export { HOME_SECTIONS } from './sections';
 export { HomePageSection } from './HomePageSection';
-export { SectionSkeleton, PageSkeleton, HomePageSkeleton } from './loading';
 export { useHomePage } from './useHomePage';
 export { HOME_PAGE_CONFIG, SECTION_ORDER, PERFORMANCE_CONFIG } from './config';
 

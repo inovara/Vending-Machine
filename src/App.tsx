@@ -21,18 +21,14 @@ const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
 const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage'));
 const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
-import './styles/enterprise.css';
-
-// Import loading components
-import { PageSkeleton } from './pages/home/loading';
 
 const App: React.FC = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
-  // Modern loading state management
+  // Optimized loading state management
   useEffect(() => {
-    // Update root element classes for modern loading
+    // Update root element classes for optimized loading
     const root = document.getElementById('root');
     if (root) {
       root.classList.add('app-loaded');
@@ -56,7 +52,11 @@ const App: React.FC = () => {
         <Header onQuoteClick={() => setIsQuoteModalOpen(true)} />
 
           <ScrollToTop />
-          <Suspense fallback={<PageSkeleton />}>
+          <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="w-8 h-8 border-4 border-inovara-primary/20 border-t-inovara-primary rounded-full animate-spin"></div>
+            </div>
+          }>
             <Routes>
               <Route path="/" element={<HomePage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
               <Route path="/products" element={<ProductsPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />

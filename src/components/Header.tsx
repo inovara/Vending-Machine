@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Calculator } from 'lucide-react';
 import logo from '../../inovaralo.svg';
@@ -10,7 +10,7 @@ interface HeaderProps {
   onQuoteClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
+const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { t, isRTL } = useTranslation();
@@ -47,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
     };
   }, []);
 
-  const handleNavClick = (href: string, type: string) => {
+  const handleNavClick = useCallback((href: string, type: string) => {
     setIsMenuOpen(false);
 
     if (type === 'page') {
@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
         }, 100);
       }
     }
-  };
+  }, [navigate, location.pathname]);
 
   return (
     <header
@@ -226,6 +226,8 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
       </div>
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;

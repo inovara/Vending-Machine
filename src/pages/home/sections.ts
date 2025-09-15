@@ -1,16 +1,14 @@
-import { lazy } from 'react';
-
-// Lazy load home page sections for better performance
-export const HeroSection = lazy(() => import('../../components/HeroSection'));
-export const AboutSection = lazy(() => import('../../components/AboutSection'));
-export const ProductsSection = lazy(() => import('../../components/ProductsSection'));
-export const WhyChooseUsSection = lazy(() => import('../../components/WhyChooseUsSection'));
-export const ContactSection = lazy(() => import('../../components/ContactSection'));
+// Import home page sections directly for better performance
+import HeroSection from '../../components/HeroSection';
+import AboutSection from '../../components/AboutSection';
+import ProductsSection from '../../components/ProductsSection';
+import WhyChooseUsSection from '../../components/WhyChooseUsSection';
+import ContactSection from '../../components/ContactSection';
 
 // Section configuration with metadata
 export interface SectionConfig {
   id: string;
-  component: React.LazyExoticComponent<React.ComponentType<{ onQuoteClick?: () => void }>>;
+  component: React.ComponentType<{ onQuoteClick?: () => void }>;
   fallbackHeight: string;
   needsQuoteClick: boolean;
   className?: string;

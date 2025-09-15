@@ -94,26 +94,14 @@ export default {
         'enterprise-9xl': '8rem',
       },
       animation: {
-        'fadeIn': 'fadeIn 1s ease-out forwards',
-        'fadeInUp': 'fadeInUp 1s ease-out forwards',
-        'slideInLeft': 'slideInLeft 1s ease-out forwards',
-        'slideInRight': 'slideInRight 1s ease-out forwards',
-        'scaleIn': 'scaleIn 0.8s ease-out forwards',
+        'fadeIn': 'fadeIn 0.6s ease-out forwards',
+        'fadeInUp': 'fadeInUp 0.8s ease-out forwards',
+        'slideInLeft': 'slideInLeft 0.8s ease-out forwards',
+        'slideInRight': 'slideInRight 0.8s ease-out forwards',
+        'scaleIn': 'scaleIn 0.6s ease-out forwards',
         'glow': 'glow 2s ease-in-out infinite alternate',
         'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'widthExpand': 'widthExpand 1.2s ease-out forwards',
         'shimmer': 'shimmer 2s linear infinite',
-        'gradientShift': 'gradientShift 3s ease-in-out infinite',
-        'revolutionaryShift': 'revolutionaryShift 4s ease-in-out infinite',
-        'innovationPulse': 'innovationPulse 2s ease-in-out infinite',
-        'futureRotate': 'futureRotate 8s linear infinite',
-        'floatAdvanced': 'floatAdvanced 8s ease-in-out infinite',
-        'pulseAdvanced': 'pulseAdvanced 3s ease-in-out infinite',
-        'enterprise-float': 'enterpriseFloat 8s ease-in-out infinite',
-        'enterprise-pulse': 'enterprisePulse 3s ease-in-out infinite',
-        'enterprise-shimmer': 'enterpriseShimmer 3s infinite',
-        'enterprise-glow': 'enterpriseGlow 4s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -133,69 +121,20 @@ export default {
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.9)' },
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 20px rgba(46, 0, 20, 0.5)' },
-          '100%': { boxShadow: '0 0 40px rgba(107, 144, 128, 0.8)' },
+          '0%': { boxShadow: '0 0 20px rgba(46, 0, 20, 0.3)' },
+          '100%': { boxShadow: '0 0 40px rgba(107, 144, 128, 0.5)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        widthExpand: {
-          '0%': { width: '0' },
-          '100%': { width: '6rem' },
+          '50%': { transform: 'translateY(-10px)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
-        },
-        gradientShift: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
-        revolutionaryShift: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
-        innovationPulse: {
-          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.05)', opacity: '0.8' },
-        },
-        futureRotate: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
-        floatAdvanced: {
-          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-          '25%': { transform: 'translateY(-10px) rotate(1deg)' },
-          '50%': { transform: 'translateY(-20px) rotate(0deg)' },
-          '75%': { transform: 'translateY(-10px) rotate(-1deg)' },
-        },
-        pulseAdvanced: {
-          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.02)', opacity: '0.9' },
-        },
-        enterpriseFloat: {
-          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-          '25%': { transform: 'translateY(-15px) rotate(0.5deg)' },
-          '50%': { transform: 'translateY(-25px) rotate(0deg)' },
-          '75%': { transform: 'translateY(-15px) rotate(-0.5deg)' },
-        },
-        enterprisePulse: {
-          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.08)', opacity: '0.9' },
-        },
-        enterpriseShimmer: {
-          '0%': { backgroundPosition: '-300% 0' },
-          '100%': { backgroundPosition: '300% 0' },
-        },
-        enterpriseGlow: {
-          '0%': { boxShadow: '0 0 30px rgba(46, 0, 20, 0.4)' },
-          '50%': { boxShadow: '0 0 60px rgba(107, 144, 128, 0.3)' },
-          '100%': { boxShadow: '0 0 30px rgba(46, 0, 20, 0.4)' },
         },
       },
       backgroundImage: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Twitter, Instagram, Facebook, Linkedin, Github, Mail, Phone } from 'lucide-react';
 import { SocialLink } from '../types';
@@ -11,7 +11,7 @@ interface FooterSectionProps {
   isRTL: boolean;
 }
 
-const FooterSection: React.FC<FooterSectionProps> = ({ title, links, isRTL }) => {
+const FooterSection: React.FC<FooterSectionProps> = memo(({ title, links, isRTL }) => {
   return (
     <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
       <h3 className={`text-white font-semibold mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -40,35 +40,37 @@ const FooterSection: React.FC<FooterSectionProps> = ({ title, links, isRTL }) =>
       </ul>
     </div>
   );
-};
+});
 
-const Footer: React.FC = () => {
+FooterSection.displayName = 'FooterSection';
+
+const Footer: React.FC = memo(() => {
   const { t, isRTL } = useTranslation();
   const currentYear = new Date().getFullYear();
   
-  const socialLinks: SocialLink[] = [
+  const socialLinks: SocialLink[] = useMemo(() => [
     { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara' },
     { name: t('footer.social.twitter'), icon: 'Twitter', url: 'https://twitter.com/inovara' },
     { name: t('footer.social.instagram'), icon: 'Instagram', url: 'https://instagram.com/inovara' },
     { name: t('footer.social.facebook'), icon: 'Facebook', url: 'https://facebook.com/inovara' },
     { name: t('footer.social.github'), icon: 'Github', url: 'https://github.com/inovara' },
-  ];
+  ], [t]);
 
-  const quickLinks = [
+  const quickLinks = useMemo(() => [
     { name: t('footer.links.about'), url: '#about' },
     { name: t('footer.links.services'), url: '#services' },
     { name: t('footer.links.products'), url: '#products' },
     { name: t('footer.links.contact'), url: '#contact' },
-  ];
+  ], [t]);
 
-  const legalLinks = [
+  const legalLinks = useMemo(() => [
     { name: t('footer.legal.privacy'), url: '/privacy' },
     { name: t('footer.legal.terms'), url: '/terms' },
     { name: t('footer.legal.cookies'), url: '/cookies' },
     { name: t('footer.legal.disclaimer'), url: '/disclaimer' },
-  ];
+  ], [t]);
   
-  const renderSocialIcon = (iconName: string) => {
+  const renderSocialIcon = useMemo(() => (iconName: string) => {
     const iconProps = { className: "h-5 w-5" };
     
     switch (iconName) {
@@ -85,7 +87,7 @@ const Footer: React.FC = () => {
       default:
         return null;
     }
-  };
+  }, []);
   
   // Contact info items configuration
   const contactItems = [
@@ -174,6 +176,8 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = 'Footer';
 
 export default Footer;

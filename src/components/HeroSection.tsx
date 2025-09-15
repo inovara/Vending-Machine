@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { navigateToSection } from '../utils/navigation';
 import { useTranslation } from '../contexts/TranslationContext';
 
-const HeroSection: React.FC = () => {
+const HeroSection: React.FC = memo(() => {
   const { t, isRTL } = useTranslation();
 
   return (
@@ -105,6 +105,8 @@ const HeroSection: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+HeroSection.displayName = 'HeroSection';
 
 export default HeroSection;
