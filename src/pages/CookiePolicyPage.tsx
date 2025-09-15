@@ -7,7 +7,7 @@ const CookiePolicyPage: React.FC = () => {
   const { t, isRTL } = useTranslation();
 
   return (
-    <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <section
         className="relative py-24 px-6 overflow-hidden"
         style={{
@@ -16,13 +16,13 @@ const CookiePolicyPage: React.FC = () => {
       >
         {/* Subtle Background Effects */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 ${isRTL ? 'left-1/4 right-auto' : 'right-1/4 left-auto'} w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 ${isRTL ? 'right-1/4 left-auto' : 'left-1/4 right-auto'} w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto">
           {/* Breadcrumb */}
-          <nav className={`flex items-center gap-2 mb-8 text-sm ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+          <nav className="flex items-center gap-2 mb-8 text-sm">
             <Link to="/" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors">
               {t('legal.breadcrumb.home')}
             </Link>
@@ -32,7 +32,7 @@ const CookiePolicyPage: React.FC = () => {
 
           {/* Hero Content */}
           <div className={`mb-16 ${isRTL ? 'text-right' : 'text-center'}`}>
-            <div className={`flex items-center justify-center gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className="flex items-center justify-center gap-4 mb-6">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
                 {t('legal.cookies.title')}
               </h1>
@@ -58,14 +58,14 @@ const CookiePolicyPage: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           {/* Introduction */}
           <div className="mb-16">
-            <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}>
-              <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className={`w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0 ${isRTL ? 'ml-4' : 'mr-4'}`}>
+            <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center flex-shrink-0 ${isRTL ? 'ml-4 mr-0' : 'mr-4 ml-0'}">
                   <Settings className="w-6 h-6 text-white" />
                 </div>
-                <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  <h2 className={`text-2xl font-black text-inovara-primary mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.cookies.introduction.title')}</h2>
-                  <p className={`text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
+                <div className="flex-1 ${isRTL ? 'text-right' : 'text-left'}">
+                  <h2 className="text-2xl font-black text-inovara-primary mb-4 ${isRTL ? 'text-right' : 'text-left'}">{t('legal.cookies.introduction.title')}</h2>
+                  <p className="text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}">
                     {t('legal.cookies.introduction.content')}
                   </p>
                 </div>
@@ -77,13 +77,13 @@ const CookiePolicyPage: React.FC = () => {
           <div className="space-y-16">
             {/* What Are Cookies */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.cookies.what.title')}</h2>
+              <h2 className="text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}">{t('legal.cookies.what.title')}</h2>
               <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg">
-                <div className={`flex items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div className="flex items-start gap-4 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Cookie className="w-5 h-5 text-white" />
                   </div>
-                  <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <div className="flex-1 ${isRTL ? 'text-right' : 'text-left'}">
                     <h3 className="text-xl font-bold text-inovara-primary mb-3">{t('legal.cookies.what.definition.title')}</h3>
                     <p className="text-inovara-primary/70 leading-relaxed">
                       {t('legal.cookies.what.definition.content')}
@@ -105,7 +105,7 @@ const CookiePolicyPage: React.FC = () => {
 
             {/* Types of Cookies */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.cookies.types.title')}</h2>
+              <h2 className="text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}">{t('legal.cookies.types.title')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {[
                   { key: 'essential', icon: Shield, color: 'from-inovara-primary to-inovara-primary/80' },
@@ -116,11 +116,11 @@ const CookiePolicyPage: React.FC = () => {
                   const IconComponent = type.icon;
                   return (
                     <div key={index} className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                      <div className={`flex items-start gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <div className="flex items-start gap-4 mb-4">
                         <div className={`w-12 h-12 bg-gradient-to-br ${type.color} rounded-2xl flex items-center justify-center flex-shrink-0`}>
                           <IconComponent className="w-6 h-6 text-white" />
                         </div>
-                        <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                        <div className="flex-1 ${isRTL ? 'text-right' : 'text-left'}">
                           <h3 className="text-xl font-bold text-inovara-primary mb-2">
                             {t(`legal.cookies.types.${type.key}.title`)}
                           </h3>
@@ -131,7 +131,7 @@ const CookiePolicyPage: React.FC = () => {
                       </div>
                       <div className="space-y-2">
                         {t(`legal.cookies.types.${type.key}.examples`).split(',').map((example: string, exampleIndex: React.Key | null | undefined) => (
-                          <div key={exampleIndex} className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                          <div key={exampleIndex} className="flex items-start gap-2 ${isRTL ? 'text-right' : 'text-left'}">
                             <div className="w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0"></div>
                             <span className="text-sm text-inovara-primary/70">{example.trim()}</span>
                           </div>
@@ -145,20 +145,20 @@ const CookiePolicyPage: React.FC = () => {
 
             {/* How We Use Cookies */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.cookies.usage.title')}</h2>
+              <h2 className="text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}">{t('legal.cookies.usage.title')}</h2>
               <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3">
+                    <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3 ${isRTL ? 'text-right' : 'text-left'}">
                       <Eye className="w-5 h-5 text-inovara-accent" />
                       {t('legal.cookies.usage.analytics.title')}
                     </h3>
-                    <p className="text-inovara-primary/70 leading-relaxed mb-4">
+                    <p className="text-inovara-primary/70 leading-relaxed mb-4 ${isRTL ? 'text-right' : 'text-left'}">
                       {t('legal.cookies.usage.analytics.content')}
                     </p>
                     <div className="space-y-2">
                       {['traffic', 'behavior', 'performance', 'optimization'].map((item, index) => (
-                        <div key={index} className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <div key={index} className="flex items-start gap-2 ${isRTL ? 'text-right' : 'text-left'}">
                           <div className="w-1.5 h-1.5 bg-inovara-accent rounded-full mt-2 flex-shrink-0"></div>
                           <span className="text-sm text-inovara-primary/70">
                             {t(`legal.cookies.usage.analytics.${item}`)}
@@ -177,7 +177,7 @@ const CookiePolicyPage: React.FC = () => {
                     </p>
                     <div className="space-y-2">
                       {['authentication', 'prevention', 'monitoring', 'protection'].map((item, index) => (
-                        <div key={index} className={`flex items-start gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <div key={index} className="flex items-start gap-2 ${isRTL ? 'text-right' : 'text-left'}">
                           <div className="w-1.5 h-1.5 bg-inovara-secondary rounded-full mt-2 flex-shrink-0"></div>
                           <span className="text-sm text-inovara-primary/70">
                             {t(`legal.cookies.usage.security.${item}`)}
@@ -192,20 +192,20 @@ const CookiePolicyPage: React.FC = () => {
 
             {/* Cookie Management */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.cookies.management.title')}</h2>
+              <h2 className="text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}">{t('legal.cookies.management.title')}</h2>
               <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3">
+                    <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3 ${isRTL ? 'text-right' : 'text-left'}">
                       <Settings className="w-5 h-5 text-inovara-accent" />
                       {t('legal.cookies.management.browser.title')}
                     </h3>
-                    <p className="text-inovara-primary/70 leading-relaxed mb-4">
+                    <p className="text-inovara-primary/70 leading-relaxed mb-4 ${isRTL ? 'text-right' : 'text-left'}">
                       {t('legal.cookies.management.browser.content')}
                     </p>
                     <div className="space-y-3">
                       {['chrome', 'firefox', 'safari', 'edge'].map((browser, index) => (
-                        <div key={index} className={`flex items-center gap-3 p-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <div key={index} className="flex items-center gap-3 p-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}">
                           <div className="w-8 h-8 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-lg flex items-center justify-center flex-shrink-0">
                             <span className="text-white font-bold text-xs">{browser.charAt(0).toUpperCase()}</span>
                           </div>
@@ -217,16 +217,16 @@ const CookiePolicyPage: React.FC = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3">
+                    <h3 className="text-xl font-bold text-inovara-primary mb-4 flex items-center gap-3 ${isRTL ? 'text-right' : 'text-left'}">
                       <Cookie className="w-5 h-5 text-inovara-secondary" />
                       {t('legal.cookies.management.consent.title')}
                     </h3>
-                    <p className="text-inovara-primary/70 leading-relaxed mb-4">
+                    <p className="text-inovara-primary/70 leading-relaxed mb-4 ${isRTL ? 'text-right' : 'text-left'}">
                       {t('legal.cookies.management.consent.content')}
                     </p>
                     <div className="space-y-3">
                       {['banner', 'preferences', 'withdrawal', 'updates'].map((item, index) => (
-                        <div key={index} className={`flex items-start gap-3 p-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all duration-300 ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <div key={index} className="flex items-start gap-3 p-3 rounded-xl bg-white/50 hover:bg-white/70 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}">
                           <div className="w-2 h-2 bg-gradient-to-r from-inovara-secondary to-inovara-accent rounded-full mt-2 flex-shrink-0"></div>
                           <span className="font-medium text-inovara-primary text-sm">
                             {t(`legal.cookies.management.consent.${item}`)}
@@ -241,23 +241,23 @@ const CookiePolicyPage: React.FC = () => {
 
             {/* Third-Party Cookies */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.cookies.thirdParty.title')}</h2>
+              <h2 className="text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}">{t('legal.cookies.thirdParty.title')}</h2>
               <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
-                <p className="text-inovara-primary/70 leading-relaxed mb-8">
+                <p className="text-inovara-primary/70 leading-relaxed mb-8 ${isRTL ? 'text-right' : 'text-left'}">
                   {t('legal.cookies.thirdParty.intro')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[
-                    { key: 'analytics', name: 'Google Analytics', purpose: 'Website analytics and performance monitoring' },
-                    { key: 'marketing', name: 'Facebook Pixel', purpose: 'Advertising and conversion tracking' },
-                    { key: 'security', name: 'Cloudflare', purpose: 'Security and performance optimization' }
+                    { key: 'analytics', nameKey: 'legal.cookies.thirdParty.services.analytics.name', purposeKey: 'legal.cookies.thirdParty.services.analytics.purpose' },
+                    { key: 'marketing', nameKey: 'legal.cookies.thirdParty.services.marketing.name', purposeKey: 'legal.cookies.thirdParty.services.marketing.purpose' },
+                    { key: 'security', nameKey: 'legal.cookies.thirdParty.services.security.name', purposeKey: 'legal.cookies.thirdParty.services.security.purpose' }
                   ].map((service, index) => (
-                    <div key={index} className={`p-6 bg-white/60 rounded-2xl hover:bg-white/80 transition-all duration-300 ${isRTL ? 'text-right' : 'text-center'}`}>
+                    <div key={index} className={`p-6 bg-white/60 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center`}>
                       <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <Shield className="w-6 h-6 text-white" />
                       </div>
-                      <h3 className="font-bold text-inovara-primary mb-2">{service.name}</h3>
-                      <p className="text-sm text-inovara-primary/70">{service.purpose}</p>
+                      <h3 className="font-bold text-inovara-primary mb-2">{t(service.nameKey)}</h3>
+                      <p className="text-sm text-inovara-primary/70">{t(service.purposeKey)}</p>
                     </div>
                   ))}
                 </div>
@@ -266,27 +266,27 @@ const CookiePolicyPage: React.FC = () => {
 
             {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-black text-inovara-primary mb-8">{t('legal.cookies.contact.title')}</h2>
+              <h2 className={`text-3xl font-black text-inovara-primary mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>{t('legal.cookies.contact.title')}</h2>
               <div className="bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-3xl p-8 border border-inovara-primary/10">
-                <p className="text-inovara-primary/70 leading-relaxed mb-8">
+                <p className={`text-inovara-primary/70 leading-relaxed mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {t('legal.cookies.contact.intro')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className={`${isRTL ? 'text-right' : 'text-center'}`}>
+                  <div className="text-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Mail className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="font-bold text-inovara-primary mb-2">{t('legal.cookies.contact.email.title')}</h3>
-                    <p className="text-sm text-inovara-primary/70">privacy@inovara.com</p>
+                    <p className="text-sm text-inovara-primary/70">{t('legal.cookies.contact.email.content')}</p>
                   </div>
-                  <div className={`${isRTL ? 'text-right' : 'text-center'}`}>
+                  <div className="text-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Phone className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="font-bold text-inovara-primary mb-2">{t('legal.cookies.contact.phone.title')}</h3>
                     <p className="text-sm text-inovara-primary/70">+20 123 456 7890</p>
                   </div>
-                  <div className={`${isRTL ? 'text-right' : 'text-center'}`}>
+                  <div className="text-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <MapPin className="w-6 h-6 text-white" />
                     </div>
@@ -311,12 +311,12 @@ const CookiePolicyPage: React.FC = () => {
               {t('legal.cookies.cta.description')}
             </p>
 
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
               <Link
-                to="/contact"
+                to="/#contact"
                 className="group px-12 py-5 bg-white text-inovara-primary font-bold text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30"
               >
-                <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                <span className="flex items-center justify-center gap-3">
                   {t('legal.cookies.cta.contact')}
                   <ArrowRight className={`w-6 h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                 </span>
