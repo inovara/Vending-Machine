@@ -98,7 +98,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
           </div>
         </div>
 
-        {/* Unified Loading State */}
+        {/* Enhanced Loading State */}
         {isLoading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16">
             {Array.from({ length: 4 }).map((_, index) => (
@@ -106,12 +106,12 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
                 key={index}
                 className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden animate-pulse shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="h-40 sm:h-48 bg-gradient-to-br from-gray-200 to-gray-300"></div>
-                <div className="p-4 sm:p-6">
+                <div className="aspect-[4/3] bg-gradient-to-br from-gray-200 to-gray-300"></div>
+                <div className="p-5 sm:p-6">
                   <div className="h-5 sm:h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-3"></div>
                   <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-2"></div>
                   <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-4 sm:mb-6 w-3/4"></div>
-                  <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl"></div>
+                  <div className="h-12 sm:h-14 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl"></div>
                 </div>
               </div>
             ))}
@@ -133,40 +133,58 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
           </div>
         )}
 
-        {/* Unified Products Grid */}
+        {/* Enhanced Products Grid */}
         {!isLoading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16">
             {products.map((product, index) => {
               return (
                 <div 
                   key={product.id}
-                  className={`group relative bg-white/95 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}
+                  className={`group relative bg-white/95 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:-translate-y-2 sm:hover:-translate-y-3 transition-all duration-700 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/20 ${isRTL ? 'rtl' : 'ltr'}`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  {/* Unified Image Container */}
-                  <div className="relative h-40 sm:h-48 overflow-hidden">
+                  {/* Enhanced Image Container with Aspect Ratio */}
+                  <div className="relative aspect-[4/3] sm:aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
                     <img 
                       src={product.images?.[0] || product.image_url || 'https://via.placeholder.com/600x400?text=Product+Image'} 
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 sm:group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
                       loading="lazy"
                       onError={(e) => {
                         e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Product+Image';
                       }}
                     />
                     
-                    {/* Unified Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    {/* Enhanced Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    {/* Unified Price Badge */}
-                    <div className={`absolute top-3 sm:top-4 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} bg-gradient-to-r ${getCategoryGradient(product.category?.slug)} text-white px-2 sm:px-3 py-1 rounded-full text-xs font-bold shadow-lg`}>
+                    {/* Enhanced Price Badge */}
+                    <div className={`absolute top-3 sm:top-4 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} bg-gradient-to-r ${getCategoryGradient(product.category?.slug)} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-xl backdrop-blur-sm border border-white/20`}>
                       {formatPrice(product.price, product.currency)}
+                    </div>
+                    
+                    {/* New: Category Badge */}
+                    {product.category?.name && (
+                      <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-white/90 backdrop-blur-sm text-inovara-primary px-2 sm:px-3 py-1 rounded-full text-xs font-semibold shadow-lg border border-inovara-primary/20`}>
+                        {product.category.name}
+                      </div>
+                    )}
+                    
+                    {/* New: Hover Overlay with Quick Actions */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                      <button
+                        onClick={() => handleViewDetails(product)}
+                        className="bg-white/90 backdrop-blur-sm text-inovara-primary px-6 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                      >
+                        {t('showcase.viewDetails')}
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                   
-                  {/* Unified Content */}
-                  <div className="p-4 sm:p-6">
-                    <h3 className={`text-lg sm:text-xl font-black text-inovara-primary mb-2 sm:mb-3 group-hover:text-inovara-accent transition-colors duration-300 line-clamp-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  {/* Enhanced Content */}
+                  <div className="p-5 sm:p-6">
+                    <h3 className={`text-lg sm:text-xl font-black text-inovara-primary mb-2 sm:mb-3 group-hover:text-inovara-accent transition-colors duration-300 line-clamp-2 leading-tight ${isRTL ? 'text-right' : 'text-left'}`}>
                       {product.name}
                     </h3>
                     
@@ -174,14 +192,13 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
                       {product.description}
                     </p>
                     
-                    
-                    {/* Unified Action Button */}
+                    {/* Enhanced Action Button */}
                     <button
                       onClick={() => handleViewDetails(product)}
                       className={`
                         w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary
-                        text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl
-                        transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30
+                        text-white font-bold py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl
+                        transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-inovara-accent/30
                         ${isRTL ? 'rtl' : 'ltr'}
                       `}
                     >
@@ -190,13 +207,16 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
                         <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/btn:-translate-x-1' : ''}`} />
                       </span>
                       
-                      {/* Unified Button Hover Effect */}
-                      <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
+                      {/* Enhanced Button Hover Effect */}
+                      <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
                     </button>
                   </div>
                   
-                  {/* Unified Card Hover Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                  {/* Enhanced Card Hover Glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/10 to-inovara-secondary/10 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                  
+                  {/* New: Card Border Glow Effect */}
+                  <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-inovara-primary/20 via-inovara-accent/20 to-inovara-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10 blur-sm"></div>
                 </div>
               );
             })}
