@@ -1,138 +1,98 @@
 import React, { useRef } from 'react';
-import { Building, Target, Award, Zap, Shield, TrendingUp, CheckCircle, ShoppingCart, Wifi, Monitor, CreditCard } from 'lucide-react';
+import { Sparkles, Shield, Award, TrendingUp } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { t, isRTL } = useTranslation();
 
-
   const companyValues = [
     {
-      icon: Award,
-      title: t('about.reliability.title'),
-      description: t('about.reliability.description'),
-      metrics: ['High Performance', 'Reliable Systems', 'Quality Focused']
-    },
-    {
-      icon: Zap,
-      title: t('about.innovation.title'),
-      description: t('about.innovation.description'),
-      metrics: ['Smart Technology', 'IoT Integration', 'AI Analytics']
+      icon: Sparkles,
+      title: t('about.values.innovation.title'),
+      description: t('about.values.innovation.description'),
+      gradient: 'from-inovara-accent to-inovara-accent/80'
     },
     {
       icon: Shield,
-      title: t('about.quality.title'),
-      description: t('about.quality.description'),
-      metrics: ['Secure Payments', 'Data Protection', 'Modern Standards']
+      title: t('about.values.reliability.title'),
+      description: t('about.values.reliability.description'),
+      gradient: 'from-inovara-secondary to-inovara-secondary/80'
+    },
+    {
+      icon: Award,
+      title: t('about.values.excellence.title'),
+      description: t('about.values.excellence.description'),
+      gradient: 'from-inovara-primary to-inovara-primary/80'
     },
     {
       icon: TrendingUp,
-      title: t('about.support.title'),
-      description: t('about.support.description'),
-      metrics: ['Agile Development', 'Scalable Solutions', 'Future-Ready Technology']
+      title: t('about.values.growth.title'),
+      description: t('about.values.growth.description'),
+      gradient: 'from-inovara-accent to-inovara-secondary'
     }
-  ];
-
-  const technologySolutions = [
-    { name: t('about.smart.title'), role: t('about.smart.description'), icon: ShoppingCart },
-    { name: t('about.payment.title'), role: t('about.payment.description'), icon: CreditCard },
-    { name: t('about.management.title'), role: t('about.management.description'), icon: Monitor },
-    { name: t('about.iot.title'), role: t('about.iot.description'), icon: Wifi }
   ];
 
   return (
     <section
       ref={sectionRef}
-      className={`py-20 px-6 bg-luxury-charcoal/5 ${isRTL ? 'rtl' : 'ltr'}`}
+      id="about"
+      className={`relative py-24 px-6 overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(245,245,245,0.8) 50%, rgba(255,255,255,1) 100%)'
+      }}
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className={`inline-flex items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'} px-4 py-2 bg-inovara-accent/10 border border-inovara-accent/20 rounded-full mb-8`}>
-            <Building className="w-4 h-4 text-inovara-accent" />
-            <span className="text-luxury-charcoal text-sm font-medium">{t('about.badge')}</span>
-          </div>
+      {/* Minimal Background Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
+      </div>
 
-          <h2 className="text-4xl md:text-5xl font-black mb-6">
-            <span className="text-luxury-charcoal">{t('about.title')}</span>
-            <br />
-            <span className="text-inovara-accent">{t('about.title.accent')}</span>
+      <div className="relative z-10 max-w-6xl mx-auto">
+        {/* Enterprise Header */}
+        <div className={`text-center mb-20 ${isRTL ? 'rtl' : 'ltr'}`}>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight mb-8 leading-[0.9]">
+            {t('about.title')}
           </h2>
-
-          <p className="text-xl text-luxury-charcoal/70 max-w-4xl mx-auto font-light leading-relaxed">
-            {t('about.description')}
-          </p>
+          
+          {/* Professional Divider */}
+          <div className="w-24 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
+          
+          <div className="max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed">
+              {t('about.description')}
+            </p>
+          </div>
         </div>
 
-        {/* Company Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+         {/* Enterprise Values Grid */}
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {companyValues.map((value, index) => (
-            <div key={index} className="bg-white border border-luxury-charcoal/10 rounded-2xl p-8 hover:border-inovara-accent/30 transition-all duration-300 transform hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-inovara-accent to-inovara-primary rounded-2xl flex items-center justify-center mb-6">
-                <value.icon className="w-8 h-8 text-white" />
+            <div 
+              key={index} 
+              className={`group relative bg-white/80 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-10 hover:-translate-y-3 transition-all duration-700 shadow-enterprise hover:shadow-enterprise-xl hover:shadow-inovara-primary/5 animate-fadeInUp ${isRTL ? 'rtl' : 'ltr'}`}
+              style={{ animationDelay: `${index * 150}ms` }}
+            >
+              {/* Icon Container */}
+              <div className={`w-20 h-20 bg-gradient-to-br ${value.gradient} rounded-3xl flex items-center justify-center mb-8 shadow-enterprise-lg group-hover:scale-110 transition-transform duration-500 mx-auto`}>
+                <value.icon className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-luxury-charcoal mb-4">{value.title}</h3>
-              <p className="text-luxury-charcoal/70 text-sm mb-4">{value.description}</p>
-              <div className="space-y-2">
-                {value.metrics.map((metric, metricIndex) => (
-                  <div key={metricIndex} className="flex items-center text-sm text-luxury-charcoal/60">
-                    <CheckCircle className="w-4 h-4 text-inovara-accent mr-2 flex-shrink-0" />
-                    <span>{metric}</span>
-                  </div>
-                ))}
-              </div>
+              
+              {/* Content */}
+              <h3 className={`text-2xl font-black text-inovara-primary mb-6 group-hover:text-inovara-accent transition-colors duration-300 text-center`}>
+                {value.title}
+              </h3>
+              <p className={`text-inovara-primary/70 font-light leading-relaxed text-center`}>
+                {value.description}
+              </p>
+              
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
           ))}
         </div>
 
-        {/* Technology Solutions */}
-        <div className="mb-16">
-          <h3 className="text-3xl font-bold text-luxury-charcoal text-center mb-12">Our Technology Solutions</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {technologySolutions.map((solution, index) => (
-              <div key={index} className="bg-white border border-luxury-charcoal/10 rounded-2xl p-6 text-center hover:border-inovara-accent/30 transition-all duration-300 transform hover:scale-105">
-                <div className="w-16 h-16 bg-gradient-to-br from-inovara-accent to-inovara-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <solution.icon className="w-8 h-8 text-white" />
-                </div>
-                <h4 className="text-lg font-semibold text-luxury-charcoal mb-2">{solution.name}</h4>
-                <p className="text-luxury-charcoal/70 text-sm">{solution.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center p-6 bg-white border border-luxury-charcoal/10 rounded-2xl">
-            <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-              <ShoppingCart className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-3xl font-black text-luxury-charcoal mb-2">500+</div>
-            <div className="text-luxury-charcoal/70 text-sm font-medium">Machines Deployed</div>
-          </div>
-          <div className="text-center p-6 bg-white border border-luxury-charcoal/10 rounded-2xl">
-            <div className="w-12 h-12 bg-gradient-to-br from-inovara-secondary to-inovara-accent rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Target className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-3xl font-black text-luxury-charcoal mb-2">99.9%</div>
-            <div className="text-luxury-charcoal/70 text-sm font-medium">Uptime Guarantee</div>
-          </div>
-          <div className="text-center p-6 bg-white border border-luxury-charcoal/10 rounded-2xl">
-            <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Award className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-3xl font-black text-luxury-charcoal mb-2">24/7</div>
-            <div className="text-luxury-charcoal/70 text-sm font-medium">Support</div>
-          </div>
-          <div className="text-center p-6 bg-white border border-luxury-charcoal/10 rounded-2xl">
-            <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-              <TrendingUp className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-3xl font-black text-luxury-charcoal mb-2">Global</div>
-            <div className="text-luxury-charcoal/70 text-sm font-medium">Operations</div>
-          </div>
-        </div>
       </div>
     </section>
   );

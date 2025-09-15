@@ -1,154 +1,153 @@
 import React from 'react';
-import { Shield, Award, TrendingUp, HeadphonesIcon, CheckCircle } from 'lucide-react';
+import { Sparkles, Shield, Award, TrendingUp, ArrowRight } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
+import { navigateToSection } from '../utils/navigation';
 
 const WhyChooseUsSection: React.FC = () => {
-  const { isRTL } = useTranslation();
-  const features = [
+  const { t, isRTL } = useTranslation();
+
+  const advantages = [
     {
-      title: 'Innovative Technology',
+      title: t('why.advantages.innovation.title'),
+      description: t('why.advantages.innovation.description'),
+      icon: Sparkles,
+      gradient: 'from-inovara-accent to-inovara-accent/80',
+      features: [
+        t('why.advantages.innovation.features.ai'),
+        t('why.advantages.innovation.features.iot'),
+        t('why.advantages.innovation.features.automation')
+      ]
+    },
+    {
+      title: t('why.advantages.reliability.title'),
+      description: t('why.advantages.reliability.description'),
       icon: Shield,
-      description: 'Cutting-edge smart vending solutions with modern hardware and software architecture.',
-      stats: '100%',
-      statLabel: 'Modern Technology',
-      gradient: 'from-inovara-primary to-inovara-secondary',
+      gradient: 'from-inovara-secondary to-inovara-secondary/80',
       features: [
-        'Smart hardware design',
-        'IoT integration',
-        'Real-time monitoring',
-        'AI-powered analytics'
+        t('why.advantages.reliability.features.uptime'),
+        t('why.advantages.reliability.features.quality'),
+        t('why.advantages.reliability.features.support')
       ]
     },
     {
-      title: 'Startup Agility',
+      title: t('why.advantages.excellence.title'),
+      description: t('why.advantages.excellence.description'),
       icon: Award,
-      description: 'Fast, flexible, and responsive - we adapt quickly to your business needs.',
-      stats: '24/7',
-      statLabel: 'Rapid Response',
-      gradient: 'from-inovara-secondary to-inovara-accent',
+      gradient: 'from-inovara-primary to-inovara-primary/80',
       features: [
-        'Quick deployment',
-        'Custom solutions',
-        'Direct communication',
-        'Agile development'
+        t('why.advantages.excellence.features.premium'),
+        t('why.advantages.excellence.features.custom'),
+        t('why.advantages.excellence.features.service')
       ]
     },
     {
-      title: 'Scalable Solutions',
+      title: t('why.advantages.growth.title'),
+      description: t('why.advantages.growth.description'),
       icon: TrendingUp,
-      description: 'From single machine to enterprise networks, our solutions grow with your business.',
-      stats: 'Unlimited',
-      statLabel: 'Scalability',
-      gradient: 'from-inovara-accent to-inovara-neutral',
+      gradient: 'from-inovara-accent to-inovara-secondary',
       features: [
-        'Modular architecture',
-        'Cloud-based management',
-        'Multi-location support',
-        'Flexible configurations'
-      ]
-    },
-    {
-      title: 'Dedicated Support',
-      icon: HeadphonesIcon,
-      description: 'Personalized support and comprehensive assistance tailored to your business needs.',
-      stats: '100%',
-      statLabel: 'Dedicated Service',
-      gradient: 'from-inovara-neutral to-inovara-primary',
-      features: [
-        'Direct team access',
-        'Remote diagnostics',
-        'Custom training',
-        'Ongoing partnership'
+        t('why.advantages.growth.features.scalable'),
+        t('why.advantages.growth.features.flexible'),
+        t('why.advantages.growth.features.future')
       ]
     }
   ];
 
-
   return (
-    <section id="why-choose-us" className={`professional-section bg-section-dark ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="professional-container">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-professional-heading mb-6">
-            Why Choose <span className="text-gradient-primary">Inovara</span>
+    <section 
+      id="why-choose-us" 
+      className={`relative py-24 px-6 overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(245,245,245,0.8) 50%, rgba(255,255,255,1) 100%)'
+      }}
+    >
+      {/* Minimal Background Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Enterprise Header */}
+        <div className={`text-center mb-20 ${isRTL ? 'rtl' : 'ltr'}`}>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight mb-8 leading-[0.9]">
+            {t('why.title')}
           </h2>
-          <p className="text-professional-subheading text-white/80 max-w-3xl mx-auto">
-            We deliver exceptional value through reliable technology, proven expertise, and comprehensive support
-          </p>
-        </div>
-
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-          {features.map((feature, index) => {
-            const IconComponent = feature.icon;
-            return (
-              <div
-                key={index}
-                className="card-professional-elevated group text-center"
-              >
-                <div className={`w-20 h-20 bg-gradient-to-br ${feature.gradient} rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <IconComponent className="w-10 h-10 text-white" />
-                </div>
-                
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-inovara-accent transition-colors duration-300">
-                  {feature.title}
-                </h3>
-                
-                <p className="text-white/70 text-sm mb-6 leading-relaxed">
-                  {feature.description}
-                </p>
-                
-                <div className="mb-6">
-                  <div className="text-3xl font-black text-inovara-accent mb-1">
-                    {feature.stats}
-                  </div>
-                  <div className="text-white/60 text-xs font-medium uppercase tracking-wider">
-                    {feature.statLabel}
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  {feature.features.map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex items-center text-sm text-white/60">
-                      <CheckCircle className="w-4 h-4 text-inovara-accent mr-2 flex-shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-
-        {/* Trust Indicators */}
-        <div className="bg-gradient-to-r from-inovara-primary-10 to-inovara-secondary-10 rounded-3xl p-8 md:p-12">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Ready to Transform Your Business
-            </h3>
-            <p className="text-white/70 text-lg">
-              Join the future of smart vending with our innovative solutions designed for modern businesses
+          
+          {/* Professional Divider */}
+          <div className="w-24 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
+          
+          <div className="max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed">
+              {t('why.subtitle')}
             </p>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
-            <div className="text-center">
-              <div className="text-3xl font-black text-inovara-accent mb-2">100%</div>
-              <div className="text-white/70 text-sm">Modern Technology</div>
+        </div>
+
+        {/* Advantages Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+          {advantages.map((advantage, index) => (
+            <div 
+              key={index} 
+              className={`group relative bg-white/80 backdrop-blur-sm border border-inovara-primary/10 rounded-3xl p-10 hover:-translate-y-3 transition-all duration-700 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/5 ${isRTL ? 'rtl' : 'ltr'}`}
+            >
+              {/* Icon Container */}
+              <div className={`w-20 h-20 bg-gradient-to-br ${advantage.gradient} rounded-3xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500 mx-auto`}>
+                <advantage.icon className="w-10 h-10 text-white" />
+              </div>
+              
+              {/* Content */}
+              <h3 className={`text-2xl font-black text-inovara-primary mb-6 group-hover:text-inovara-accent transition-colors duration-300 text-center`}>
+                {advantage.title}
+              </h3>
+              <p className={`text-inovara-primary/70 font-light leading-relaxed text-center`}>
+                {advantage.description}
+              </p>
+              
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-black text-inovara-secondary mb-2">24/7</div>
-              <div className="text-white/70 text-sm">Rapid Response</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-black text-inovara-accent mb-2">100%</div>
-              <div className="text-white/70 text-sm">Dedicated Service</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-black text-inovara-primary mb-2">∞</div>
-              <div className="text-white/70 text-sm">Scalability</div>
-            </div>
+          ))}
+        </div>
+
+        {/* Trust Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl hover:bg-white/80 transition-all duration-300">
+            <div className="text-4xl md:text-5xl font-black text-inovara-primary mb-2">500+</div>
+            <div className="text-inovara-primary/60 text-sm font-medium">{t('why.stats.machines')}</div>
+          </div>
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl hover:bg-white/80 transition-all duration-300">
+            <div className="text-4xl md:text-5xl font-black text-inovara-primary mb-2">99.9%</div>
+            <div className="text-inovara-primary/60 text-sm font-medium">{t('why.stats.uptime')}</div>
+          </div>
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl hover:bg-white/80 transition-all duration-300">
+            <div className="text-4xl md:text-5xl font-black text-inovara-primary mb-2">24/7</div>
+            <div className="text-inovara-primary/60 text-sm font-medium">{t('why.stats.support')}</div>
+          </div>
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl hover:bg-white/80 transition-all duration-300">
+            <div className="text-4xl md:text-5xl font-black text-inovara-primary mb-2">∞</div>
+            <div className="text-inovara-primary/60 text-sm font-medium">{t('why.stats.scalability')}</div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center">
+          <div className="bg-gradient-to-r from-inovara-primary/10 to-inovara-secondary/10 rounded-3xl p-12 border border-inovara-primary/20">
+            <h3 className="text-3xl md:text-4xl font-black text-inovara-primary mb-6">
+              {t('why.cta.title')}
+            </h3>
+            <p className="text-xl text-inovara-primary/70 font-light leading-relaxed mb-8 max-w-3xl mx-auto">
+              {t('why.cta.description')}
+            </p>
+            <button 
+              onClick={() => navigateToSection('#contact')}
+              className="group px-12 py-5 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+            >
+              <span className={`flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} gap-3`}>
+                {t('why.cta.button')}
+                <ArrowRight className={`w-6 h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
+              </span>
+            </button>
           </div>
         </div>
       </div>

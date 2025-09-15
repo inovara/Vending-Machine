@@ -1,125 +1,112 @@
-import React from 'react';
-import { ChevronRight, Play, Clock, CreditCard, TrendingUp, Wifi, MapPin, Star } from 'lucide-react';
+import React, { memo } from 'react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import { navigateToSection } from '../utils/navigation';
 import { useTranslation } from '../contexts/TranslationContext';
 
-const HeroSection: React.FC = () => {
+const HeroSection: React.FC = memo(() => {
   const { t, isRTL } = useTranslation();
 
   return (
-    <section className={`relative min-h-screen flex items-center justify-center bg-hero-bg overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Enhanced Background */}
-        <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-luxury-charcoal via-inovara-primary/90 to-luxury-charcoal"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-inovara-accent/20 via-transparent to-inovara-secondary/20"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-inovara-accent/25 via-transparent to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/50 via-transparent to-transparent"></div>
+    <section
+      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(245,245,245,0.8) 50%, rgba(255,255,255,1) 100%)'
+      }}
+      role="banner"
+      aria-label="Hero section with smart vending machine solutions"
+    >
+      {/* Professional Enterprise Background */}
+      <div className="absolute inset-0" aria-hidden="true">
+        {/* Minimal background effects - consistent with other sections */}
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-inovara-accent/3 to-inovara-secondary/3 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Subtle Pattern Overlay */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}></div>
-      </div>
+      {/* Enterprise Content Container */}
+      <div className={`relative z-10 text-center px-6 py-24 max-w-6xl mx-auto ${isRTL ? 'rtl' : 'ltr'}`}>
 
-      {/* Main Content */}
-      <div className={`relative z-10 text-center px-6 mt-16 max-w-6xl mx-auto ${isRTL ? 'rtl' : 'ltr'}`}>
-
-        {/* Main Headline */}
-        <h1 className="mb-8 leading-tight">
-          <div className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight mb-4">
-            <span className="inline-block bg-gradient-to-r from-white via-inovara-neutral to-white bg-clip-text text-transparent">{t('hero.title').split(' ')[0]}</span>
-            <span className="inline-block mx-3 bg-gradient-to-r from-inovara-accent via-inovara-accent to-inovara-secondary bg-clip-text text-transparent">{t('hero.title').split(' ')[1]}</span>
-            <span className="inline-block bg-gradient-to-r from-white via-inovara-neutral to-white bg-clip-text text-transparent">{t('hero.title').split(' ')[2]}</span>
-          </div>
-          <div className="text-xl md:text-2xl lg:text-3xl font-light text-white/90 tracking-wide">
-            <span className="inline-block">{t('hero.subtitle')}</span>
-          </div>
-      </h1>
-
-        {/* Subtext */}
-        <div className="max-w-4xl mx-auto mb-12">
-          <p className="text-lg md:text-xl lg:text-2xl text-white/80 font-light leading-relaxed mb-6">
-            {t('hero.description')}
-          </p>
+        {/* Enterprise Header - Consistent with other sections */}
+        <div className="mb-16">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-inovara-primary tracking-tight mb-8 leading-[1.1]">
+            {t('hero.title')}
+          </h1>
           
-          {/* Features */}
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-white/70">
-            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
-              <Clock className="w-4 h-4 text-inovara-accent" />
-              <span>{t('hero.feature.24-7')}</span>
-            </span>
-            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
-              <CreditCard className="w-4 h-4 text-inovara-accent" />
-              <span>{t('hero.feature.cashless')}</span>
-            </span>
-            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
-              <TrendingUp className="w-4 h-4 text-inovara-accent" />
-              <span>{t('hero.feature.analytics')}</span>
-            </span>
-            <span className="flex items-center space-x-2 bg-inovara-primary/10 backdrop-blur-sm border border-inovara-accent/20 rounded-full px-4 py-2">
-              <Wifi className="w-4 h-4 text-inovara-accent" />
-              <span>{t('hero.feature.remote')}</span>
-            </span>
+          {/* Professional Divider - Consistent with other sections */}
+          <div className="w-24 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full"></div>
+          
+          <div className="text-xl md:text-2xl font-light text-inovara-primary/70 tracking-wide mb-8">
+            {t('hero.subtitle')}
+          </div>
+
+          {/* Professional Description */}
+          <div className="max-w-4xl mx-auto">
+            <p className="text-lg md:text-xl text-inovara-primary/60 font-light leading-relaxed">
+              {t('hero.description')}
+            </p>
           </div>
         </div>
 
-        {/* CTA Buttons */}
-        <div className={`flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
-          <button 
-            className="group px-12 py-4 bg-gradient-to-r from-inovara-accent via-inovara-accent to-inovara-secondary text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-inovara-accent/30 transition-all duration-300 transform hover:scale-105 relative overflow-hidden"
+        {/* Enterprise Features - Improved responsive grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-16">
+          <div className="flex items-center justify-center space-x-3 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-xl px-4 py-4 hover:bg-white/80 hover:border-inovara-primary/20 transition-all duration-300">
+            <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+            <span className="text-sm font-semibold text-inovara-primary/80">{t('hero.features.24-7')}</span>
+          </div>
+          <div className="flex items-center justify-center space-x-3 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-xl px-4 py-4 hover:bg-white/80 hover:border-inovara-primary/20 transition-all duration-300">
+            <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+            <span className="text-sm font-semibold text-inovara-primary/80">{t('hero.features.cashless')}</span>
+          </div>
+          <div className="flex items-center justify-center space-x-3 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-xl px-4 py-4 hover:bg-white/80 hover:border-inovara-primary/20 transition-all duration-300">
+            <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+            <span className="text-sm font-semibold text-inovara-primary/80">{t('hero.features.analytics')}</span>
+          </div>
+          <div className="flex items-center justify-center space-x-3 bg-white/60 backdrop-blur-sm border border-inovara-primary/10 rounded-xl px-4 py-4 hover:bg-white/80 hover:border-inovara-primary/20 transition-all duration-300">
+            <CheckCircle className="w-5 h-5 text-inovara-accent flex-shrink-0" />
+            <span className="text-sm font-semibold text-inovara-primary/80">{t('hero.features.remote')}</span>
+          </div>
+        </div>
+
+        {/* Professional CTA Section - Improved responsive layout */}
+        <div className={`flex flex-col sm:flex-row gap-6 justify-center items-center max-w-2xl mx-auto ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
+          {/* Primary CTA - Enterprise Quote */}
+          <button
+            className="group relative px-10 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-lg rounded-2xl shadow-enterprise hover:shadow-enterprise-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 overflow-hidden w-full sm:w-auto"
             onClick={() => navigateToSection('#contact')}
-            aria-label="Get free quote for vending machines"
+            aria-label="Get enterprise quote for smart vending machines"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-inovara-accent/20 to-inovara-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <span className={`relative flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              {t('hero.cta.quote')}
-              <ChevronRight className={`${isRTL ? 'mr-2' : 'ml-2'} h-5 w-5 group-hover:translate-x-1 transition-transform duration-300`} />
-            </span>
-          </button>
-          
-          <button 
-            className="group px-8 py-4 border border-inovara-accent/50 text-white font-semibold rounded-xl hover:bg-inovara-accent/20 hover:border-inovara-accent/70 transition-all duration-300 backdrop-blur-sm"
-            onClick={() => navigateToSection('#products')}
-            aria-label="View vending machine products"
-          >
-            <span className={`flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <Play className={`${isRTL ? 'ml-2' : 'mr-2'} h-4 w-4 group-hover:scale-110 transition-transform duration-300`} />
-              {t('hero.cta.products')}
-            </span>
-          </button>
-        </div>
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          <div className="text-center p-4 bg-gradient-to-br from-inovara-accent/10 to-inovara-secondary/10 backdrop-blur-sm border border-inovara-accent/30 rounded-xl shadow-lg shadow-inovara-accent/10">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1">100%</div>
-            <div className="text-inovara-accent text-sm font-medium">{t('hero.stats.machines')}</div>
-          </div>
-          <div className="text-center p-4 bg-gradient-to-br from-inovara-secondary/10 to-inovara-accent/10 backdrop-blur-sm border border-inovara-secondary/30 rounded-xl shadow-lg shadow-inovara-secondary/10">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1">100%</div>
-            <div className="text-inovara-secondary text-sm font-medium">{t('hero.stats.uptime')}</div>
-          </div>
-          <div className="text-center p-4 bg-gradient-to-br from-inovara-accent/10 to-inovara-secondary/10 backdrop-blur-sm border border-inovara-accent/30 rounded-xl shadow-lg shadow-inovara-accent/10">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1">100%</div>
-            <div className="text-inovara-accent text-sm font-medium">{t('hero.stats.support')}</div>
-          </div>
-          <div className="text-center p-4 bg-gradient-to-br from-inovara-secondary/10 to-inovara-accent/10 backdrop-blur-sm border border-inovara-secondary/30 rounded-xl shadow-lg shadow-inovara-secondary/10">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1">∞</div>
-            <div className="text-inovara-secondary text-sm font-medium">{t('hero.stats.global')}</div>
-          </div>
+            <span className={`relative flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} gap-3`}>
+              {t('hero.cta.quote')}
+              <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
+            </span>
+          </button>
+
+          {/* Secondary CTA - Products */}
+          <button
+            className="group px-8 py-4 border-2 border-inovara-primary/20 text-inovara-primary font-bold text-lg rounded-2xl hover:bg-inovara-primary/5 hover:border-inovara-primary/30 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 bg-white/60 w-full sm:w-auto"
+            onClick={() => navigateToSection('#products')}
+            aria-label="View smart vending machine products"
+          >
+            <span className={`flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} gap-3`}>
+              {t('hero.cta.products')}
+              <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
+            </span>
+          </button>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Premium Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
+        <div className="w-8 h-12 border-2 border-inovara-primary/20 rounded-full flex justify-center bg-white/60 backdrop-blur-sm">
+          <div className="w-1.5 h-4 bg-inovara-primary/60 rounded-full mt-2 animate-bounce"></div>
         </div>
       </div>
     </section>
   );
-};
+});
+
+HeroSection.displayName = 'HeroSection';
 
 export default HeroSection;

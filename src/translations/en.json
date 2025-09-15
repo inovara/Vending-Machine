@@ -32,31 +32,56 @@
     }
   },
   "products": {
-    "title": "Vending Machines",
-    "subtitle": "Smart vending machines with cashless payments, real-time analytics, and 24/7 support",
-    "smart": {
-      "title": "Smart Vending Machine",
-      "subtitle": "Complete smart vending machine with all-in-one technology solution",
-      "description": "Complete smart vending machine with all-in-one technology solution.",
-      "price": "Starting at $8,999"
+    "title": "Our Products",
+    "subtitle": "Discover our comprehensive range of smart vending solutions designed to revolutionize your business operations and maximize profitability.",
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Products"
     },
-    "premium": {
-      "title": "Premium Vending Machine",
-      "subtitle": "Advanced features with premium design and enhanced security",
-      "description": "Advanced features with premium design and enhanced security.",
-      "price": "Starting at $12,999"
+    "searchPlaceholder": "Search products...",
+    "loading": "Loading Products",
+    "loadingDescription": "Please wait while we fetch our latest vending machine solutions for you.",
+    "resultsFound": "Products Found",
+    "filteredResults": "Showing filtered results",
+    "allResults": "Showing all available products",
+    "noResults": "No Products Found",
+    "noResultsDesc": "We couldn't find any products matching your search criteria. Try adjusting your filters or search terms.",
+    "clearFilters": "Clear All Filters",
+    "viewDetails": "View Details",
+    "viewAll": "View All Products",
+    "flower": {
+      "title": "Flower Vending Machine",
+      "subtitle": "Fresh flowers available 24/7 with smart temperature control",
+      "description": "Revolutionary flower vending with temperature-controlled storage, automated watering, and freshness monitoring for premium blooms anytime.",
+      "price": "Starting at $9,999",
+      "category": "Flower Vending"
     },
-    "enterprise": {
-      "title": "Enterprise Vending Machine",
-      "subtitle": "Large-scale solution for corporate environments",
-      "description": "Large-scale solution for corporate environments.",
-      "price": "Starting at $15,999"
+    "snack": {
+      "title": "Smart Snack Machine",
+      "subtitle": "Advanced snack vending with real-time inventory tracking",
+      "description": "Intelligent snack vending with cashless payments, real-time analytics, and smart inventory management for maximum profitability.",
+      "price": "Starting at $7,999",
+      "category": "Snack Vending"
     },
-    "custom": {
-      "title": "Custom Vending Machine",
-      "subtitle": "Tailored solutions for specific business needs",
-      "description": "Tailored solutions for specific business needs.",
-      "price": "Contact for pricing"
+    "pizza": {
+      "title": "Pizza Vending Machine",
+      "subtitle": "Fresh pizza in minutes with automated cooking technology",
+      "description": "Innovative pizza vending with automated cooking, fresh ingredients, and customizable options for delicious meals on demand.",
+      "price": "Starting at $18,999",
+      "category": "Food Vending"
+    },
+    "beverage": {
+      "title": "Beverage Vending Machine",
+      "subtitle": "Smart beverage dispensing with temperature control",
+      "description": "Advanced beverage vending with multiple temperature zones, cashless payments, and real-time consumption analytics.",
+      "price": "Starting at $6,999",
+      "category": "Beverage Vending"
+    },
+    "cta": {
+      "title": "Ready to Transform Your Business?",
+      "description": "Explore our complete range of smart vending solutions and discover how we can help you maximize profitability and customer satisfaction.",
+      "getQuote": "Get Free Quote",
+      "viewIndustries": "View Industries"
     }
   },
   "features": {
@@ -115,30 +140,80 @@
   },
   "industries": {
     "title": "Industries We Serve",
-    "subtitle": "Smart vending solutions tailored for every industry",
-    "office": {
-      "title": "Office Buildings",
-      "description": "Enhance employee satisfaction with convenient access to snacks and beverages"
+    "subtitle": "Empowering businesses across diverse sectors with innovative smart vending solutions that drive efficiency, profitability, and exceptional customer experiences.",
+    "breadcrumb": {
+      "home": "Home",
+      "industries": "Industries"
+    },
+    "hero": {
+      "title": "Industries We Serve",
+      "subtitle": "Empowering businesses across diverse sectors with innovative smart vending solutions that drive efficiency, profitability, and exceptional customer experiences."
+    },
+    "corporate": {
+      "title": "Corporate Offices",
+      "description": "Enhance employee satisfaction with convenient vending solutions in modern office environments.",
+      "features": [
+        "Employee Wellness",
+        "24/7 Availability",
+        "Healthy Options",
+        "Cashless Convenience"
+      ]
     },
     "healthcare": {
-      "title": "Healthcare",
-      "description": "24/7 access to healthy snacks for medical staff and visitors"
+      "title": "Healthcare Facilities",
+      "description": "Reliable vending solutions designed for hospitals, clinics, and medical centers.",
+      "features": [
+        "Hygienic Design",
+        "Medical Compliance",
+        "Emergency Access",
+        "Sanitized Operations"
+      ]
+    },
+    "education": {
+      "title": "Educational Institutions",
+      "description": "Smart vending solutions for schools, universities, and educational campuses.",
+      "features": [
+        "Student-Friendly",
+        "Educational Content",
+        "Campus Integration",
+        "Safety Features"
+      ]
+    },
+    "retail": {
+      "title": "Retail & Shopping Centers",
+      "description": "Enhance customer experience with smart vending solutions in retail environments.",
+      "features": [
+        "Customer Convenience",
+        "Brand Integration",
+        "High Traffic Support",
+        "Revenue Generation"
+      ]
     },
     "manufacturing": {
       "title": "Manufacturing",
-      "description": "Keep your workforce energized with fresh snacks and drinks"
+      "description": "Industrial vending solutions for manufacturing facilities and production sites.",
+      "features": [
+        "Industrial Design",
+        "Dust Protection",
+        "Heavy-Duty Construction",
+        "Worker Convenience"
+      ]
     },
-    "education": {
-      "title": "Education",
-      "description": "Modern vending solutions for students and faculty"
+    "transportation": {
+      "title": "Transportation Hubs",
+      "description": "Reliable vending solutions for airports, train stations, and transit centers.",
+      "features": [
+        "High Reliability",
+        "24/7 Operation",
+        "Traveler Convenience",
+        "Durable Design"
+      ]
     },
-    "hospitality": {
-      "title": "Hospitality",
-      "description": "Premium vending experience for hotels and resorts"
-    },
-    "retail": {
-      "title": "Retail",
-      "description": "Complement your retail space with smart vending solutions"
+    "cta": {
+      "title": "Ready to Transform Your Industry?",
+      "description": "Get a customized vending solution designed specifically for your industry needs.",
+      "button": "Get Free Quote",
+      "contact": "Contact Us"
     }
   },
   "whyChooseUs": {
@@ -167,6 +242,72 @@
     "roi": {
       "title": "Proven ROI",
       "description": "Average 180% ROI within 8 months of deployment."
+    }
+  },
+  "why": {
+    "title": "Why Choose",
+    "titleAccent": "Inovara",
+    "subtitle": "We deliver exceptional value through reliable technology, proven expertise, and comprehensive support",
+    "features": {
+      "innovative": {
+        "title": "Innovative Technology",
+        "description": "Cutting-edge smart vending solutions with modern hardware and software architecture.",
+        "stats": "100%",
+        "statLabel": "Modern Technology",
+        "list": [
+          "Smart hardware design",
+          "IoT integration",
+          "Real-time monitoring",
+          "AI-powered analytics"
+        ]
+      },
+      "agility": {
+        "title": "Startup Agility",
+        "description": "Fast, flexible, and responsive – we adapt quickly to your business needs.",
+        "stats": "24/7",
+        "statLabel": "Rapid Response",
+        "list": [
+          "Quick deployment",
+          "Custom solutions",
+          "Direct communication",
+          "Agile development"
+        ]
+      },
+      "scalable": {
+        "title": "Scalable Solutions",
+        "description": "From single machine to enterprise networks, our solutions grow with your business.",
+        "stats": "Unlimited",
+        "statsSymbol": "∞",
+        "statLabel": "Scalability",
+        "list": [
+          "Modular architecture",
+          "Cloud-based management",
+          "Multi-location support",
+          "Flexible configurations"
+        ]
+      },
+      "support": {
+        "title": "Dedicated Support",
+        "description": "Personalized support and comprehensive assistance tailored to your business needs.",
+        "stats": "100%",
+        "statLabel": "Dedicated Service",
+        "list": [
+          "Direct team access",
+          "Remote diagnostics",
+          "Custom training",
+          "Ongoing partnership"
+        ]
+      }
+    },
+    "ctaBlock": {
+      "title": "Ready to Transform Your Business",
+      "description": "Join the future of smart vending with our innovative solutions designed for modern businesses",
+      "stats": {
+        "modernTech": "Modern Technology",
+        "rapidResponse": "Rapid Response",
+        "dedicatedService": "Dedicated Service",
+        "scalability": "Scalability"
+      }
     }
   },
   "roi": {
@@ -305,47 +446,6 @@
     "submit": "Get Free Quote",
     "close": "Close"
   },
-  "industries": {
-    "title": "Industries We",
-    "titleAccent": "Serve",
-    "subtitle": "Tailored Solutions for Every Sector",
-    "description": "Our smart vending solutions are designed to meet the unique needs of different industries, providing convenience and efficiency across various sectors.",
-    "corporate": {
-      "title": "Corporate Offices",
-      "description": "Enhance employee satisfaction with convenient vending solutions in modern office environments.",
-      "features": ["Employee Wellness", "24/7 Availability", "Healthy Options", "Cashless Convenience"]
-    },
-    "healthcare": {
-      "title": "Healthcare Facilities",
-      "description": "Reliable vending solutions designed for hospitals, clinics, and medical centers.",
-      "features": ["Hygienic Design", "Medical Compliance", "Emergency Access", "Sanitized Operations"]
-    },
-    "education": {
-      "title": "Educational Institutions",
-      "description": "Smart vending solutions for schools, universities, and educational campuses.",
-      "features": ["Student-Friendly", "Educational Content", "Campus Integration", "Safety Features"]
-    },
-    "retail": {
-      "title": "Retail & Shopping",
-      "description": "Enhance customer experience with smart vending solutions in retail environments.",
-      "features": ["Customer Convenience", "Brand Integration", "High Traffic Support", "Revenue Generation"]
-    },
-    "manufacturing": {
-      "title": "Manufacturing",
-      "description": "Industrial-grade vending solutions for manufacturing facilities and production sites.",
-      "features": ["Industrial Design", "Dust Protection", "Heavy-Duty Construction", "Worker Convenience"]
-    },
-    "transportation": {
-      "title": "Transportation Hubs",
-      "description": "Reliable vending solutions for airports, train stations, and transit centers.",
-      "features": ["High Reliability", "24/7 Operation", "Traveler Convenience", "Durable Design"]
-    },
-    "cta": {
-      "title": "Ready to Transform Your Industry?",
-      "description": "Get a customized vending solution designed specifically for your industry needs.",
-      "button": "Get Industry Quote"
-    }
-  },
   "enterprise": {
     "title": "ENTERPRISE",
     "titleAccent": "SOLUTIONS",
@@ -392,6 +492,8 @@
       "tagline": "Smart Vending Technology Leader"
     },
     "form": {
+      "title": "Get Your Free Quote",
+      "subtitle": "Fill out the form below and we'll get back to you within 24 hours",
       "name": "Full Name",
       "email": "Email Address",
       "phone": "Phone Number",
@@ -466,11 +568,12 @@
     "legal": "Legal",
     "copyright": "© 2024 Inovara. All rights reserved.",
     "company": {
-      "title": "Inovara Vending Solutions",
+      "name": "Inovara Vending Solutions",
       "description": "Leading provider of smart vending machine solutions in Egypt. Transform your business with our innovative technology.",
       "tagline": "Smart Vending, Smart Business"
     },
     "links": {
+      "title": "Quick Links",
       "about": "About Us",
       "services": "Services",
       "products": "Products",
@@ -503,7 +606,479 @@
       "title": "Legal",
       "privacy": "Privacy Policy",
       "terms": "Terms & Conditions",
-      "return": "Return Policy"
+      "cookies": "Cookie Policy",
+      "disclaimer": "Disclaimer"
+    }
+  },
+  "legal": {
+    "breadcrumb": {
+      "home": "Home"
+    },
+    "lastUpdated": "Last Updated",
+    "privacy": {
+      "title": "Privacy Policy",
+      "subtitle": "We are committed to protecting your privacy and ensuring the security of your personal information.",
+      "lastUpdated": "December 2024",
+      "introduction": {
+        "title": "Introduction",
+        "content": "This Privacy Policy explains how Inovara collects, uses, and protects your personal information when you use our website and services. By using our services, you agree to the collection and use of information in accordance with this policy."
+      },
+      "collection": {
+        "title": "Information We Collect",
+        "personal": {
+          "title": "Personal Information",
+          "name": "Name and contact information",
+          "email": "Email address for communication",
+          "phone": "Phone number for support",
+          "company": "Company information and business details"
+        },
+        "automatic": {
+          "title": "Automatically Collected",
+          "ip": "IP address and location data",
+          "browser": "Browser type and version",
+          "device": "Device information and operating system",
+          "cookies": "Cookies and tracking technologies"
+        }
+      },
+      "usage": {
+        "title": "How We Use Your Information",
+        "service": {
+          "title": "Service Delivery",
+          "description": "To provide and maintain our vending machine services"
+        },
+        "communication": {
+          "title": "Communication",
+          "description": "To respond to inquiries and provide customer support"
+        },
+        "improvement": {
+          "title": "Service Improvement",
+          "description": "To analyze usage patterns and improve our services"
+        },
+        "legal": {
+          "title": "Legal Compliance",
+          "description": "To comply with legal obligations and protect our rights"
+        }
+      },
+      "protection": {
+        "title": "Data Protection",
+        "content": "We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.",
+        "encryption": {
+          "title": "Encryption",
+          "description": "All data is encrypted during transmission and storage"
+        },
+        "access": {
+          "title": "Access Control",
+          "description": "Limited access to authorized personnel only"
+        },
+        "monitoring": {
+          "title": "Monitoring",
+          "description": "Continuous monitoring for security threats"
+        }
+      },
+      "rights": {
+        "title": "Your Rights",
+        "intro": "You have the following rights regarding your personal information:",
+        "access": "Right to access your personal data",
+        "rectification": "Right to correct inaccurate information",
+        "erasure": "Right to request deletion of your data",
+        "portability": "Right to data portability",
+        "restriction": "Right to restrict processing",
+        "objection": "Right to object to processing",
+        "withdraw": "Right to withdraw consent",
+        "complaint": "Right to lodge a complaint"
+      },
+      "contact": {
+        "title": "Contact Us",
+        "intro": "If you have any questions about this Privacy Policy, please contact us:",
+        "email": {
+          "title": "Email"
+        },
+        "phone": {
+          "title": "Phone"
+        },
+        "address": {
+          "title": "Address",
+          "content": "Cairo, Egypt"
+        }
+      },
+      "cta": {
+        "title": "Questions About Your Privacy?",
+        "description": "We're here to help you understand how we protect your personal information and respect your privacy rights.",
+        "contact": "Contact Us",
+        "terms": "View Terms of Service"
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "subtitle": "Please read these terms carefully before using our smart vending machine services.",
+      "lastUpdated": "December 2024",
+      "introduction": {
+        "title": "Agreement to Terms",
+        "content": "These Terms of Service constitute a legally binding agreement between you and Inovara. By accessing or using our services, you agree to be bound by these terms."
+      },
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "agreement": {
+          "title": "Binding Agreement",
+          "content": "By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions."
+        },
+        "changes": {
+          "title": "Changes to Terms",
+          "content": "We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the new terms."
+        }
+      },
+      "services": {
+        "title": "Our Services",
+        "vending": {
+          "title": "Vending Machine Solutions",
+          "description": "Smart vending machines with advanced technology"
+        },
+        "support": {
+          "title": "Customer Support",
+          "description": "24/7 technical support and maintenance services"
+        },
+        "maintenance": {
+          "title": "Maintenance Services",
+          "description": "Regular maintenance and repair services"
+        },
+        "training": {
+          "title": "Training Programs",
+          "description": "Comprehensive training for machine operation"
+        }
+      },
+      "obligations": {
+        "title": "User Obligations",
+        "intro": "As a user of our services, you agree to:",
+        "compliance": "Comply with all applicable laws and regulations",
+        "payment": "Make timely payments as agreed",
+        "maintenance": "Maintain machines according to our guidelines",
+        "installation": "Provide suitable installation locations",
+        "usage": "Use services only for lawful purposes",
+        "reporting": "Report any issues or malfunctions promptly",
+        "cooperation": "Cooperate with our support team",
+        "confidentiality": "Maintain confidentiality of proprietary information"
+      },
+      "payment": {
+        "title": "Payment Terms",
+        "methods": {
+          "title": "Payment Methods",
+          "content": "We accept various payment methods for your convenience:",
+          "bank": "Bank Transfer",
+          "credit": "Credit Cards",
+          "installments": "Installment Plans"
+        },
+        "terms": {
+          "title": "Payment Terms",
+          "timing": "Payment due dates and schedules",
+          "late": "Late payment fees and penalties",
+          "refunds": "Refund policies and procedures",
+          "disputes": "Payment dispute resolution process"
+        }
+      },
+      "liability": {
+        "title": "Liability and Warranty",
+        "warranty": {
+          "title": "Warranty Coverage",
+          "content": "We provide comprehensive warranty coverage for our products and services.",
+          "coverage": "What is covered under warranty",
+          "exclusions": "What is not covered under warranty",
+          "claims": "How to make warranty claims",
+          "duration": "Warranty duration and limitations"
+        },
+        "limitation": {
+          "title": "Liability Limitation",
+          "content": "Our liability is limited as outlined in this section.",
+          "scope": "Scope of liability limitations",
+          "exclusions": "Exclusions from liability limitations",
+          "maximum": "Maximum liability amounts",
+          "jurisdiction": "Applicable jurisdiction and laws"
+        }
+      },
+      "termination": {
+        "title": "Termination",
+        "client": {
+          "title": "Client Termination",
+          "content": "You may terminate our services with proper notice.",
+          "notice": "Required notice periods",
+          "penalties": "Early termination penalties",
+          "equipment": "Equipment return procedures",
+          "final": "Final payment and settlement"
+        },
+        "company": {
+          "title": "Company Termination",
+          "content": "We may terminate services under certain circumstances.",
+          "breach": "Termination for breach of contract",
+          "payment": "Termination for non-payment",
+          "misuse": "Termination for misuse of services",
+          "immediate": "Immediate termination conditions"
+        }
+      },
+      "governing": {
+        "title": "Governing Law",
+        "law": {
+          "title": "Applicable Law",
+          "content": "These terms are governed by Egyptian law"
+        },
+        "jurisdiction": {
+          "title": "Jurisdiction",
+          "content": "Disputes will be resolved in Egyptian courts"
+        },
+        "disputes": {
+          "title": "Dispute Resolution",
+          "content": "We encourage amicable resolution of disputes"
+        }
+      },
+      "contact": {
+        "title": "Contact Information",
+        "intro": "For questions about these terms, please contact us:",
+        "email": {
+          "title": "Email"
+        },
+        "phone": {
+          "title": "Phone"
+        },
+        "address": {
+          "title": "Address",
+          "content": "Cairo, Egypt"
+        }
+      },
+      "cta": {
+        "title": "Need Legal Assistance?",
+        "description": "Our legal team is available to answer your questions about our terms and conditions.",
+        "contact": "Contact Legal Team",
+        "privacy": "View Privacy Policy"
+      }
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "subtitle": "Learn how we use cookies and similar technologies to enhance your experience.",
+      "lastUpdated": "December 2024",
+      "introduction": {
+        "title": "What Are Cookies",
+        "content": "This Cookie Policy explains how Inovara uses cookies and similar technologies on our website to provide you with the best possible experience."
+      },
+      "what": {
+        "title": "Understanding Cookies",
+        "definition": {
+          "title": "Cookie Definition",
+          "content": "Cookies are small text files stored on your device that help us provide and improve our services."
+        },
+        "types": {
+          "firstParty": {
+            "title": "First-Party Cookies",
+            "description": "Set directly by our website for functionality and analytics"
+          },
+          "thirdParty": {
+            "title": "Third-Party Cookies",
+            "description": "Set by external services we use for analytics and marketing"
+          }
+        }
+      },
+      "types": {
+        "title": "Types of Cookies We Use",
+        "essential": {
+          "title": "Essential Cookies",
+          "description": "Necessary for website functionality and security",
+          "examples": "Session management, Security features, Basic functionality"
+        },
+        "performance": {
+          "title": "Performance Cookies",
+          "description": "Help us understand how visitors use our website",
+          "examples": "Page views, User behavior, Site performance"
+        },
+        "functional": {
+          "title": "Functional Cookies",
+          "description": "Remember your preferences and settings",
+          "examples": "Language settings, User preferences, Customization"
+        },
+        "marketing": {
+          "title": "Marketing Cookies",
+          "description": "Used to deliver relevant advertisements",
+          "examples": "Ad targeting, Campaign tracking, Remarketing"
+        }
+      },
+      "usage": {
+        "title": "How We Use Cookies",
+        "analytics": {
+          "title": "Analytics and Performance",
+          "content": "We use cookies to analyze website traffic and improve performance:",
+          "traffic": "Website traffic analysis",
+          "behavior": "User behavior tracking",
+          "performance": "Site performance monitoring",
+          "optimization": "Content and feature optimization"
+        },
+        "security": {
+          "title": "Security and Authentication",
+          "content": "Cookies help us maintain security and user authentication:",
+          "authentication": "User authentication and login",
+          "prevention": "Fraud prevention and security",
+          "monitoring": "Security monitoring and alerts",
+          "protection": "Data protection and encryption"
+        }
+      },
+      "management": {
+        "title": "Cookie Management",
+        "browser": {
+          "title": "Browser Settings",
+          "content": "You can control cookies through your browser settings:",
+          "chrome": "Google Chrome cookie settings",
+          "firefox": "Mozilla Firefox cookie settings",
+          "safari": "Safari cookie settings",
+          "edge": "Microsoft Edge cookie settings"
+        },
+        "consent": {
+          "title": "Consent Management",
+          "content": "We provide tools to manage your cookie preferences:",
+          "banner": "Cookie consent banner",
+          "preferences": "Cookie preference center",
+          "withdrawal": "Consent withdrawal options",
+          "updates": "Policy updates and notifications"
+        }
+      },
+      "thirdParty": {
+        "title": "Third-Party Cookies",
+        "intro": "We use third-party services that may set cookies:"
+      },
+      "contact": {
+        "title": "Contact Us",
+        "intro": "Questions about our cookie policy? Contact us:",
+        "email": {
+          "title": "Email"
+        },
+        "phone": {
+          "title": "Phone"
+        },
+        "address": {
+          "title": "Address",
+          "content": "Cairo, Egypt"
+        }
+      },
+      "cta": {
+        "title": "Manage Your Cookie Preferences",
+        "description": "Take control of your privacy by managing your cookie preferences and learning more about our data practices.",
+        "contact": "Contact Privacy Team",
+        "privacy": "View Privacy Policy"
+      }
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "subtitle": "Important information about the use of our website and services.",
+      "lastUpdated": "December 2024",
+      "introduction": {
+        "title": "General Disclaimer",
+        "content": "The information on this website is provided on an 'as is' basis. While we strive for accuracy, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information."
+      },
+      "general": {
+        "title": "General Information",
+        "nature": {
+          "title": "Nature of Information",
+          "content": "All information on this website is for general informational purposes only and should not be considered as professional advice."
+        },
+        "accuracy": {
+          "title": "Information Accuracy",
+          "content": "We strive to keep information accurate but cannot guarantee complete accuracy at all times."
+        },
+        "completeness": {
+          "title": "Information Completeness",
+          "content": "Information may not be complete and should not be relied upon as the sole source of information."
+        }
+      },
+      "products": {
+        "title": "Product Information",
+        "specifications": {
+          "title": "Product Specifications",
+          "content": "Product specifications and features are subject to change without notice.",
+          "technical": "Technical specifications may vary",
+          "performance": "Performance claims are estimates",
+          "compatibility": "Compatibility requirements may change",
+          "availability": "Product availability is not guaranteed"
+        },
+        "performance": {
+          "title": "Performance Claims",
+          "content": "Any performance claims or results are based on typical usage scenarios and may vary.",
+          "results": "Results may vary based on conditions",
+          "conditions": "Performance depends on operating conditions",
+          "maintenance": "Regular maintenance is required",
+          "variables": "Many variables affect performance"
+        }
+      },
+      "liability": {
+        "title": "Liability Limitations",
+        "damages": {
+          "title": "Direct Damages",
+          "description": "Our liability for direct damages is limited as specified in our terms"
+        },
+        "indirect": {
+          "title": "Indirect Damages",
+          "description": "We are not liable for indirect, incidental, or consequential damages"
+        },
+        "consequential": {
+          "title": "Consequential Loss",
+          "description": "Loss of profits or business interruption is not covered"
+        },
+        "limitation": {
+          "title": "Liability Cap",
+          "description": "Total liability is capped at the amount paid for services"
+        }
+      },
+      "thirdParty": {
+        "title": "Third-Party Content",
+        "intro": "Our website may contain links to third-party websites or services:"
+      },
+      "advice": {
+        "title": "Professional Advice",
+        "nature": {
+          "title": "Nature of Content",
+          "content": "The information provided is not intended as professional, legal, or financial advice."
+        },
+        "investment": {
+          "title": "Investment Advice",
+          "content": "Nothing on this website constitutes investment advice"
+        },
+        "business": {
+          "title": "Business Advice",
+          "content": "Business decisions should be made with professional consultation"
+        }
+      },
+      "updates": {
+        "title": "Updates and Changes",
+        "changes": {
+          "title": "Policy Changes",
+          "content": "We may update this disclaimer at any time without notice.",
+          "notification": "Users are responsible for checking for updates",
+          "effectiveness": "Changes become effective immediately upon posting",
+          "responsibility": "Continued use constitutes acceptance of changes",
+          "review": "Regular review of this disclaimer is recommended"
+        },
+        "responsibility": {
+          "title": "User Responsibility",
+          "content": "Users are responsible for staying informed about our policies.",
+          "monitoring": "Monitor for policy updates regularly",
+          "awareness": "Stay aware of current terms and conditions",
+          "consultation": "Consult professionals when needed",
+          "compliance": "Ensure compliance with applicable laws"
+        }
+      },
+      "contact": {
+        "title": "Contact Information",
+        "intro": "For questions about this disclaimer, please contact us:",
+        "email": {
+          "title": "Email"
+        },
+        "phone": {
+          "title": "Phone"
+        },
+        "address": {
+          "title": "Address",
+          "content": "Cairo, Egypt"
+        }
+      },
+      "cta": {
+        "title": "Need Clarification?",
+        "description": "If you have questions about our disclaimer or need clarification on any terms, our legal team is here to help.",
+        "contact": "Contact Legal Team",
+        "terms": "View Terms of Service"
+      }
     }
   },
   "b2b": {
@@ -561,5 +1136,226 @@
     "less": "Less",
     "readMore": "Read More",
     "showLess": "Show Less"
+  },
+  "chatbot": {
+    "title": "Inovara Assistant",
+    "open": "Chat with us",
+    "close": "Close chat",
+    "welcome": "Hi! I’m the Inovara Assistant. How can I help you today? You can ask about products, pricing, or support.",
+    "placeholder": "Type your message…",
+    "send": "Send",
+    "fallback": "Thanks! I’ve noted your message. For quotes, click Get Free Quote. For detailed assistance, leave your contact in the form.",
+    "reply": {
+      "quote": "I can help you start a quote. Click ‘Get Free Quote’ or share a few details here.",
+      "products": "We offer smart, premium, enterprise, and custom machines. Which are you interested in?",
+      "support": "Our team is here 24/7. You can describe your issue or use the contact form.",
+      "contact": "You can reach us via the contact section. Would you like me to guide you there?"
+    }
+  },
+  "slideInCta": {
+    "title": "Ready for Smart Vending?",
+    "subtitle": "Get Your Free Quote Today",
+    "description": "Transform your business with our premium smart vending solutions. Get a personalized quote in minutes with no obligation.",
+    "benefits": {
+      "fast": "24h Response",
+      "fastDesc": "Quick turnaround",
+      "secure": "Secure Process",
+      "secureDesc": "Your data is safe",
+      "premium": "Premium Service",
+      "premiumDesc": "Expert consultation"
+    },
+    "cta": "Get Free Quote"
+  },
+  "why": {
+    "title": "Why Choose Us",
+    "subtitle": "We deliver exceptional value through innovation, reliability, and unmatched service excellence. Our smart vending solutions are designed to transform your business operations and maximize your profitability.",
+    "advantages": {
+      "innovation": {
+        "title": "Cutting-Edge Innovation",
+        "description": "Leading the industry with advanced AI, IoT integration, and smart automation technologies that set new standards for vending excellence.",
+        "features": {
+          "ai": "AI-Powered Analytics",
+          "iot": "IoT Integration",
+          "automation": "Smart Automation"
+        }
+      },
+      "reliability": {
+        "title": "Unmatched Reliability",
+        "description": "Built for continuous operation with enterprise-grade components, comprehensive support, and proven track record of exceptional uptime.",
+        "features": {
+          "uptime": "99.9% Uptime Guarantee",
+          "quality": "Premium Components",
+          "support": "24/7 Expert Support"
+        }
+      },
+      "excellence": {
+        "title": "Service Excellence",
+        "description": "Dedicated to delivering premium quality solutions with personalized service, custom configurations, and ongoing partnership for your success.",
+        "features": {
+          "premium": "Premium Quality",
+          "custom": "Custom Solutions",
+          "service": "Personalized Service"
+        }
+      },
+      "growth": {
+        "title": "Scalable Growth",
+        "description": "Future-ready solutions that grow with your business, offering flexibility, scalability, and adaptability for long-term success.",
+        "features": {
+          "scalable": "Scalable Architecture",
+          "flexible": "Flexible Deployment",
+          "future": "Future-Ready Technology"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Business?",
+      "description": "Join hundreds of satisfied customers who trust Inovara for their smart vending solutions. Experience the difference that innovation, reliability, and excellence make.",
+      "button": "Start Your Journey"
+    },
+    "stats": {
+      "machines": "Machines Deployed",
+      "uptime": "Uptime Guarantee",
+      "support": "Expert Support",
+      "scalability": "Future Ready"
+    }
+  },
+  "showcase": {
+    "title": "Our Smart Vending Machines",
+    "subtitle": "Revolutionary smart vending solutions that transform your business operations with cutting-edge technology, seamless automation, and unmatched profitability.",
+    "viewDetails": "View Details",
+    "flower": {
+      "title": "Flower Vending Machine",
+      "description": "Fresh flowers available 24/7 with smart temperature control and automated watering systems.",
+      "category": "Flower Vending"
+    },
+    "snack": {
+      "title": "Smart Snack Machine",
+      "description": "Advanced snack vending with real-time inventory tracking and cashless payment options.",
+      "category": "Snack Vending"
+    },
+    "pizza": {
+      "title": "Pizza Vending Machine",
+      "description": "Fresh pizza in minutes with automated cooking technology and customizable options.",
+      "category": "Food Vending"
+    },
+    "beverage": {
+      "title": "Beverage Vending Machine",
+      "description": "Smart beverage dispensing with multiple temperature zones and real-time analytics.",
+      "category": "Beverage Vending"
+    },
+    "cta": {
+      "title": "Ready to Transform Your Business?",
+      "description": "Explore our complete range of smart vending solutions and discover how we can help you maximize profitability and customer satisfaction.",
+      "viewAll": "See All Machines",
+      "getQuote": "Get Free Quote"
+    }
+  },
+  "fab": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "whatsapp": "WhatsApp",
+    "whatsappSubtitle": "Quick Support",
+    "chatbot": "AI Assistant",
+    "chatbotSubtitle": "Smart Help",
+    "quote": "Get Quote",
+    "quoteSubtitle": "Free Estimate"
+  },
+  "chatbot": {
+    "title": "AI Assistant",
+    "subtitle": "How can I help you today?",
+    "welcome": "Hello! I'm your AI assistant. I can help you with information about our smart vending machines, pricing, and services. What would you like to know?",
+    "inputPlaceholder": "Type your message...",
+    "typing": "AI is typing...",
+    "quickQuestions": {
+      "title": "Quick Questions:",
+      "pricing": "What are your prices?",
+      "products": "Tell me about your products",
+      "contact": "How can I contact you?",
+      "quote": "I need a quote"
+    },
+    "responses": {
+      "greeting": "Hello! I'm here to help you with information about our smart vending machine solutions. What would you like to know?",
+      "pricing": "Our pricing varies based on the type and quantity of vending machines you need. For detailed pricing information, I recommend requesting a personalized quote through our quote form. Would you like me to help you with that?",
+      "products": "We offer a comprehensive range of smart vending machines including snack machines, beverage dispensers, food vending machines, and custom solutions. Each machine features cashless payments, real-time analytics, and remote management capabilities.",
+      "contact": "You can reach us through multiple channels: WhatsApp for quick support, email for detailed inquiries, or by filling out our contact form. Our team is available to assist you with any questions about our smart vending solutions.",
+      "quote": "I'd be happy to help you get a quote! You can request a personalized quote by clicking the 'Get Quote' button in our floating menu, or I can guide you through our contact form. What type of vending machines are you interested in?",
+      "default": "I understand you're interested in our smart vending machine solutions. For more specific information, I recommend speaking with our sales team. You can contact us via WhatsApp or request a quote for personalized assistance."
+    }
+  },
+  "productDetail": {
+    "loading": "Loading product details...",
+    "notFound": "Product Not Found",
+    "notFoundDesc": "The product you're looking for doesn't exist or has been removed.",
+    "tryAgain": "Try Again",
+    "viewAllProducts": "View All Products",
+    "keyFeatures": "Key Features",
+    "featuresAndSpecs": "Features & Specifications",
+    "featuresAndSpecsDesc": "Comprehensive features and technical specifications for this vending machine",
+    "specifications": "Specifications",
+    "businessBenefits": "Business Benefits",
+    "businessBenefitsDesc": "Key advantages and business value this vending machine brings to your operations",
+    "businessBenefitsItems": {
+      "operations": {
+        "title": "24/7 Operations",
+        "description": "Continuous revenue generation without human intervention"
+      },
+      "payments": {
+        "title": "Secure Payments",
+        "description": "Multiple payment options with advanced security"
+      },
+      "satisfaction": {
+        "title": "Customer Satisfaction",
+        "description": "Enhanced customer experience with smart technology"
+      },
+      "analytics": {
+        "title": "Real-time Analytics",
+        "description": "Data-driven insights for better business decisions"
+      }
+    },
+    "whyChoose": "Why Choose Our Vending Machines?",
+    "whyChooseDesc": "Trusted by businesses worldwide",
+    "warranty": "2-Year Warranty",
+    "warrantyDesc": "Comprehensive warranty coverage with 24/7 technical support and maintenance services.",
+    "freeInstallation": "Free Installation",
+    "freeInstallationDesc": "Professional installation and setup included with every purchase, anywhere in Egypt.",
+    "expertSupport": "Expert Support",
+    "expertSupportDesc": "Dedicated customer success team and training programs for optimal machine performance.",
+    "cta": "Ready to Transform Your Business?",
+    "ctaDesc": "Join hundreds of satisfied customers who have revolutionized their operations with our smart vending solutions.",
+    "getFreeQuote": "Get Free Quote",
+    "watchDemo": "Watch Demo Video",
+    "startingPrice": "Starting price - Contact for custom quotes",
+    "fallbackFeatures": {
+      "quality": "High Quality Materials",
+      "reliability": "Reliable Performance",
+      "innovation": "Innovative Technology",
+      "maintenance": "Easy Maintenance"
+    }
+  },
+  "common": {
+    "back": "Back to Products",
+    "more": "More Details"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "We are a leading provider of smart vending machine solutions, dedicated to transforming the way businesses deliver convenience and value. With innovation, reliability, and cutting-edge technology at our core, we help our clients increase efficiency, maximize profitability, and offer customers seamless purchasing experiences anytime, anywhere.",
+    "values": {
+      "innovation": {
+        "title": "Innovation",
+        "description": "Cutting-edge technology and smart automation"
+      },
+      "reliability": {
+        "title": "Reliability",
+        "description": "Consistent performance and dependable systems"
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "Premium quality and superior service"
+      },
+      "growth": {
+        "title": "Growth",
+        "description": "Scalable solutions for business expansion"
+      }
+    }
   }
 }
