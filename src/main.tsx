@@ -1,10 +1,11 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
 
 // Performance monitoring (only in development)
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   // Basic performance logging
   console.log('Development mode: Performance monitoring enabled');
 }
@@ -16,12 +17,12 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: any) {
+  static getDerivedStateFromError(_error: any) {
     return { hasError: true };
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
-    console.error('Error caught by boundary:', error, errorInfo);
+  componentDidCatch(_error: any, errorInfo: any) {
+    console.error('Error caught by boundary:', _error, errorInfo);
   }
 
   render() {
@@ -57,13 +58,15 @@ const root = createRoot(rootElement);
 root.render(
   <StrictMode>
     <ErrorBoundary>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>
 );
 
 // Service Worker registration for PWA capabilities (only in production)
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then((registration) => {
@@ -75,14 +78,22 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   });
 }
 
-// Preload critical resources
+// Preload critical resources for better performance
 const preloadCriticalResources = () => {
-  // Preload critical fonts
+  // Preload critical fonts with better performance
   const fontLink = document.createElement('link');
   fontLink.rel = 'preload';
   fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap';
   fontLink.as = 'style';
+  fontLink.crossOrigin = 'anonymous';
   document.head.appendChild(fontLink);
+  
+  // Preload critical images
+  const logoLink = document.createElement('link');
+  logoLink.rel = 'preload';
+  logoLink.href = '/inovaralo.svg';
+  logoLink.as = 'image';
+  document.head.appendChild(logoLink);
 };
 
 // Run preloading

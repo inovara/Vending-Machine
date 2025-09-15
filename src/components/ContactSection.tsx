@@ -1,343 +1,284 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Mail, Phone, MapPin, Send, Building, Clock, ArrowRight, ShoppingCart, Users, Calculator, Download } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Mail, Phone, MapPin, Send, ArrowRight, Download, CheckCircle, AlertCircle } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  industry: string;
-  machinesNeeded: string;
-  contactMethod: string;
-  message: string;
-}
+import { contactUs } from '../network/contact';
+import { ContactFormData, ContactResponse } from '../types/api';
 
 const ContactSection: React.FC = () => {
   const { t, isRTL } = useTranslation();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     phone: '',
     company: '',
-    industry: '',
-    machinesNeeded: '',
-    contactMethod: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (submitError) setSubmitError(null);
   };
+
+  const { mutate: sendContactMessage, isLoading } = useMutation<ContactResponse, Error, ContactFormData>({
+    mutationFn: contactUs,
+    onSuccess: () => {
+      setIsSubmitted(true);
+      setSubmitError(null);
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: ''
+      });
+    },
+    onError: (error) => {
+      setSubmitError(error.message || t('contact.error.generic'));
+      setIsSubmitted(false);
+    }
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    
+    // Basic validation
+    if (!formData.name.trim() || !formData.email.trim()) {
+      setSubmitError(t('contact.error.requiredFields'));
+      return;
+    }
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 2000);
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitError(t('contact.error.invalidEmail'));
+      return;
+    }
+
+    sendContactMessage(formData);
   };
+
 
   return (
     <section
       ref={sectionRef}
-      className={`py-20 px-6 bg-luxury-charcoal ${isRTL ? 'rtl' : 'ltr'}`}
+      id="contact"
+      className={`relative py-24 px-6 overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
+      style={{
+        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)'
+      }}
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black mb-6 text-white">
+      {/* Premium Background Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-inovara-accent/10 to-inovara-secondary/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-inovara-primary/10 to-inovara-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-inovara-secondary/5 to-inovara-accent/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Premium Section Header */}
+        <div className={`text-center mb-20 ${isRTL ? 'rtl' : 'ltr'}`}>
+          <div className="inline-block mb-6">
+            <div className="w-20 h-1 bg-gradient-to-r from-inovara-accent via-inovara-secondary to-inovara-primary mx-auto rounded-full"></div>
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-inovara-primary leading-tight">
             {t('contact.title')}
             <br />
-            <span className="text-inovara-accent">{t('contact.titleAccent')}</span>
+            <span className="bg-gradient-to-r from-inovara-accent via-inovara-secondary to-inovara-primary bg-clip-text text-transparent">
+              {t('contact.titleAccent')}
+            </span>
           </h2>
-          <p className="text-xl text-white/80 max-w-4xl mx-auto font-light leading-relaxed">
+          <p className="text-xl md:text-2xl text-inovara-primary/80 max-w-5xl mx-auto font-light leading-relaxed">
             {t('contact.description')}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-12">
-          {/* Company Details Card */}
-          <div className="lg:col-span-1">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8">
-              <div className="flex items-center space-x-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-full flex items-center justify-center text-white font-bold text-2xl">
-                  🛒
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">{t('contact.company.name')}</h3>
-                  <p className="text-white/70 text-sm">{t('contact.company.tagline')}</p>
-                </div>
-              </div>
-              
-              <div className="space-y-4 mb-6">
-                <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-3' : 'space-x-3'}`}>
-                  <Mail className="w-5 h-5 text-inovara-accent" />
-                  <span className="text-white/80">{t('contact.info.email')}</span>
-                </div>
-                <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-3' : 'space-x-3'}`}>
-                  <Phone className="w-5 h-5 text-inovara-accent" />
-                  <span className="text-white/80">{t('contact.info.phone')}</span>
-                </div>
-                <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-3' : 'space-x-3'}`}>
-                  <MapPin className="w-5 h-5 text-inovara-accent" />
-                  <span className="text-white/80">{t('contact.info.address')}</span>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <h4 className={`text-white font-semibold mb-3 flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                  <ShoppingCart className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                  {t('contact.solutions.title')}
-                </h4>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
-                    <div className="w-2 h-2 bg-inovara-accent rounded-full"></div>
-                    <span className="text-xs text-white/90">{t('contact.solutions.smartVending')}</span>
-                  </div>
-                  <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
-                    <div className="w-2 h-2 bg-inovara-accent rounded-full"></div>
-                    <span className="text-xs text-white/90">{t('contact.solutions.paymentSystems')}</span>
-                  </div>
-                  <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
-                    <div className="w-2 h-2 bg-inovara-accent rounded-full"></div>
-                    <span className="text-xs text-white/90">{t('contact.solutions.managementSoftware')}</span>
-                  </div>
-                  <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
-                    <div className="w-2 h-2 bg-inovara-accent rounded-full"></div>
-                    <span className="text-xs text-white/90">{t('contact.solutions.iotIntegration')}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <div className="text-white/60 text-sm mb-2">{t('contact.response.time')}</div>
-                <div className="text-inovara-accent font-bold text-lg">{t('contact.response.within24Hours')}</div>
-              </div>
+        {/* Premium Contact Card */}
+        <div className="max-w-6xl mx-auto">
+          <div className={`relative bg-white/95 backdrop-blur-sm border border-inovara-primary/20 shadow-2xl shadow-inovara-primary/15 rounded-3xl overflow-hidden ${isRTL ? 'rtl' : 'ltr'} hover:shadow-3xl hover:shadow-inovara-primary/20 transition-all duration-500`}>
+            {/* Premium Card Background Pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/20 via-transparent to-inovara-secondary/20"></div>
             </div>
-          </div>
+            
+            <div className="relative z-10 grid lg:grid-cols-2 gap-0">
+              {/* Premium Contact Info Section */}
+              <div className={`relative bg-gradient-to-br from-inovara-primary/8 via-inovara-secondary/6 to-inovara-accent/8 p-10 lg:p-16 ${isRTL ? 'lg:order-2' : 'lg:order-1'}`}>
+                {/* Decorative Background Elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-inovara-accent/20 to-transparent rounded-bl-full"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-inovara-secondary/20 to-transparent rounded-tr-full"></div>
+                <div className={`relative z-10 mb-12 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <h3 className="text-3xl font-black text-inovara-primary mb-3">{t('contact.company.name')}</h3>
+                  <p className="text-inovara-primary/80 text-base leading-relaxed font-medium">{t('contact.company.tagline')}</p>
+                </div>
+                
+                <div className="relative z-10 space-y-6 mb-12">
+                  <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-4 flex-row-reverse' : 'space-x-4 flex-row'} p-4 rounded-2xl bg-white/90 hover:bg-white transition-all duration-300 shadow-md hover:shadow-lg border border-inovara-primary/10 hover:border-inovara-accent/30`}>
+                    <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-accent/80 rounded-xl flex items-center justify-center shadow-md">
+                      <Mail className="w-6 h-6 text-white" />
+                    </div>
+                    <span className={`text-inovara-primary font-semibold text-base flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.info.email')}</span>
+                  </div>
+                  <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-4 flex-row-reverse' : 'space-x-4 flex-row'} p-4 rounded-2xl bg-white/90 hover:bg-white transition-all duration-300 shadow-md hover:shadow-lg border border-inovara-primary/10 hover:border-inovara-accent/30`}>
+                    <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-accent/80 rounded-xl flex items-center justify-center shadow-md">
+                      <Phone className="w-6 h-6 text-white" />
+                    </div>
+                    <span className={`text-inovara-primary font-semibold text-base flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.info.phone')}</span>
+                  </div>
+                  <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-4 flex-row-reverse' : 'space-x-4 flex-row'} p-4 rounded-2xl bg-white/90 hover:bg-white transition-all duration-300 shadow-md hover:shadow-lg border border-inovara-primary/10 hover:border-inovara-accent/30`}>
+                    <div className="w-12 h-12 bg-gradient-to-br from-inovara-accent to-inovara-accent/80 rounded-xl flex items-center justify-center shadow-md">
+                      <MapPin className="w-6 h-6 text-white" />
+                    </div>
+                    <span className={`text-inovara-primary font-semibold text-base flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.info.address')}</span>
+                  </div>
+                </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8">
-              {!isSubmitted ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+                <div className={`relative z-10 text-center p-6 rounded-2xl bg-gradient-to-r from-inovara-accent/20 to-inovara-secondary/20 border-2 border-inovara-accent/30 shadow-lg ${isRTL ? 'rtl' : 'ltr'}`}>
+                  <div className="text-inovara-primary/80 text-sm mb-3 font-bold uppercase tracking-wider">{t('contact.response.time')}</div>
+                  <div className="text-inovara-accent font-black text-xl">{t('contact.response.within24Hours')}</div>
+                </div>
+              </div>
+
+              {/* Premium Contact Form Section */}
+              <div className={`relative p-10 lg:p-16 bg-white ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
+                {/* Subtle background pattern */}
+                <div className="absolute inset-0 opacity-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/5 via-transparent to-inovara-accent/5"></div>
+                </div>
+                
+                <div className={`relative z-10 mb-10 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <h3 className="text-4xl font-black text-inovara-primary mb-4 leading-tight">{t('contact.form.title')}</h3>
+                  <p className="text-inovara-primary/80 text-lg leading-relaxed">{t('contact.form.subtitle')}</p>
+                </div>
+                
+                {!isSubmitted ? (
+                <form onSubmit={handleSubmit} className={`relative z-10 space-y-8 ${isRTL ? 'rtl' : 'ltr'}`}>
+                  {/* Error Message */}
+                  {submitError && (
+                    <div className={`flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-2xl ${isRTL ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                      <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                      <span className="text-red-700 font-medium">{submitError}</span>
+                    </div>
+                  )}
+                  <div className={`grid md:grid-cols-2 gap-8 ${isRTL ? 'rtl' : 'ltr'}`}>
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.name')} *</label>
+                      <label className={`block text-inovara-primary text-sm font-bold mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.name')} *</label>
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        onFocus={() => setFocusedField('name')}
-                        onBlur={() => setFocusedField(null)}
-                        className={`w-full px-4 py-3 bg-luxury-charcoal/50 border rounded-xl text-white placeholder-white/50 focus:outline-none transition-all duration-300 ${
-                          focusedField === 'name'
-                            ? 'border-inovara-accent shadow-lg shadow-inovara-accent/30 ring-2 ring-inovara-accent/20'
-                            : 'border-white/20 hover:border-white/30'
-                        }`}
+                        dir={isRTL ? 'rtl' : 'ltr'}
+                        className={`w-full px-5 py-4 bg-white border-2 border-inovara-primary/15 rounded-2xl text-inovara-primary placeholder-inovara-primary/60 focus:outline-none transition-all duration-300 focus:ring-4 focus:ring-inovara-accent/20 focus:border-inovara-accent ${isRTL ? 'text-right' : 'text-left'} hover:border-inovara-accent/30 shadow-sm hover:shadow-md`}
                         placeholder={t('contact.form.name')}
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.email')} *</label>
+                      <label className={`block text-inovara-primary text-sm font-bold mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.email')} *</label>
                       <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        onFocus={() => setFocusedField('email')}
-                        onBlur={() => setFocusedField(null)}
-                        className={`w-full px-4 py-3 bg-luxury-charcoal/50 border rounded-xl text-white placeholder-white/50 focus:outline-none transition-all duration-300 ${
-                          focusedField === 'email'
-                            ? 'border-inovara-accent shadow-lg shadow-inovara-accent/30 ring-2 ring-inovara-accent/20'
-                            : 'border-white/20 hover:border-white/30'
-                        }`}
+                        dir={isRTL ? 'rtl' : 'ltr'}
+                        className={`w-full px-5 py-4 bg-white border-2 border-inovara-primary/15 rounded-2xl text-inovara-primary placeholder-inovara-primary/60 focus:outline-none transition-all duration-300 focus:ring-4 focus:ring-inovara-accent/20 focus:border-inovara-accent ${isRTL ? 'text-right' : 'text-left'} hover:border-inovara-accent/30 shadow-sm hover:shadow-md`}
                         placeholder={t('contact.form.email')}
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className={`grid md:grid-cols-2 gap-8 ${isRTL ? 'rtl' : 'ltr'}`}>
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.phone')}</label>
+                      <label className={`block text-inovara-primary text-sm font-bold mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.phone')}</label>
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        onFocus={() => setFocusedField('phone')}
-                        onBlur={() => setFocusedField(null)}
-                        className={`w-full px-4 py-3 bg-luxury-charcoal/50 border rounded-xl text-white placeholder-white/50 focus:outline-none transition-all duration-300 ${
-                          focusedField === 'phone'
-                            ? 'border-inovara-accent shadow-lg shadow-inovara-accent/30 ring-2 ring-inovara-accent/20'
-                            : 'border-white/20 hover:border-white/30'
-                        }`}
+                        dir={isRTL ? 'rtl' : 'ltr'}
+                        className={`w-full px-5 py-4 bg-white border-2 border-inovara-primary/15 rounded-2xl text-inovara-primary placeholder-inovara-primary/60 focus:outline-none transition-all duration-300 focus:ring-4 focus:ring-inovara-accent/20 focus:border-inovara-accent ${isRTL ? 'text-right' : 'text-left'} hover:border-inovara-accent/30 shadow-sm hover:shadow-md`}
                         placeholder={t('contact.form.phone')}
                       />
                     </div>
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.company')} *</label>
+                      <label className={`block text-inovara-primary text-sm font-bold mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.company')}</label>
                       <input
                         type="text"
                         name="company"
                         value={formData.company}
                         onChange={handleInputChange}
-                        onFocus={() => setFocusedField('company')}
-                        onBlur={() => setFocusedField(null)}
-                        className={`w-full px-4 py-3 bg-luxury-charcoal/50 border rounded-xl text-white placeholder-white/50 focus:outline-none transition-all duration-300 ${
-                          focusedField === 'company'
-                            ? 'border-inovara-accent shadow-lg shadow-inovara-accent/30 ring-2 ring-inovara-accent/20'
-                            : 'border-white/20 hover:border-white/30'
-                        }`}
+                        dir={isRTL ? 'rtl' : 'ltr'}
+                        className={`w-full px-5 py-4 bg-white border-2 border-inovara-primary/15 rounded-2xl text-inovara-primary placeholder-inovara-primary/60 focus:outline-none transition-all duration-300 focus:ring-4 focus:ring-inovara-accent/20 focus:border-inovara-accent ${isRTL ? 'text-right' : 'text-left'} hover:border-inovara-accent/30 shadow-sm hover:shadow-md`}
                         placeholder={t('contact.form.company')}
-                        required
                       />
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.industry')} *</label>
-                      <select
-                        name="industry"
-                        value={formData.industry}
-                        onChange={handleInputChange}
-                        onFocus={() => setFocusedField('industry')}
-                        onBlur={() => setFocusedField(null)}
-                        className={`w-full px-4 py-3 bg-luxury-charcoal/50 border rounded-xl text-white focus:outline-none transition-all duration-300 ${
-                          focusedField === 'industry'
-                            ? 'border-inovara-accent shadow-lg shadow-inovara-accent/30 ring-2 ring-inovara-accent/20'
-                            : 'border-white/20 hover:border-white/30'
-                        }`}
-                        required
-                      >
-                        <option value="" className="bg-luxury-charcoal">{t('contact.form.selectIndustry')}</option>
-                        <option value="corporate" className="bg-luxury-charcoal">{t('contact.form.industryOptions.corporate')}</option>
-                        <option value="healthcare" className="bg-luxury-charcoal">{t('contact.form.industryOptions.healthcare')}</option>
-                        <option value="education" className="bg-luxury-charcoal">{t('contact.form.industryOptions.education')}</option>
-                        <option value="retail" className="bg-luxury-charcoal">{t('contact.form.industryOptions.retail')}</option>
-                        <option value="manufacturing" className="bg-luxury-charcoal">{t('contact.form.industryOptions.manufacturing')}</option>
-                        <option value="transportation" className="bg-luxury-charcoal">{t('contact.form.industryOptions.transportation')}</option>
-                        <option value="other" className="bg-luxury-charcoal">{t('contact.form.industryOptions.other')}</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.machines')}</label>
-                      <select
-                        name="machinesNeeded"
-                        value={formData.machinesNeeded}
-                        onChange={handleInputChange}
-                        onFocus={() => setFocusedField('machinesNeeded')}
-                        onBlur={() => setFocusedField(null)}
-                        className={`w-full px-4 py-3 bg-luxury-charcoal/50 border rounded-xl text-white focus:outline-none transition-all duration-300 ${
-                          focusedField === 'machinesNeeded'
-                            ? 'border-inovara-accent shadow-lg shadow-inovara-accent/30 ring-2 ring-inovara-accent/20'
-                            : 'border-white/20 hover:border-white/30'
-                        }`}
-                      >
-                        <option value="" className="bg-luxury-charcoal">{t('contact.form.selectQuantity')}</option>
-                        <option value="1-5" className="bg-luxury-charcoal">{t('contact.form.machineOptions.1-5')}</option>
-                        <option value="6-20" className="bg-luxury-charcoal">{t('contact.form.machineOptions.6-20')}</option>
-                        <option value="21-50" className="bg-luxury-charcoal">{t('contact.form.machineOptions.21-50')}</option>
-                        <option value="51-100" className="bg-luxury-charcoal">{t('contact.form.machineOptions.51-100')}</option>
-                        <option value="100+" className="bg-luxury-charcoal">{t('contact.form.machineOptions.100+')}</option>
-                      </select>
-                    </div>
-                  </div>
-
                   <div>
-                    <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.contactMethod')}</label>
-                    <div className="grid grid-cols-3 gap-4">
-                      {[
-                        { key: 'email', value: t('contact.form.contactMethods.email') },
-                        { key: 'phone', value: t('contact.form.contactMethods.phone') },
-                        { key: 'video-call', value: t('contact.form.contactMethods.video-call') }
-                      ].map((method) => (
-                        <label key={method.key} className={`flex items-center ${isRTL ? 'space-x-reverse space-x-2' : 'space-x-2'} cursor-pointer`}>
-                          <input
-                            type="radio"
-                            name="contactMethod"
-                            value={method.key}
-                            checked={formData.contactMethod === method.key}
-                            onChange={handleInputChange}
-                            className="w-4 h-4 text-inovara-accent bg-luxury-charcoal border-white/20 focus:ring-inovara-accent"
-                          />
-                          <span className="text-white/80 text-sm">{method.value}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-white/80 text-sm font-medium mb-2">{t('contact.form.requirements')}</label>
+                    <label className={`block text-inovara-primary text-sm font-bold mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.requirements')}</label>
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
-                      onFocus={() => setFocusedField('message')}
-                      onBlur={() => setFocusedField(null)}
-                      rows={4}
-                      className={`w-full px-4 py-3 bg-luxury-charcoal/50 border rounded-xl text-white placeholder-white/50 focus:outline-none transition-all duration-300 resize-none ${
-                        focusedField === 'message'
-                          ? 'border-inovara-accent shadow-lg shadow-inovara-accent/30 ring-2 ring-inovara-accent/20'
-                          : 'border-white/20 hover:border-white/30'
-                      }`}
+                      dir={isRTL ? 'rtl' : 'ltr'}
+                      rows={5}
+                      className={`w-full px-5 py-4 bg-white border-2 border-inovara-primary/15 rounded-2xl text-inovara-primary placeholder-inovara-primary/60 focus:outline-none transition-all duration-300 focus:ring-4 focus:ring-inovara-accent/20 focus:border-inovara-accent resize-none ${isRTL ? 'text-right' : 'text-left'} hover:border-inovara-accent/30 shadow-sm hover:shadow-md`}
                       placeholder={t('contact.form.requirementsPlaceholder')}
                     />
                   </div>
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-semibold rounded-xl shadow-2xl hover:shadow-inovara-primary/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    disabled={isLoading}
+                    className="w-full px-8 py-5 bg-[rgb(46,0,20)] text-white hover:bg-[rgb(35,0,15)] focus:ring-4 focus:ring-inovara-accent/20 font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    {isSubmitting ? (
+                    {isLoading ? (
                       <span className={`flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                        <div className={`animate-spin rounded-full h-5 w-5 border-b-2 border-white ${isRTL ? 'ml-3' : 'mr-3'}`}></div>
+                        <div className={`animate-spin rounded-full h-6 w-6 border-b-2 border-white ${isRTL ? 'ml-3' : 'mr-3'}`}></div>
                         {t('contact.form.gettingQuote')}
                       </span>
                     ) : (
                       <span className={`flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                        {t('contact.form.getQuote')}
-                        <Send className={`${isRTL ? 'mr-2' : 'ml-2'} h-5 w-5 group-hover:translate-x-1 transition-transform`} />
+                        {t('contact.form.submit')}
+                        <Send className={`${isRTL ? 'mr-3' : 'ml-3'} h-6 w-6 transition-transform group-hover:translate-x-1`} />
                       </span>
                     )}
                   </button>
                 </form>
               ) : (
-                <div className="text-center py-12">
-                  <div className="w-20 h-20 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Send className="h-10 w-10 text-white" />
+                <div className={`relative z-10 text-center py-16 ${isRTL ? 'rtl' : 'ltr'}`}>
+                  <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl ring-4 ring-green-200">
+                    <CheckCircle className="h-12 w-12 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">{t('contact.success.title')}</h3>
-                  <p className="text-white/80 mb-6">{t('contact.success.message')}</p>
-                  <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
+                  <h3 className="text-4xl font-black text-inovara-primary mb-6">{t('contact.success.title')}</h3>
+                  <p className="text-inovara-primary/80 mb-10 text-lg leading-relaxed max-w-md mx-auto">{t('contact.success.message')}</p>
+                  <div className={`flex flex-col sm:flex-row gap-6 justify-center ${isRTL ? 'sm:flex-row-reverse' : 'sm:flex-row'}`}>
                     <button
-                      onClick={() => setIsSubmitted(false)}
-                      className={`text-inovara-accent hover:text-white transition-colors duration-300 flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setSubmitError(null);
+                      }}
+                      className={`border-2 border-inovara-accent/30 text-inovara-primary bg-inovara-accent/10 hover:bg-inovara-accent/20 transition-all duration-300 flex items-center justify-center focus:ring-4 focus:ring-inovara-accent/20 px-6 py-3 rounded-2xl font-semibold shadow-md hover:shadow-lg ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
                     >
                       {t('contact.success.submitAnother')}
-                      <ArrowRight className={`${isRTL ? 'mr-2' : 'ml-2'} h-4 w-4`} />
+                      <ArrowRight className={`${isRTL ? 'mr-3' : 'ml-3'} h-5 w-5 transition-transform group-hover:translate-x-1`} />
                     </button>
-                    <button className={`text-inovara-secondary hover:text-white transition-colors duration-300 flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                      <Download className={`${isRTL ? 'ml-2' : 'mr-2'} h-4 w-4`} />
+                    <button className={`border-2 border-inovara-primary/30 text-inovara-primary bg-inovara-primary/5 hover:bg-inovara-primary/10 transition-all duration-300 flex items-center justify-center focus:ring-4 focus:ring-inovara-primary/20 px-6 py-3 rounded-2xl font-semibold shadow-md hover:shadow-lg ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <Download className={`${isRTL ? 'ml-3' : 'mr-3'} h-5 w-5`} />
                       {t('contact.success.downloadBrochure')}
                     </button>
                   </div>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </div>

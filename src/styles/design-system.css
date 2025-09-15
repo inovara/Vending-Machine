@@ -516,6 +516,141 @@ body {
   }
 }
 
+/* Unified Product Components */
+.product-card {
+  @apply bg-white/95 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-inovara-primary/10;
+}
+
+.product-card-image {
+  @apply relative h-40 sm:h-48 overflow-hidden;
+}
+
+.product-card-content {
+  @apply p-4 sm:p-6;
+}
+
+.product-card-title {
+  @apply text-lg sm:text-xl font-black text-inovara-primary mb-2 sm:mb-3 group-hover:text-inovara-accent transition-colors duration-300 line-clamp-2;
+}
+
+.product-card-description {
+  @apply text-sm sm:text-base text-inovara-primary/70 font-light leading-relaxed mb-4 sm:mb-6 line-clamp-3;
+}
+
+.product-feature-item {
+  @apply flex items-center text-xs sm:text-sm text-inovara-primary/80;
+}
+
+.product-feature-icon {
+  @apply w-3 h-3 sm:w-4 sm:h-4 text-inovara-accent flex-shrink-0;
+}
+
+.product-cta-primary {
+  @apply w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30;
+}
+
+.product-cta-secondary {
+  @apply px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 text-sm sm:text-base;
+}
+
+/* Unified Grid System */
+.unified-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8;
+}
+
+.unified-grid-2 {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8;
+}
+
+.unified-grid-products {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8;
+}
+
+/* Unified Spacing */
+.unified-section-padding {
+  @apply py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8;
+}
+
+.unified-container-padding {
+  @apply p-4 sm:p-6 lg:p-8;
+}
+
+.unified-content-spacing {
+  @apply space-y-6 sm:space-y-8;
+}
+
+.unified-button-spacing {
+  @apply space-y-3 sm:space-y-4;
+}
+
+/* Unified Typography */
+.unified-heading-xl {
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-inovara-primary leading-tight;
+}
+
+.unified-heading-lg {
+  @apply text-xl sm:text-2xl md:text-3xl font-black text-inovara-primary leading-tight;
+}
+
+.unified-heading-md {
+  @apply text-lg sm:text-xl md:text-2xl font-black text-inovara-primary leading-tight;
+}
+
+.unified-body-lg {
+  @apply text-base sm:text-lg lg:text-xl text-inovara-primary/70 font-light leading-relaxed;
+}
+
+.unified-body-md {
+  @apply text-sm sm:text-base text-inovara-primary/70 font-light leading-relaxed;
+}
+
+.unified-caption {
+  @apply text-xs sm:text-sm text-inovara-primary/70;
+}
+
+/* Unified Badge */
+.unified-badge {
+  @apply absolute top-3 sm:top-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg;
+}
+
+/* Unified Background Effects */
+.unified-bg-effects {
+  @apply absolute inset-0 overflow-hidden;
+}
+
+.unified-bg-blob-1 {
+  @apply absolute top-1/3 w-72 sm:w-96 h-72 sm:h-96 bg-gradient-to-br from-inovara-accent/2 to-inovara-secondary/2 rounded-full blur-3xl;
+}
+
+.unified-bg-blob-2 {
+  @apply absolute bottom-1/3 w-64 sm:w-80 h-64 sm:h-80 bg-gradient-to-tr from-inovara-primary/2 to-inovara-accent/2 rounded-full blur-3xl;
+}
+
+/* RTL Support Utilities */
+.rtl-flip {
+  @apply rtl:flex-row-reverse;
+}
+
+.rtl-text {
+  @apply rtl:text-right ltr:text-left;
+}
+
+.rtl-margin {
+  @apply rtl:ml-2 ltr:mr-2 sm:rtl:ml-3 sm:ltr:mr-3;
+}
+
+.rtl-padding {
+  @apply rtl:pl-4 ltr:pr-4 sm:rtl:pl-6 sm:ltr:pr-6;
+}
+
+.rtl-position {
+  @apply rtl:left-3 ltr:right-3 sm:rtl:left-4 sm:ltr:right-4;
+}
+
+.rtl-position-alt {
+  @apply rtl:right-3 ltr:left-3 sm:rtl:right-4 sm:ltr:left-4;
+}
+
 /* Print Styles */
 @media print {
   * {

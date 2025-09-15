@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { X, Send, ShoppingCart, Building, Users, Calculator } from 'lucide-react';
+import { X, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
+import { storeQuote } from '../network/quote';
+import { QuoteFormData, QuoteResponse } from '../types/api';
 
 interface QuickQuoteModalProps {
   isOpen: boolean;
@@ -9,32 +12,67 @@ interface QuickQuoteModalProps {
 
 const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) => {
   const { t, isRTL } = useTranslation();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<QuoteFormData>({
     name: '',
     email: '',
     phone: '',
     company: '',
     industry: '',
-    machinesNeeded: '',
+    machines: '',
+    budget: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Mutation for quote submission
+  const { 
+    mutate: submitQuote, 
+    isLoading, 
+    isSuccess 
+  } = useMutation<QuoteResponse, Error, QuoteFormData>({
+    mutationFn: storeQuote,
+    onSuccess: () => {
+      setSubmitError(null);
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        industry: '',
+        machines: '',
+        message: ''
+      });
+    },
+    onError: (error) => {
+      setSubmitError(error.message || 'Failed to submit quote. Please try again.');
+    },
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (submitError) setSubmitError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.company || !formData.industry) {
+      setSubmitError('Please fill in all required fields.');
+      return;
+    }
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 2000);
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitError('Please enter a valid email address.');
+      return;
+    }
+
+    submitQuote(formData);
   };
 
   const resetForm = () => {
@@ -44,180 +82,205 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
       phone: '',
       company: '',
       industry: '',
-      machinesNeeded: '',
+      machines: '',
       message: ''
     });
-    setIsSubmitted(false);
+    setSubmitError(null);
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-gradient-to-br from-luxury-steel/95 to-luxury-charcoal/95 backdrop-blur-md border border-white/10 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white/95 backdrop-blur-md border border-inovara-primary/20 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
         <div className="p-8">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-xl flex items-center justify-center">
-                <ShoppingCart className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-white">{t('quote.title')}</h2>
-                <p className="text-white/70 text-sm">{t('quote.subtitle')}</p>
+          <div className={`flex items-center justify-between mb-8 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+              <div className={isRTL ? 'text-right' : 'text-left'}>
+                <h2 className="text-3xl font-black text-inovara-primary mb-1">{t('quote.title')}</h2>
+                <p className="text-inovara-primary/70 text-sm font-medium">{t('quote.subtitle')}</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-colors duration-300"
+              className="p-3 text-inovara-primary/60 hover:text-inovara-primary hover:bg-inovara-primary/10 rounded-xl transition-all duration-300 group"
             >
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
             </button>
           </div>
 
-          {!isSubmitted ? (
+          {/* Error Message */}
+          {submitError && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+              <p className="text-red-700 text-sm font-medium">{submitError}</p>
+            </div>
+          )}
+
+          {!isSuccess ? (
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Quick Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">{t('quote.name')} *</label>
+                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('quote.name')} <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-inovara-accent focus:ring-2 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300"
+                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.name')}
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">{t('quote.email')} *</label>
+                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('quote.email')} <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-inovara-accent focus:ring-2 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300"
+                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.email')}
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">{t('quote.phone')}</label>
+                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('quote.phone')}
+                  </label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-inovara-accent focus:ring-2 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300"
+                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.phone')}
                   />
                 </div>
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">{t('quote.company')} *</label>
+                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('quote.company')} <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     name="company"
                     value={formData.company}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-inovara-accent focus:ring-2 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300"
+                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.company')}
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">{t('quote.industry')} *</label>
+                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('quote.industry')} <span className="text-red-500">*</span>
+                  </label>
                   <select
                     name="industry"
                     value={formData.industry}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-white/20 rounded-xl text-white focus:border-inovara-accent focus:ring-2 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300"
+                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
                     required
                   >
-                    <option value="" className="bg-luxury-charcoal">{t('quote.industry')}</option>
-                    <option value="corporate" className="bg-luxury-charcoal">{t('quote.industryOptions.office')}</option>
-                    <option value="healthcare" className="bg-luxury-charcoal">{t('quote.industryOptions.healthcare')}</option>
-                    <option value="education" className="bg-luxury-charcoal">{t('quote.industryOptions.education')}</option>
-                    <option value="retail" className="bg-luxury-charcoal">{t('quote.industryOptions.retail')}</option>
-                    <option value="manufacturing" className="bg-luxury-charcoal">{t('quote.industryOptions.manufacturing')}</option>
-                    <option value="hospitality" className="bg-luxury-charcoal">{t('quote.industryOptions.hospitality')}</option>
-                    <option value="other" className="bg-luxury-charcoal">{t('quote.industryOptions.other')}</option>
+                    <option value="" className="text-inovara-primary/50">{t('quote.industry')}</option>
+                    <option value="corporate" className="text-inovara-primary">{t('quote.industryOptions.office')}</option>
+                    <option value="healthcare" className="text-inovara-primary">{t('quote.industryOptions.healthcare')}</option>
+                    <option value="education" className="text-inovara-primary">{t('quote.industryOptions.education')}</option>
+                    <option value="retail" className="text-inovara-primary">{t('quote.industryOptions.retail')}</option>
+                    <option value="manufacturing" className="text-inovara-primary">{t('quote.industryOptions.manufacturing')}</option>
+                    <option value="hospitality" className="text-inovara-primary">{t('quote.industryOptions.hospitality')}</option>
+                    <option value="other" className="text-inovara-primary">{t('quote.industryOptions.other')}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">{t('quote.machines')}</label>
+                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('quote.machines')}
+                  </label>
                   <select
-                    name="machinesNeeded"
-                    value={formData.machinesNeeded}
+                    name="machines"
+                    value={formData.machines}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-white/20 rounded-xl text-white focus:border-inovara-accent focus:ring-2 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300"
+                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
                   >
-                    <option value="" className="bg-luxury-charcoal">{t('quote.machines')}</option>
-                    <option value="1-5" className="bg-luxury-charcoal">{t('quote.machineOptions.1-5')}</option>
-                    <option value="6-20" className="bg-luxury-charcoal">{t('quote.machineOptions.6-20')}</option>
-                    <option value="21-50" className="bg-luxury-charcoal">{t('quote.machineOptions.21-50')}</option>
-                    <option value="51-100" className="bg-luxury-charcoal">{t('quote.machineOptions.51-100')}</option>
-                    <option value="100+" className="bg-luxury-charcoal">{t('quote.machineOptions.100+')}</option>
+                    <option value="" className="text-inovara-primary/50">{t('quote.machines')}</option>
+                    <option value="1-5" className="text-inovara-primary">{t('quote.machineOptions.1-5')}</option>
+                    <option value="6-20" className="text-inovara-primary">{t('quote.machineOptions.6-20')}</option>
+                    <option value="21-50" className="text-inovara-primary">{t('quote.machineOptions.21-50')}</option>
+                    <option value="51-100" className="text-inovara-primary">{t('quote.machineOptions.51-100')}</option>
+                    <option value="100+" className="text-inovara-primary">{t('quote.machineOptions.100+')}</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-white/80 text-sm font-medium mb-2">{t('quote.requirements')}</label>
+                <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  {t('quote.requirements')}
+                </label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-4 py-3 bg-luxury-charcoal/50 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-inovara-accent focus:ring-2 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 resize-none"
+                  rows={4}
+                  className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 resize-none ${isRTL ? 'text-right' : 'text-left'}`}
                   placeholder={t('quote.requirementsPlaceholder')}
                 />
               </div>
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-semibold rounded-xl shadow-2xl hover:shadow-inovara-primary/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                disabled={isLoading}
+                className="w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
               >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                {isLoading ? (
+                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Loader2 className="w-5 h-5 animate-spin" />
                     {t('common.loading')}...
                   </span>
                 ) : (
-                  <span className="flex items-center justify-center">
-                    <Send className="mr-2 h-5 w-5" />
+                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Send className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
                     {t('quote.submit')}
                   </span>
                 )}
+                
+                {/* Button Hover Effect */}
+                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
               </button>
             </form>
           ) : (
-            <div className="text-center py-8">
-              <div className="w-20 h-20 bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-                <Send className="h-10 w-10 text-white" />
+            <div className={`text-center py-12 ${isRTL ? 'rtl' : 'ltr'}`}>
+              <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                <CheckCircle className="h-12 w-12 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Quote Request Sent!</h3>
-              <p className="text-white/80 mb-6">
+              <h3 className="text-3xl font-black text-inovara-primary mb-4">Quote Request Sent!</h3>
+              <p className="text-inovara-primary/70 text-lg font-medium mb-8 max-w-md mx-auto leading-relaxed">
                 Thank you for your interest! We'll send you a detailed quote within 24 hours.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
                 <button
                   onClick={resetForm}
-                  className="px-6 py-3 bg-inovara-accent text-white font-semibold rounded-xl hover:bg-inovara-accent/80 transition-colors duration-300"
+                  className="group px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                 >
-                  Request Another Quote
+                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    Request Another Quote
+                  </span>
                 </button>
                 <button
                   onClick={onClose}
-                  className="px-6 py-3 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors duration-300"
+                  className="px-8 py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
                 >
                   Close
                 </button>
