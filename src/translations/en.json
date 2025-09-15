@@ -9,26 +9,30 @@
   },
   "hero": {
     "title": "Smart Vending Machines",
-    "subtitle": "for Your Business",
-    "description": "Revolutionary smart vending solutions with cutting-edge technology, cashless payments, and real-time analytics. Built for the future of business.",
+    "subtitle": "That Drive Business Growth",
+    "description": "Maximize revenue, reduce costs, and deliver exceptional customer experiences with intelligent vending solutions built for enterprise success.",
     "badge": {
-      "egypt": "Innovation in Egypt"
+      "egypt": "Leading Innovation in Egypt"
     },
-    "features": {
-      "24-7": "24/7 Operations",
-      "cashless": "Cashless Payments",
-      "analytics": "Real-time Analytics",
-      "remote": "Remote Management"
+    "benefits": {
+      "revenue": "Maximize Revenue",
+      "revenueDesc": "40% sales increase with smart analytics",
+      "reliability": "Enterprise Reliability",
+      "reliabilityDesc": "99.9% uptime with 24/7 monitoring",
+      "innovation": "Cutting-Edge Tech",
+      "innovationDesc": "AI insights, IoT connectivity, advanced payments",
+      "support": "Dedicated Support",
+      "supportDesc": "Personal account managers & technical experts"
     },
     "cta": {
-      "quote": "Get Free Quote",
-      "products": "View Products"
+      "quote": "Get Free B2B Quote",
+      "products": "Explore Solutions"
     },
     "stats": {
-      "machines": "Innovation Focus",
-      "uptime": "Modern Technology",
-      "support": "Dedicated Support",
-      "global": "Future Ready"
+      "machines": "Machines Deployed",
+      "uptime": "Uptime Guarantee",
+      "support": "Expert Support",
+      "roi": "Average ROI"
     }
   },
   "products": {
