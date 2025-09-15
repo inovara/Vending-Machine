@@ -487,53 +487,32 @@
     }
   },
   "contact": {
-    "title": "Get Your Free",
-    "titleAccent": "Vending Machine Quote",
-    "subtitle": "Get in Touch",
-    "description": "Get a personalized quote for smart vending machines with cashless payments, real-time analytics, and 24/7 support. No obligation, just honest pricing.",
+    "title": "Let's Talk Business",
+    "description": "Ready to transform your business with smart vending solutions? Get in touch with our team of experts for a personalized consultation and custom quote.",
     "company": {
       "name": "Inovara Vending Solutions",
-      "tagline": "Smart Vending Technology Leader"
+      "tagline": "Your Trusted Partner in Smart Vending Technology"
     },
     "form": {
       "title": "Get Your Free Quote",
-      "subtitle": "Fill out the form below and we'll get back to you within 24 hours",
+      "subtitle": "Tell us about your business needs and we'll provide a customized solution",
       "name": "Full Name",
       "email": "Email Address",
       "phone": "Phone Number",
       "company": "Company Name",
-      "industry": "Industry",
-      "machines": "Number of Machines",
       "message": "Message",
+      "messagePlaceholder": "Tell us about your vending requirements and business goals...",
       "submit": "Send Message",
-      "selectIndustry": "Select your industry",
-      "selectQuantity": "Select quantity",
-      "industryOptions": {
-        "corporate": "Corporate Offices",
-        "healthcare": "Healthcare Facilities",
-        "education": "Educational Institutions",
-        "retail": "Retail Locations",
-        "manufacturing": "Manufacturing Plants",
-        "transportation": "Transportation Hubs",
-        "other": "Other"
-      },
-      "machineOptions": {
-        "1-5": "1-5 machines",
-        "6-20": "6-20 machines",
-        "21-50": "21-50 machines",
-        "51-100": "51-100 machines",
-        "100+": "100+ machines"
-      },
-      "contactMethod": "Preferred Contact Method",
-      "contactMethods": {
-        "email": "Email",
-        "phone": "Phone",
-        "video-call": "Video Call"
-      },
-      "requirements": "Additional Requirements",
-      "requirementsPlaceholder": "Tell us about your vending requirements and business goals...",
-      "gettingQuote": "Getting Your Quote...",
-      "getQuote": "Get Free Quote"
+      "sending": "Sending..."
+    },
+    "response": {
+      "time": "Response Time",
+      "within24Hours": "Within 24 Hours"
+    },
+    "cta": {
+      "title": "Ready to Start Your Project?",
+      "description": "Join forward-thinking businesses that trust Inovara for their vending technology needs. Let's discuss how we can help you succeed.",
+      "button": "Let's Talk Business"
     },
     "success": {
       "title": "Quote Request Received!",
@@ -564,6 +543,14 @@
       "within24Hours": "Within 24 Hours"
     }
   },
+  "info": {
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "addressLabel": "Address",
+    "email": "info@inovara.com",
+    "phone": "+20 123 456 7890",
+    "address": "Cairo, Egypt"
+  },
   "footer": {
     "description": "Leading provider of smart vending machine solutions in Egypt. Transform your business with our innovative technology.",
     "quickLinks": "Quick Links",
@@ -584,12 +571,6 @@
       "industries": "Industries",
       "contact": "Contact",
       "quote": "Get Quote"
-    },
-    "contact": {
-      "title": "Contact Information",
-      "email": "info@inovara.com",
-      "phone": "+20 123 456 7890",
-      "address": "Cairo, Egypt"
     },
     "social": {
       "title": "Follow Us",
@@ -1204,55 +1185,49 @@
   },
   "why": {
     "title": "Why Choose Us",
-    "subtitle": "We deliver exceptional value through innovation, reliability, and unmatched service excellence. Our smart vending solutions are designed to transform your business operations and maximize your profitability.",
+    "subtitle": "We deliver exceptional value through proven expertise, responsive service, and dedicated partnership. Our smart vending solutions are designed to transform your business operations and maximize your profitability.",
     "advantages": {
-      "innovation": {
-        "title": "Cutting-Edge Innovation",
-        "description": "Leading the industry with advanced AI, IoT integration, and smart automation technologies that set new standards for vending excellence.",
+      "proven": {
+        "title": "Proven Expertise",
+        "description": "Trusted by businesses with demonstrated success in vending technology and business automation solutions.",
         "features": {
-          "ai": "AI-Powered Analytics",
-          "iot": "IoT Integration",
-          "automation": "Smart Automation"
+          "track": "Proven Track Record",
+          "quality": "Quality Assurance",
+          "results": "Measurable Results"
         }
       },
-      "reliability": {
-        "title": "Unmatched Reliability",
-        "description": "Built for continuous operation with enterprise-grade components, comprehensive support, and proven track record of exceptional uptime.",
+      "responsive": {
+        "title": "Responsive Service",
+        "description": "Quick deployment and agile development approach that adapts to your changing business needs and requirements.",
         "features": {
-          "uptime": "99.9% Uptime Guarantee",
-          "quality": "Premium Components",
-          "support": "24/7 Expert Support"
+          "quick": "Quick Deployment",
+          "agile": "Agile Development",
+          "adapt": "Adaptive Solutions"
         }
       },
-      "excellence": {
-        "title": "Service Excellence",
-        "description": "Dedicated to delivering premium quality solutions with personalized service, custom configurations, and ongoing partnership for your success.",
+      "support": {
+        "title": "Dedicated Support",
+        "description": "Personalized support with comprehensive training and ongoing partnership to ensure your long-term success.",
         "features": {
-          "premium": "Premium Quality",
-          "custom": "Custom Solutions",
-          "service": "Personalized Service"
+          "dedicated": "Dedicated Team",
+          "training": "Comprehensive Training",
+          "partnership": "Ongoing Partnership"
         }
       },
-      "growth": {
-        "title": "Scalable Growth",
-        "description": "Future-ready solutions that grow with your business, offering flexibility, scalability, and adaptability for long-term success.",
+      "future": {
+        "title": "Future-Ready",
+        "description": "Scalable solutions that grow with your business, featuring innovative technology and flexible architecture for long-term growth.",
         "features": {
-          "scalable": "Scalable Architecture",
-          "flexible": "Flexible Deployment",
-          "future": "Future-Ready Technology"
+          "scalable": "Scalable Solutions",
+          "innovative": "Innovative Technology",
+          "growth": "Growth-Oriented"
         }
       }
     },
     "cta": {
-      "title": "Ready to Transform Your Business?",
-      "description": "Join hundreds of satisfied customers who trust Inovara for their smart vending solutions. Experience the difference that innovation, reliability, and excellence make.",
-      "button": "Start Your Journey"
-    },
-    "stats": {
-      "machines": "Machines Deployed",
-      "uptime": "Uptime Guarantee",
-      "support": "Expert Support",
-      "scalability": "Future Ready"
+      "title": "Ready to Partner with Us?",
+      "description": "Join forward-thinking businesses that trust Inovara for their vending technology needs. Experience the difference that true partnership makes.",
+      "button": "Start Partnership"
     }
   },
   "showcase": {
@@ -1330,7 +1305,7 @@
     },
     "suggestions": {
       "snackMachines": "Snack Machines",
-      "beverageMachines": "Beverage Machines", 
+      "beverageMachines": "Beverage Machines",
       "foodMachines": "Food Machines",
       "customSolutions": "Custom Solutions",
       "cashlessPayments": "Cashless Payments",
@@ -1407,24 +1382,29 @@
   },
   "about": {
     "title": "About Us",
-    "description": "We are a leading provider of smart vending machine solutions, dedicated to transforming the way businesses deliver convenience and value. With innovation, reliability, and cutting-edge technology at our core, we help our clients increase efficiency, maximize profitability, and offer customers seamless purchasing experiences anytime, anywhere.",
+    "description": "We are a trusted partner for enterprise vending solutions, committed to delivering smart technology that drives business success. Our expertise in intelligent automation helps organizations optimize operations, enhance customer experiences, and achieve sustainable growth through innovative vending solutions.",
     "values": {
-      "innovation": {
-        "title": "Innovation",
-        "description": "Cutting-edge technology and smart automation"
+      "enterprise": {
+        "title": "Enterprise Focus",
+        "description": "Built for business success and operational excellence"
       },
-      "reliability": {
-        "title": "Reliability",
-        "description": "Consistent performance and dependable systems"
+      "partnership": {
+        "title": "True Partnership",
+        "description": "Dedicated support and collaborative approach to your success"
       },
-      "excellence": {
-        "title": "Excellence",
-        "description": "Premium quality and superior service"
+      "solutions": {
+        "title": "Smart Solutions",
+        "description": "Intelligent technology that adapts to your business needs"
       },
-      "growth": {
-        "title": "Growth",
-        "description": "Scalable solutions for business expansion"
+      "trust": {
+        "title": "Trusted Expertise",
+        "description": "Proven track record in vending technology and business automation"
       }
+    },
+    "cta": {
+      "title": "Partner with Industry Leaders",
+      "description": "Join forward-thinking businesses that trust Inovara for their vending technology needs. Experience the difference that true partnership makes.",
+      "trust": "Trusted by businesses across industries"
     }
   }
 }
