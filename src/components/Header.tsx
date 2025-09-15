@@ -162,11 +162,11 @@ const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
             className={`lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-t border-inovara-primary/20 shadow-lg z-40 ${isRTL ? 'text-right' : 'text-left'}`}
           >
             <nav className="px-6 py-6 space-y-2">
-              {(isRTL ? [...navigationItems].reverse() : navigationItems).map((item) => (
+              {(isRTL ? [...navigationItems] : navigationItems).map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.href, item.type)}
-                  className="w-full text-left text-inovara-primary hover:text-inovara-accent transition-colors duration-300 font-medium py-3 px-4 rounded-lg hover:bg-inovara-accent/10 focus:outline-none focus:ring-2 focus:ring-inovara-accent/30"
+                  className={`w-full text-inovara-primary hover:text-inovara-accent transition-colors duration-300 font-medium py-3 px-4 rounded-lg hover:bg-inovara-accent/10 focus:outline-none focus:ring-2 focus:ring-inovara-accent/30 ${isRTL ? 'text-right' : 'text-left'}`}
                 >
                   {item.name}
                 </button>
@@ -174,12 +174,19 @@ const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
 
               {/* Mobile CTA Section */}
               <div className="pt-6 border-t border-inovara-primary/20 space-y-4">
-                <div className={`flex items-center ${isRTL ? 'justify-end' : 'justify-center'}`}>
-                  <LanguageSwitcher />
+                <div className={`flex items-center justify-center`}>
+                  <LanguageSwitcher onLanguageChange={() => setIsMenuOpen(false)} />
                 </div>
 
                 <button
-                  onClick={onQuoteClick}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsMenuOpen(false);
+                    // Small delay to allow menu to close before opening modal
+                    setTimeout(() => {
+                      onQuoteClick();
+                    }, 100);
+                  }}
                   className="group relative w-full px-6 py-3 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-inovara-accent/30 overflow-hidden"
                 >
                   {/* Shimmer Effect */}

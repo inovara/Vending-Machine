@@ -127,7 +127,9 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               {t('products.breadcrumb.products')}
             </Link>
             <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 text-inovara-primary/50 ${isRTL ? 'rotate-180' : ''}`} />
-            <span className="text-inovara-primary font-medium px-2 py-1 rounded-lg bg-inovara-primary/5">{product.name}</span>
+            <span className={`text-inovara-primary font-medium px-1 sm:px-2 md:px-3 lg:px-4 py-1 sm:py-1.5 md:py-2 truncate min-w-0 flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+              {product.name}
+            </span>
           </nav>
         </div>
       </section>
