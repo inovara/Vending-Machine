@@ -52,6 +52,10 @@ FooterSection.displayName = 'FooterSection';
 
 const Footer: React.FC = memo(() => {
   const { t, isRTL } = useTranslation();
+  
+  // Dynamic copyright with current year
+  const currentYear = new Date().getFullYear();
+  const copyrightText = t('footer.copyright').replace('{{year}}', currentYear.toString());
 
   const socialLinks: SocialLink[] = useMemo(() => [
     { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara-global' },
@@ -143,7 +147,7 @@ const Footer: React.FC = memo(() => {
             {/* Copyright */}
             <div className={`text-white/70 text-sm ${isRTL ? 'text-right' : 'text-left'}`}>
               <p className={`${isRTL ? 'text-right' : 'text-left'}`}>
-                {t('footer.copyright')}
+                {copyrightText}
               </p>
             </div>
 

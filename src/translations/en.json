@@ -585,7 +585,7 @@
     "products": "Products",
     "support": "Support",
     "legal": "Legal",
-    "copyright": "© 2024 Inovara. All rights reserved.",
+    "copyright": "© {{year}} Inovara. All rights reserved.",
     "company": {
       "name": "Inovara Vending Solutions",
       "description": "Leading provider of smart vending machine solutions in Egypt. Transform your business with our innovative technology.",
