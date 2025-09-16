@@ -66,8 +66,8 @@ const Footer: React.FC = memo(() => {
 
   const quickLinks = useMemo(() => [
     { name: t('footer.links.about'), url: '#about' },
-    { name: t('footer.links.services'), url: '#services' },
     { name: t('footer.links.products'), url: '#products' },
+    { name: t('footer.links.industries'), url: '#industries' },
     { name: t('footer.links.contact'), url: '#contact' },
   ], [t]);
 
