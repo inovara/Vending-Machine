@@ -5,26 +5,39 @@ import App from './App.tsx';
 import './index.css';
 import { performanceUtils } from './utils/performance';
 
+// Declare gtag for Google Analytics
+declare global {
+  function gtag(command: string, targetId: string, config?: Record<string, unknown>): void;
+}
+
 // Production optimizations
 
 // Error boundary for better error handling
-class ErrorBoundary extends React.Component {
-  constructor(props: any) {
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(_error: any) {
+  static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true };
   }
 
-  componentDidCatch(_error: any, errorInfo: any) {
+  componentDidCatch(_error: Error, errorInfo: React.ErrorInfo) {
     // Log error in production (remove in production if needed)
     console.error('Error caught by boundary:', _error, errorInfo);
   }
 
   render() {
-    if ((this.state as any).hasError) {
+    if (this.state.hasError) {
       return (
         <div style={{ 
           display: 'flex', 
@@ -40,7 +53,7 @@ class ErrorBoundary extends React.Component {
       );
     }
 
-    return (this.props as any).children;
+    return this.props.children;
   }
 }
 
@@ -84,7 +97,7 @@ const initializePerformanceOptimizations = () => {
     'style'
   );
   
-  performanceUtils.preloadResource('/inovaralo.svg', 'image', 'image/svg+xml');
+  performanceUtils.preloadResource('/inovara.svg', 'image', 'image/svg+xml');
 
   // Initialize lazy loading
   performanceUtils.lazyLoadImages();

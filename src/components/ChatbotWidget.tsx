@@ -366,7 +366,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
 
       {/* Chat Widget */}
       <div className={`
-        relative w-full max-w-[95vw] xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md xl:max-w-lg
+        fixed w-full max-w-[95vw] xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md xl:max-w-lg
         h-[90vh] xs:h-[85vh] sm:h-[600px] max-h-[700px] min-h-[350px] xs:min-h-[400px]
         bg-white/95 backdrop-blur-md rounded-lg xs:rounded-xl sm:rounded-2xl shadow-2xl
         flex flex-col overflow-hidden transform transition-all duration-300 ease-out
@@ -374,6 +374,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
         ${isRTL ? 'rtl' : 'ltr'}
         animate-in slide-in-from-bottom-4 fade-in duration-300
         focus-within:ring-2 focus-within:ring-inovara-primary/20
+        overflow-y-auto
       `}>
         {/* Header */}
         <div className={`bg-gradient-to-r from-inovara-primary to-inovara-secondary p-2.5 xs:p-3 sm:p-4 flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} justify-between border-b border-white/10 shrink-0`}>
