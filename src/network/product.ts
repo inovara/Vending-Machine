@@ -19,13 +19,3 @@ export const productDetails = catchAsync(async (slug: string): Promise<Product> 
   const { data } = await axiosInstance.get<ApiResponse<Product>>(`products/${slug}`);
   return data.data;
 });
-
-export const listReviews = catchAsync(async (code: string): Promise<ApiResponse<unknown>> => {
-  const { data } = await axiosInstance.get<ApiResponse<unknown>>(`/products/${code}/reviews`);
-  return data;
-});
-
-export const storeReviews = catchAsync(async (productId: number, reviewData: unknown): Promise<ApiResponse<unknown>> => {
-  const { data } = await axiosInstance.post<ApiResponse<unknown>>(`/products/${productId}/reviews`, reviewData);
-  return data;
-});

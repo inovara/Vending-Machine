@@ -551,7 +551,7 @@
     "info": {
       "address": "123 Business Street, Cairo, Egypt",
       "phone": "+20 123 456 7890",
-      "email": "info@inovara.com",
+      "email": "info@inovara.net",
       "hours": "Mon-Fri: 9AM-6PM"
     },
     "cta": {
@@ -575,7 +575,7 @@
     "emailLabel": "Email",
     "phoneLabel": "Phone",
     "addressLabel": "Address",
-    "email": "info@inovara.com",
+    "email": "info@inovara.net",
     "phone": "+20 123 456 7890",
     "address": "Cairo, Egypt"
   },
