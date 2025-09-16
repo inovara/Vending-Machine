@@ -91,39 +91,40 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white/95 backdrop-blur-md border border-inovara-primary/20 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div className="p-8">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white/95 backdrop-blur-md border border-inovara-primary/20 rounded-2xl sm:rounded-3xl max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className={`flex items-center justify-between mb-8 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-            <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <div className={isRTL ? 'text-right' : 'text-left'}>
-                <h2 className="text-3xl font-black text-inovara-primary mb-1">{t('quote.title')}</h2>
-                <p className="text-inovara-primary/70 text-sm font-medium">{t('quote.subtitle')}</p>
+          <div className={`flex items-start justify-between mb-6 sm:mb-8 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className={`flex items-center gap-3 sm:gap-4 flex-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+              <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-inovara-primary mb-1 leading-tight">{t('quote.title')}</h2>
+                <p className="text-inovara-primary/70 text-xs sm:text-sm font-medium leading-relaxed">{t('quote.subtitle')}</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-3 text-inovara-primary/60 hover:text-inovara-primary hover:bg-inovara-primary/10 rounded-xl transition-all duration-300 group"
+              className={`p-2 sm:p-3 text-inovara-primary/60 hover:text-inovara-primary hover:bg-inovara-primary/10 rounded-xl transition-all duration-300 group flex-shrink-0 ${isRTL ? 'mr-2' : 'ml-2'}`}
+              aria-label="Close modal"
             >
-              <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-300" />
             </button>
           </div>
 
           {/* Error Message */}
           {submitError && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
-              <p className="text-red-700 text-sm font-medium">{submitError}</p>
+            <div className={`mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl sm:rounded-2xl flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-red-700 text-xs sm:text-sm font-medium leading-relaxed">{submitError}</p>
             </div>
           )}
 
           {!isSuccess ? (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Quick Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
-                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.name')} <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -131,13 +132,14 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.name')}
                     required
                   />
                 </div>
                 <div>
-                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.email')} <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -145,16 +147,17 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.email')}
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
-                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.phone')}
                   </label>
                   <input
@@ -162,12 +165,13 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.phone')}
                   />
                 </div>
                 <div>
-                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.company')} <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -175,23 +179,25 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     name="company"
                     value={formData.company}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
                     placeholder={t('quote.company')}
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
-                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.industry')} <span className="text-red-500">*</span>
                   </label>
                   <select
                     name="industry"
                     value={formData.industry}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
                     required
                   >
                     <option value="" className="text-inovara-primary/50">{t('quote.industry')}</option>
@@ -205,14 +211,15 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                   </select>
                 </div>
                 <div>
-                  <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.machines')}
                   </label>
                   <select
                     name="machines"
                     value={formData.machines}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
                   >
                     <option value="" className="text-inovara-primary/50">{t('quote.machines')}</option>
                     <option value="1-5" className="text-inovara-primary">{t('quote.machineOptions.1-5')}</option>
@@ -225,15 +232,16 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
               </div>
 
               <div>
-                <label className={`block text-inovara-primary font-bold text-sm mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {t('quote.requirements')}
                 </label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  rows={4}
-                  className={`w-full px-4 py-4 bg-white border-2 border-inovara-primary/20 rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 resize-none ${isRTL ? 'text-right' : 'text-left'}`}
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                  rows={3}
+                  className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary placeholder-inovara-primary/50 focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 resize-none text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
                   placeholder={t('quote.requirementsPlaceholder')}
                 />
               </div>
@@ -241,17 +249,17 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+                className="w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl hover:shadow-2xl sm:hover:shadow-3xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
               >
                 {isLoading ? (
-                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    {t('common.loading')}...
+                  <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                    <span className="text-sm sm:text-base">{t('common.loading')}...</span>
                   </span>
                 ) : (
-                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Send className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                    {t('quote.submit')}
+                  <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                    <span className="text-sm sm:text-base">{t('quote.submit')}</span>
                   </span>
                 )}
                 
@@ -260,29 +268,29 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
               </button>
             </form>
           ) : (
-            <div className={`text-center py-12 ${isRTL ? 'rtl' : 'ltr'}`}>
-              <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                <CheckCircle className="h-12 w-12 text-white" />
+            <div className={`text-center py-8 sm:py-12 ${isRTL ? 'rtl' : 'ltr'}`}>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-2xl">
+                <CheckCircle className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-white" />
               </div>
-              <h3 className="text-3xl font-black text-inovara-primary mb-4">Quote Request Sent!</h3>
-              <p className="text-inovara-primary/70 text-lg font-medium mb-8 max-w-md mx-auto leading-relaxed">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-inovara-primary mb-3 sm:mb-4 leading-tight">Quote Request Sent!</h3>
+              <p className="text-inovara-primary/70 text-sm sm:text-base md:text-lg font-medium mb-6 sm:mb-8 max-w-md mx-auto leading-relaxed">
                 Thank you for your interest! We'll send you a detailed quote within 24 hours.
               </p>
-              <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+              <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
                 <button
                   onClick={resetForm}
-                  className="group px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+                  className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                 >
-                  <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                    Request Another Quote
+                  <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    <span className="text-sm sm:text-base">Request Another Quote</span>
                   </span>
                 </button>
                 <button
                   onClick={onClose}
-                  className="px-8 py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
+                  className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
                 >
-                  Close
+                  <span className="text-sm sm:text-base">Close</span>
                 </button>
               </div>
             </div>

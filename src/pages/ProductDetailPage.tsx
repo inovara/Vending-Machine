@@ -16,11 +16,11 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   const { t, isRTL, language } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const { 
-    data: product, 
-    isLoading, 
-    isError, 
-    refetch 
+  const {
+    data: product,
+    isLoading,
+    isError,
+    refetch
   } = useQuery<Product>({
     queryKey: [queryKeys.listProducts, slug, language],
     queryFn: () => productDetails(slug!),
@@ -33,7 +33,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   const formatPrice = (price: string | number, currency?: string) => {
     const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
     if (isNaN(numericPrice)) return 'Price on request';
-    
+
     return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
       style: 'currency',
       currency: currency || 'USD',
@@ -97,8 +97,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   }
 
   // Use product images or fallback to single image
-  const productImages = product?.images && Array.isArray(product.images) && product.images.length > 0 
-    ? product.images 
+  const productImages = product?.images && Array.isArray(product.images) && product.images.length > 0
+    ? product.images
     : [product?.image_url || 'https://via.placeholder.com/800x600?text=Product+Image'];
 
   return (
@@ -181,7 +181,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
 
                 {/* Enhanced Action Buttons */}
                 <div className={`absolute top-3 sm:top-4 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} flex flex-col gap-2`}>
-                  <button 
+                  <button
                     className="w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
                     aria-label={isRTL ? 'مشاركة المنتج' : 'Share product'}
                   >
@@ -205,8 +205,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                       key={index}
                       onClick={() => setSelectedImage(index)}
                       className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 group ${selectedImage === index
-                          ? 'border-inovara-primary shadow-lg scale-105'
-                          : 'border-transparent hover:border-inovara-primary/50 hover:scale-105'
+                        ? 'border-inovara-primary shadow-lg scale-105'
+                        : 'border-transparent hover:border-inovara-primary/50 hover:scale-105'
                         }`}
                       aria-label={`${isRTL ? 'عرض الصورة' : 'View image'} ${index + 1}`}
                     >
@@ -342,7 +342,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     {t('productDetail.keyFeatures')}
                   </h3>
                 </div>
-                
+
                 <div className="space-y-4">
                   {product.features && typeof product.features === 'string' ? (
                     // Handle string features (split by line breaks)
@@ -395,7 +395,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     {t('productDetail.specifications')}
                   </h3>
                 </div>
-                
+
                 <div className="space-y-4">
                   {product.specifications && typeof product.specifications === 'string' ? (
                     // Handle string specifications (split by line breaks)
@@ -460,7 +460,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   {t('productDetail.businessBenefitsDesc')}
                 </p>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className={`text-center group ${isRTL ? 'rtl' : 'ltr'}`}>
                   <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -469,7 +469,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <h4 className="font-bold text-inovara-primary text-lg mb-2">{t('productDetail.businessBenefitsItems.operations.title')}</h4>
                   <p className="text-inovara-primary/70 text-sm leading-relaxed">{t('productDetail.businessBenefitsItems.operations.description')}</p>
                 </div>
-                
+
                 <div className={`text-center group ${isRTL ? 'rtl' : 'ltr'}`}>
                   <div className="w-16 h-16 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     <ShieldIcon className="w-8 h-8 text-white" />
@@ -477,7 +477,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <h4 className="font-bold text-inovara-primary text-lg mb-2">{t('productDetail.businessBenefitsItems.payments.title')}</h4>
                   <p className="text-inovara-primary/70 text-sm leading-relaxed">{t('productDetail.businessBenefitsItems.payments.description')}</p>
                 </div>
-                
+
                 <div className={`text-center group ${isRTL ? 'rtl' : 'ltr'}`}>
                   <div className="w-16 h-16 bg-gradient-to-br from-inovara-secondary to-inovara-accent rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Users className="w-8 h-8 text-white" />
@@ -485,7 +485,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <h4 className="font-bold text-inovara-primary text-lg mb-2">{t('productDetail.businessBenefitsItems.satisfaction.title')}</h4>
                   <p className="text-inovara-primary/70 text-sm leading-relaxed">{t('productDetail.businessBenefitsItems.satisfaction.description')}</p>
                 </div>
-                
+
                 <div className={`text-center group ${isRTL ? 'rtl' : 'ltr'}`}>
                   <div className="w-16 h-16 bg-gradient-to-br from-inovara-primary to-inovara-accent rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Zap className="w-8 h-8 text-white" />
@@ -571,49 +571,36 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       </section>
 
 
-      {/* Enhanced CTA Section */}
-      <section className="relative py-24 sm:py-32 px-4 sm:px-6 overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary via-inovara-secondary to-inovara-accent"></div>
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-1/4 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-white/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-64 sm:w-80 h-64 sm:h-80 bg-white/5 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-8 sm:p-12 border border-white/20 shadow-2xl">
-
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-6 sm:mb-8 leading-tight">
-              {t('productDetail.cta')}
+      {/* Unified CTA Section */}
+      <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-white/90 backdrop-blur-sm border border-inovara-primary/20 rounded-2xl sm:rounded-3xl p-8 sm:p-12 shadow-lg">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-inovara-primary mb-4 sm:mb-6">
+              {t('products.cta.title')}
             </h2>
-            <p className="text-lg sm:text-xl lg:text-2xl text-white/90 font-light leading-relaxed mb-8 sm:mb-12 max-w-3xl mx-auto">
-              {t('productDetail.ctaDesc')}
+            <p className="text-lg sm:text-xl text-inovara-primary/70 font-light leading-relaxed mb-6 sm:mb-8">
+              {t('products.cta.description')}
             </p>
 
-            <div className={`flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <button
                 onClick={onQuoteClick}
-                className="group relative px-8 sm:px-12 lg:px-16 py-4 sm:py-6 bg-white text-inovara-primary font-black text-lg sm:text-xl rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30 overflow-hidden"
+                className="group px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 relative overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-inovara-primary/10 to-inovara-secondary/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
-                <span className={`relative flex items-center justify-center gap-3 sm:gap-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                  {t('productDetail.getFreeQuote')}
-                  <ArrowRight className={`w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+                <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {t('products.cta.getQuote')}
+                  <ArrowRight className={`w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                 </span>
+                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
               </button>
 
               <Link
-                to="/products"
-                className="group px-8 sm:px-12 lg:px-16 py-4 sm:py-6 border-2 border-white text-white font-black text-lg sm:text-xl rounded-xl sm:rounded-2xl hover:bg-white hover:text-inovara-primary transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/30 relative overflow-hidden"
+                to="/industries"
+                className="px-8 sm:px-12 py-4 sm:py-5 border-2 border-inovara-primary text-inovara-primary font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
               >
-                <div className="absolute inset-0 bg-white translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300"></div>
-                <span className="relative group-hover:text-inovara-primary transition-colors duration-300">
-                  {t('productDetail.viewAllProducts')}
-                </span>
+                {t('products.cta.viewIndustries')}
               </Link>
             </div>
-
           </div>
         </div>
       </section>

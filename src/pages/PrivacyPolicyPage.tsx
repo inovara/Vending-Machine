@@ -10,7 +10,7 @@ const PrivacyPolicyPage: React.FC = () => {
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Hero Section */}
       <section
-        className="relative py-24 px-6 overflow-hidden"
+        className="relative pt-24 px-6 overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.8) 50%, rgba(255,255,255,1) 100%)'
         }}

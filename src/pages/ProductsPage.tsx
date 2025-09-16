@@ -21,11 +21,11 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
     category_id: 2,
   };
 
-  const { 
-    data: productsResponse, 
-    isLoading, 
-    isError, 
-    refetch 
+  const {
+    data: productsResponse,
+    isLoading,
+    isError,
+    refetch
   } = useQuery<PaginatedResponse<Product>>({
     queryKey: [queryKeys.listProducts, filters, language],
     queryFn: () => listProducts(filters),
@@ -42,7 +42,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
   const formatPrice = (price: string | number, currency?: string) => {
     const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
     if (isNaN(numericPrice)) return 'Price on request';
-    
+
     return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
       style: 'currency',
       currency: currency || 'USD',
@@ -54,8 +54,8 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* Unified Hero Section */}
-      <section 
-        className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 overflow-hidden"
+      <section
+        className="relative pt-16 sm:pt-20 lg:pt-24 px-4 sm:px-6 overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.8) 50%, rgba(255,255,255,1) 100%)'
         }}
@@ -79,16 +79,14 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
           {/* Unified Hero Content */}
           <div className="text-center mb-8 sm:mb-10">
             <div className={`flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-inovara-accent flex-shrink-0" />
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
                 {t('products.title')}
               </h1>
-              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-inovara-accent flex-shrink-0" />
             </div>
-            
+
             {/* Unified Divider */}
             <div className="w-24 sm:w-32 h-0.5 sm:h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-6 sm:mb-8 rounded-full"></div>
-            
+
             <div className="max-w-3xl sm:max-w-4xl mx-auto px-4">
               <p className="text-lg sm:text-xl md:text-2xl text-inovara-primary/70 font-light leading-relaxed">
                 {t('products.subtitle')}
@@ -100,7 +98,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
       </section>
 
       {/* Unified Products Grid */}
-      <section className="py-8 sm:py-12 px-4 sm:px-6 bg-white">
+      <section className="px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* Unified Results Header */}
           <div className={`flex items-center justify-between mb-8 sm:mb-12 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -116,7 +114,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                 )}
               </h2>
               <p className="text-sm sm:text-base text-inovara-primary/70">
-                {isLoading 
+                {isLoading
                   ? t('products.loadingDescription')
                   : t('products.allResults')
                 }
@@ -128,7 +126,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
           {isLoading && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8">
               {Array.from({ length: 4 }).map((_, index) => (
-                <div 
+                <div
                   key={index}
                   className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden animate-pulse shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
@@ -178,15 +176,15 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8">
               {products.map((product, index) => {
                 return (
-                  <div 
+                  <div
                     key={product.id}
                     className={`group relative bg-white/95 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:-translate-y-2 sm:hover:-translate-y-3 transition-all duration-700 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/20 ${isRTL ? 'rtl' : 'ltr'}`}
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     {/* Enhanced Image Container with Aspect Ratio */}
                     <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                      <img 
-                        src={product.images?.[0] || product.image_url || 'https://via.placeholder.com/600x400?text=Product+Image'} 
+                      <img
+                        src={product.images?.[0] || product.image_url || 'https://via.placeholder.com/600x400?text=Product+Image'}
                         alt={product.name}
                         className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
                         loading="lazy"
@@ -194,22 +192,22 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                           e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Product+Image';
                         }}
                       />
-                      
+
                       {/* Enhanced Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      
+
                       {/* Enhanced Price Badge */}
                       <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-xl backdrop-blur-sm border border-white/20`}>
                         {formatPrice(product.price, product.currency)}
                       </div>
-                      
+
                       {/* New: Category Badge */}
                       {product.category?.name && (
                         <div className={`absolute top-3 sm:top-4 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} bg-white/90 backdrop-blur-sm text-inovara-primary px-2 sm:px-3 py-1 rounded-full text-xs font-semibold shadow-lg border border-inovara-primary/20`}>
                           {product.category.name}
                         </div>
                       )}
-                      
+
                       {/* New: Hover Overlay with Quick Actions */}
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                         <Link
@@ -221,7 +219,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                         </Link>
                       </div>
                     </div>
-                    
+
                     {/* Enhanced Content */}
                     <div className="p-6 sm:p-8">
                       <div className={`flex items-start gap-4 mb-4 sm:mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -234,7 +232,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                           </p>
                         </div>
                       </div>
-                      
+
                       {/* Enhanced Action Buttons */}
                       <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
                         <Link
@@ -245,23 +243,23 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                             {t('products.viewDetails')}
                             <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/btn:-translate-x-1' : ''}`} />
                           </span>
-                          
+
                           {/* Enhanced Button Hover Effect */}
                           <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
                         </Link>
-                        
+
                         <button
                           onClick={onQuoteClick}
                           className="px-4 sm:px-6 py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 text-sm sm:text-base"
                         >
-                          {t('contact.form.getQuote')}
+                          {t('products.cta.getQuote')}
                         </button>
                       </div>
                     </div>
-                    
+
                     {/* Enhanced Card Hover Glow */}
                     <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/10 to-inovara-secondary/10 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                    
+
                     {/* New: Card Border Glow Effect */}
                     <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-inovara-primary/20 via-inovara-accent/20 to-inovara-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10 blur-sm"></div>
                   </div>
@@ -295,7 +293,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
               >
                 {t('products.previous')}
               </button>
-              
+
               <div className="flex items-center gap-1 sm:gap-2">
                 {Array.from({ length: Math.min(5, productsResponse.meta.last_page) }, (_, i) => {
                   const page = i + 1;
@@ -303,18 +301,17 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
-                      className={`px-2 sm:px-3 py-2 rounded-lg transition-all duration-300 text-sm sm:text-base ${
-                        currentPage === page
+                      className={`px-2 sm:px-3 py-2 rounded-lg transition-all duration-300 text-sm sm:text-base ${currentPage === page
                           ? 'bg-inovara-primary text-white shadow-lg'
                           : 'text-inovara-primary hover:bg-inovara-primary/10'
-                      }`}
+                        }`}
                     >
                       {page}
                     </button>
                   );
                 })}
               </div>
-              
+
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, productsResponse.meta.last_page))}
                 disabled={currentPage === productsResponse.meta.last_page}
@@ -337,9 +334,9 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
             <p className="text-lg sm:text-xl text-inovara-primary/70 font-light leading-relaxed mb-6 sm:mb-8">
               {t('products.cta.description')}
             </p>
-            
+
             <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
-              <button 
+              <button
                 onClick={onQuoteClick}
                 className="group px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 relative overflow-hidden"
               >
@@ -349,8 +346,8 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                 </span>
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
               </button>
-              
-              <Link 
+
+              <Link
                 to="/industries"
                 className="px-8 sm:px-12 py-4 sm:py-5 border-2 border-inovara-primary text-inovara-primary font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
               >
