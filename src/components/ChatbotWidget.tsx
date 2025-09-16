@@ -351,7 +351,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
 
   return (
     <div 
-      className={`fixed inset-0 z-[60] flex items-end p-2 sm:p-4 ${isRTL ? 'justify-start' : 'justify-end'}`}
+      className={`fixed inset-0 backdrop-blur-sm z-50 flex p-2 sm:p-4 
+        items-center justify-center sm:items-end sm:justify-end md:items-end md:justify-end
+        ${isRTL ? 'sm:justify-start md:justify-start' : 'sm:justify-end md:justify-end'}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="chatbot-title"
@@ -366,14 +368,14 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
       
       {/* Chat Widget */}
       <div className={`
-        relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-md 
-        h-[85vh] sm:h-[600px] max-h-[700px] min-h-[400px]
-        bg-white rounded-xl sm:rounded-2xl shadow-2xl
+        relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-md xl:max-w-lg
+        h-[90vh] sm:h-[600px] max-h-[700px] min-h-[400px]
+        bg-white/95 backdrop-blur-md border border-inovara-primary/20 rounded-2xl sm:rounded-3xl shadow-2xl
         flex flex-col overflow-hidden transform transition-all duration-300 ease-out
-        border border-gray-200/50 backdrop-blur-sm
         ${isRTL ? 'rtl' : 'ltr'}
         animate-in slide-in-from-bottom-4 fade-in duration-300
         focus-within:ring-2 focus-within:ring-inovara-primary/20
+        mx-auto sm:mx-0
       `}>
         {/* Header */}
         <div className={`bg-gradient-to-r from-inovara-primary to-inovara-secondary p-3 sm:p-4 flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} justify-between border-b border-white/10 shrink-0`}>
@@ -396,7 +398,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-[calc(90vh-200px)] sm:max-h-[calc(600px-200px)]">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -518,7 +520,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
 
         {/* Quick Questions */}
         {messages.length === 1 && messages[0]?.id === 'welcome' && (
-          <div className="px-3 sm:px-4 pb-2 shrink-0">
+          <div className="px-3 sm:px-4 pb-2 shrink-0 bg-white/50 backdrop-blur-sm">
             <p className={`text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 font-medium ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.quickQuestions.title')}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
               {quickQuestions.map((question, index) => (
@@ -535,7 +537,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
         )}
 
         {/* Input */}
-        <div className="p-3 sm:p-4 border-t border-gray-200/50 bg-white/95 backdrop-blur-sm shadow-lg shrink-0">
+        <div className="p-3 sm:p-4 border-t border-gray-200/50 bg-white/95 backdrop-blur-sm shadow-lg shrink-0 sticky bottom-0">
           <div className={`flex items-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <div className="flex-1 relative">
               <input
