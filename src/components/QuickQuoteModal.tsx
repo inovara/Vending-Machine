@@ -123,7 +123,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Quick Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <div>
+                <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
                   <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.name')} <span className="text-red-500">*</span>
                   </label>
@@ -138,7 +138,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     required
                   />
                 </div>
-                <div>
+                <div className={isRTL ? 'sm:order-1' : 'sm:order-2'}>
                   <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.email')} <span className="text-red-500">*</span>
                   </label>
@@ -156,7 +156,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <div>
+                <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
                   <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.phone')}
                   </label>
@@ -170,7 +170,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     placeholder={t('quote.phone')}
                   />
                 </div>
-                <div>
+                <div className={isRTL ? 'sm:order-1' : 'sm:order-2'}>
                   <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.company')} <span className="text-red-500">*</span>
                   </label>
@@ -188,7 +188,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <div>
+                <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
                   <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.industry')} <span className="text-red-500">*</span>
                   </label>
@@ -210,7 +210,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                     <option value="other" className="text-inovara-primary">{t('quote.industryOptions.other')}</option>
                   </select>
                 </div>
-                <div>
+                <div className={isRTL ? 'sm:order-1' : 'sm:order-2'}>
                   <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
                     {t('quote.machines')}
                   </label>

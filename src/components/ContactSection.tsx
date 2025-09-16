@@ -100,9 +100,9 @@ const ContactSection: React.FC = () => {
         </div>
 
         {/* B2B Contact Layout */}
-        <div className={`grid lg:grid-cols-2 gap-8 mb-12 ${isRTL ? 'lg:grid-flow-col-dense' : ''}`}>
+        <div className="grid lg:grid-cols-2 gap-8 mb-12">
           {/* Contact Information */}
-          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl lg:col-start-2' : 'ltr'}`}>
+          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl lg:order-2' : 'ltr lg:order-1'}`}>
             <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
               <h3 className="text-2xl font-bold text-inovara-primary mb-3">{t('contact.company.name')}</h3>
               <p className="text-inovara-primary/70 text-base font-medium">{t('contact.company.tagline')}</p>
@@ -148,7 +148,7 @@ const ContactSection: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl lg:col-start-1' : 'ltr'}`}>
+          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl lg:order-1' : 'ltr lg:order-2'}`}>
             <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
               <h3 className="text-2xl font-bold text-inovara-primary mb-3">{t('contact.form.title')}</h3>
               <p className="text-inovara-primary/70 text-base font-medium">{t('contact.form.subtitle')}</p>
@@ -165,8 +165,8 @@ const ContactSection: React.FC = () => {
                 )}
                 
                 {/* Name and Email */}
-                <div className={`grid md:grid-cols-2 gap-4 ${isRTL ? 'rtl' : 'ltr'}`}>
-                  <div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className={isRTL ? 'md:order-2' : 'md:order-1'}>
                     <label className={`block text-inovara-primary text-sm font-bold mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.name')} *</label>
                     <input
                       type="text"
@@ -179,7 +179,7 @@ const ContactSection: React.FC = () => {
                       required
                     />
                   </div>
-                  <div>
+                  <div className={isRTL ? 'md:order-1' : 'md:order-2'}>
                     <label className={`block text-inovara-primary text-sm font-bold mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.email')} *</label>
                     <input
                       type="email"
@@ -195,8 +195,8 @@ const ContactSection: React.FC = () => {
                 </div>
 
                 {/* Company and Phone */}
-                <div className={`grid md:grid-cols-2 gap-4 ${isRTL ? 'rtl' : 'ltr'}`}>
-                  <div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className={isRTL ? 'md:order-2' : 'md:order-1'}>
                     <label className={`block text-inovara-primary text-sm font-bold mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.company')}</label>
                     <input
                       type="text"
@@ -208,7 +208,7 @@ const ContactSection: React.FC = () => {
                       placeholder={t('contact.form.company')}
                     />
                   </div>
-                  <div>
+                  <div className={isRTL ? 'md:order-1' : 'md:order-2'}>
                     <label className={`block text-inovara-primary text-sm font-bold mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>{t('contact.form.phone')}</label>
                     <input
                       type="tel"
