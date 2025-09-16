@@ -161,7 +161,8 @@
         "24/7 Availability",
         "Healthy Options",
         "Cashless Convenience"
-      ]
+      ],
+      "stats": "40% ROI Increase"
     },
     "healthcare": {
       "title": "Healthcare Facilities",
@@ -171,7 +172,8 @@
         "Medical Compliance",
         "Emergency Access",
         "Sanitized Operations"
-      ]
+      ],
+      "stats": "99.9% Uptime"
     },
     "education": {
       "title": "Educational Institutions",
@@ -181,7 +183,8 @@
         "Educational Content",
         "Campus Integration",
         "Safety Features"
-      ]
+      ],
+      "stats": "24/7 Campus Access"
     },
     "retail": {
       "title": "Retail & Shopping Centers",
@@ -191,7 +194,8 @@
         "Brand Integration",
         "High Traffic Support",
         "Revenue Generation"
-      ]
+      ],
+      "stats": "35% Sales Boost"
     },
     "manufacturing": {
       "title": "Manufacturing",
@@ -201,7 +205,8 @@
         "Dust Protection",
         "Heavy-Duty Construction",
         "Worker Convenience"
-      ]
+      ],
+      "stats": "Zero Downtime"
     },
     "transportation": {
       "title": "Transportation Hubs",
@@ -211,14 +216,37 @@
         "24/7 Operation",
         "Traveler Convenience",
         "Durable Design"
-      ]
+      ],
+      "stats": "50K+ Daily Users"
     },
     "cta": {
       "title": "Ready to Transform Your Industry?",
-      "description": "Get a customized vending solution designed specifically for your industry needs.",
+      "description": "Join 500+ businesses already maximizing their revenue with our smart vending solutions. Get your customized quote in under 24 hours.",
       "button": "Get Free Quote",
       "contact": "Contact Us"
-    }
+    },
+    "sectionTitle": "Industry-Specific Solutions",
+    "sectionSubtitle": "Tailored vending solutions designed to meet the unique needs and challenges of each industry",
+    "benefits": {
+      "roi": {
+        "title": "Proven ROI",
+        "description": "Average 40% revenue increase within 6 months"
+      },
+      "security": {
+        "title": "Enterprise Security",
+        "description": "Bank-grade security with 24/7 monitoring"
+      },
+      "support": {
+        "title": "Dedicated Support",
+        "description": "Personal account managers and technical experts"
+      }
+    },
+    "stats": {
+      "clients": "Active Clients",
+      "roi": "Avg. ROI Increase",
+      "response": "Quote Response"
+    },
+    "trust": "Free consultation • No commitment • Custom solutions"
   },
   "whyChooseUs": {
     "title": "Why Choose Inovara?",
