@@ -3,12 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
+import { performanceUtils } from './utils/performance';
 
-// Performance monitoring (only in development)
-if (import.meta.env.DEV) {
-  // Basic performance logging
-  console.log('Development mode: Performance monitoring enabled');
-}
+// Production optimizations
 
 // Error boundary for better error handling
 class ErrorBoundary extends React.Component {
@@ -22,6 +19,7 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(_error: any, errorInfo: any) {
+    // Log error in production (remove in production if needed)
     console.error('Error caught by boundary:', _error, errorInfo);
   }
 
@@ -65,8 +63,8 @@ root.render(
   </StrictMode>
 );
 
-// Service Worker registration for PWA capabilities (only in production)
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
+// Service Worker registration for PWA capabilities
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then((registration) => {
@@ -78,23 +76,30 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
   });
 }
 
-// Preload critical resources for better performance
-const preloadCriticalResources = () => {
-  // Preload critical fonts with better performance
-  const fontLink = document.createElement('link');
-  fontLink.rel = 'preload';
-  fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap';
-  fontLink.as = 'style';
-  fontLink.crossOrigin = 'anonymous';
-  document.head.appendChild(fontLink);
+// Initialize performance optimizations
+const initializePerformanceOptimizations = () => {
+  // Preload critical resources
+  performanceUtils.preloadResource(
+    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap',
+    'style'
+  );
   
-  // Preload critical images
-  const logoLink = document.createElement('link');
-  logoLink.rel = 'preload';
-  logoLink.href = '/inovaralo.svg';
-  logoLink.as = 'image';
-  document.head.appendChild(logoLink);
+  performanceUtils.preloadResource('/inovaralo.svg', 'image', 'image/svg+xml');
+
+  // Initialize lazy loading
+  performanceUtils.lazyLoadImages();
+
+  // Defer non-critical scripts
+  performanceUtils.requestIdleCallback(() => {
+    // Initialize analytics after critical rendering
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'page_view', {
+        page_title: 'Inovara - Smart Vending Machine Solutions',
+        page_location: window.location.href
+      });
+    }
+  });
 };
 
-// Run preloading
-preloadCriticalResources();
+// Run performance optimizations
+initializePerformanceOptimizations();

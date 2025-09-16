@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import FloatingActionMenu from './components/FloatingActionMenu';
 import ScrollToTop from './components/ScrollToTop';
 import SlideInCta from './components/SlideInCta.tsx';
+// PerformanceMonitor removed for production
 
 // Lazy load pages and components for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -98,6 +99,7 @@ const App: React.FC = () => {
           whatsappNumber="+201234567890"
           whatsappMessage="Hello! I'm interested in your smart vending machine solutions. Can you provide more information?"
         />
+
         </div>
       </TranslationProvider>
     </QueryProvider>
