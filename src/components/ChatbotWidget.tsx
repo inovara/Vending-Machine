@@ -366,7 +366,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
 
       {/* Chat Widget */}
       <div className={`
-        relative w-full max-w-[95vw] xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md xl:max-w-lg
+        relative ax-w-xs sm:max-w-md md:max-w-md lg:max-w-md w-full
         h-[90vh] xs:h-[85vh] sm:h-[600px] max-h-[700px] min-h-[350px] xs:min-h-[400px]
         bg-white/95 backdrop-blur-md rounded-lg xs:rounded-xl sm:rounded-2xl shadow-2xl
         flex flex-col overflow-hidden transform transition-all duration-300 ease-out
