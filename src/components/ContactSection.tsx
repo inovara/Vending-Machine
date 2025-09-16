@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
 import { contactUs } from '../network/contact';
 import { ContactFormData, ContactResponse } from '../types/api';
+import QuickQuoteModal from './QuickQuoteModal';
 
 const ContactSection: React.FC = () => {
   const { t, isRTL } = useTranslation();
@@ -16,6 +17,7 @@ const ContactSection: React.FC = () => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -98,9 +100,9 @@ const ContactSection: React.FC = () => {
         </div>
 
         {/* B2B Contact Layout */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-12">
+        <div className={`grid lg:grid-cols-2 gap-8 mb-12 ${isRTL ? 'lg:grid-flow-col-dense' : ''}`}>
           {/* Contact Information */}
-          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl' : 'ltr'}`}>
+          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl lg:col-start-2' : 'ltr'}`}>
             <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
               <h3 className="text-2xl font-bold text-inovara-primary mb-3">{t('contact.company.name')}</h3>
               <p className="text-inovara-primary/70 text-base font-medium">{t('contact.company.tagline')}</p>
@@ -146,7 +148,7 @@ const ContactSection: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl' : 'ltr'}`}>
+          <div className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${isRTL ? 'rtl lg:col-start-1' : 'ltr'}`}>
             <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
               <h3 className="text-2xl font-bold text-inovara-primary mb-3">{t('contact.form.title')}</h3>
               <p className="text-inovara-primary/70 text-base font-medium">{t('contact.form.subtitle')}</p>
@@ -284,7 +286,10 @@ const ContactSection: React.FC = () => {
             <p className="text-lg text-inovara-primary/70 font-medium leading-relaxed mb-6 max-w-2xl mx-auto">
               {t('contact.cta.description')}
             </p>
-            <button className="group px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30">
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="group px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
+            >
               <span className={`flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} gap-3`}>
                 {t('contact.cta.button')}
                 <Building2 className={`w-5 h-5 group-hover:scale-110 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
@@ -293,6 +298,12 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Quick Quote Modal */}
+      <QuickQuoteModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 };
