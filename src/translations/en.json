@@ -1231,34 +1231,34 @@
     }
   },
   "showcase": {
-    "title": "Our Smart Vending Machines",
-    "subtitle": "Revolutionary smart vending solutions that transform your business operations with cutting-edge technology, seamless automation, and unmatched profitability.",
-    "viewDetails": "View Details",
+    "title": "Smart Vending Solutions",
+    "subtitle": "Professional-grade vending machines designed to drive business growth, enhance operational efficiency, and deliver exceptional returns on investment.",
+    "viewDetails": "Learn More",
     "flower": {
-      "title": "Flower Vending Machine",
-      "description": "Fresh flowers available 24/7 with smart temperature control and automated watering systems.",
-      "category": "Flower Vending"
+      "title": "Premium Flower Vending",
+      "description": "Elevate your business environment with fresh, premium flowers available 24/7. Perfect for corporate offices, hotels, and luxury venues seeking to enhance their ambiance and customer experience.",
+      "category": "Premium Solutions"
     },
     "snack": {
-      "title": "Smart Snack Machine",
-      "description": "Advanced snack vending with real-time inventory tracking and cashless payment options.",
-      "category": "Snack Vending"
+      "title": "Smart Snack Solutions",
+      "description": "Boost employee satisfaction and productivity with intelligent snack vending. Features real-time inventory management, healthy options, and seamless cashless payments for modern workplaces.",
+      "category": "Workplace Solutions"
     },
     "pizza": {
-      "title": "Pizza Vending Machine",
-      "description": "Fresh pizza in minutes with automated cooking technology and customizable options.",
-      "category": "Food Vending"
+      "title": "Automated Food Service",
+      "description": "Revolutionize food service with our automated pizza vending machines. Delivers fresh, hot meals in minutes, perfect for busy offices, manufacturing facilities, and 24/7 operations.",
+      "category": "Food Service"
     },
     "beverage": {
-      "title": "Beverage Vending Machine",
-      "description": "Smart beverage dispensing with multiple temperature zones and real-time analytics.",
-      "category": "Beverage Vending"
+      "title": "Intelligent Beverage Systems",
+      "description": "Optimize beverage service with smart dispensing technology. Multiple temperature zones, real-time consumption analytics, and premium drink options for maximum customer satisfaction.",
+      "category": "Beverage Solutions"
     },
     "cta": {
-      "title": "Ready to Transform Your Business?",
-      "description": "Explore our complete range of smart vending solutions and discover how we can help you maximize profitability and customer satisfaction.",
-      "viewAll": "See All Machines",
-      "getQuote": "Get Free Quote"
+      "title": "Ready to Scale Your Business?",
+      "description": "Partner with us to transform your operations with enterprise-grade vending solutions. Get a personalized consultation and discover how our technology can drive your business forward.",
+      "viewAll": "Explore All Solutions",
+      "getQuote": "Get Business Quote"
     }
   },
   "fab": {

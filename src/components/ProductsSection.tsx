@@ -81,11 +81,9 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
         {/* Unified Section Header */}
         <div className={`text-center mb-12 sm:mb-16 lg:mb-20 ${isRTL ? 'rtl' : 'ltr'}`}>
           <div className={`flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-inovara-accent flex-shrink-0" />
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
               {t('showcase.title')}
             </h2>
-            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-inovara-accent flex-shrink-0" />
           </div>
           
           {/* Unified Divider */}
