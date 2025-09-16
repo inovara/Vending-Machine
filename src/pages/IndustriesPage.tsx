@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, Heart, GraduationCap, ShoppingBag, Factory, Train, Sparkles } from 'lucide-react';
+import { ArrowRight, Building2, Heart, GraduationCap, ShoppingBag, Factory, Train } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface IndustriesPageProps {
@@ -84,11 +84,9 @@ const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {
           {/* Hero Content */}
           <div className="text-center mb-10">
             <div className={`flex items-center justify-center gap-3 mb-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-              <Sparkles className="w-8 h-8 text-inovara-accent" />
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-inovara-primary tracking-tight leading-[0.9]">
               {t('industries.hero.title')}
               </h1>
-              <Sparkles className="w-8 h-8 text-inovara-accent" />
             </div>
             
             {/* Professional Divider */}
@@ -104,7 +102,7 @@ const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {
       </section>
 
       {/* Main Content */}
-      <section className="py-24 px-6">
+      <section className="pb-24 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Industries Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
