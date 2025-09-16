@@ -485,7 +485,7 @@
     "info": {
       "address": "123 شارع الأعمال، القاهرة، مصر",
       "phone": "+20 123 456 7890",
-      "email": "info@inovara.com",
+      "email": "info@inovara.net",
       "hours": "الاثنين-الجمعة: 9ص-6م"
     },
     "cta": {
@@ -509,7 +509,7 @@
     "emailLabel": "البريد الإلكتروني",
     "phoneLabel": "الهاتف",
     "addressLabel": "العنوان",
-    "email": "info@inovara.com",
+    "email": "info@inovara.net",
     "phone": "+20 123 456 7890",
     "address": "القاهرة، مصر"
   },
@@ -519,7 +519,7 @@
     "products": "المنتجات",
     "support": "الدعم",
     "legal": "قانوني",
-    "copyright": "© 2024 إنوفارا. جميع الحقوق محفوظة.",
+    "copyright": "© {{year}} إنوفارا. جميع الحقوق محفوظة.",
     "company": {
       "name": "إنوفارا حلول البيع",
       "description": "المزود الرائد لحلول ماكينات البيع الذكية في مصر. حول أعمالك بتقنيتنا المبتكرة.",

@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Twitter, Instagram, Facebook, Linkedin, Github } from 'lucide-react';
+import { Twitter, Instagram, Facebook, Linkedin } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 import logo from '../../inovara.svg';
 
@@ -52,19 +52,22 @@ FooterSection.displayName = 'FooterSection';
 
 const Footer: React.FC = memo(() => {
   const { t, isRTL } = useTranslation();
+  
+  // Dynamic copyright with current year
+  const currentYear = new Date().getFullYear();
+  const copyrightText = t('footer.copyright').replace('{{year}}', currentYear.toString());
 
   const socialLinks: SocialLink[] = useMemo(() => [
-    { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara' },
-    { name: t('footer.social.twitter'), icon: 'Twitter', url: 'https://twitter.com/inovara' },
-    { name: t('footer.social.instagram'), icon: 'Instagram', url: 'https://instagram.com/inovara' },
-    { name: t('footer.social.facebook'), icon: 'Facebook', url: 'https://facebook.com/inovara' },
-    { name: t('footer.social.github'), icon: 'Github', url: 'https://github.com/inovara' },
+    { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara-global' },
+    { name: t('footer.social.twitter'), icon: 'Twitter', url: 'https://twitter.com/inovara_global' },
+    { name: t('footer.social.instagram'), icon: 'Instagram', url: 'https://instagram.com/inovara.global' },
+    { name: t('footer.social.facebook'), icon: 'Facebook', url: 'https://facebook.com/inovara.global' },
   ], [t]);
 
   const quickLinks = useMemo(() => [
     { name: t('footer.links.about'), url: '#about' },
-    { name: t('footer.links.services'), url: '#services' },
     { name: t('footer.links.products'), url: '#products' },
+    { name: t('footer.links.industries'), url: '#industries' },
     { name: t('footer.links.contact'), url: '#contact' },
   ], [t]);
 
@@ -87,8 +90,6 @@ const Footer: React.FC = memo(() => {
         return <Facebook {...iconProps} />;
       case 'Linkedin':
         return <Linkedin {...iconProps} />;
-      case 'Github':
-        return <Github {...iconProps} />;
       default:
         return null;
     }
@@ -146,7 +147,7 @@ const Footer: React.FC = memo(() => {
             {/* Copyright */}
             <div className={`text-white/70 text-sm ${isRTL ? 'text-right' : 'text-left'}`}>
               <p className={`${isRTL ? 'text-right' : 'text-left'}`}>
-                {t('footer.copyright')}
+                {copyrightText}
               </p>
             </div>
 

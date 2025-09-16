@@ -54,7 +54,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
       sender: 'bot',
       timestamp: new Date()
     };
-    
+
     setMessages([welcomeMessage]);
   }, [language, t]);
 
@@ -83,10 +83,10 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
   const getBotResponse = useCallback((userMessage: string): Message => {
     const message = userMessage.toLowerCase();
     const context = conversationContext.join(' ').toLowerCase();
-    
+
     // Update conversation context
     setConversationContext(prev => [...prev.slice(-4), userMessage.toLowerCase()]);
-    
+
     // Intent detection with multiple keywords and context
     const intents = {
       greeting: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'salam', 'مرحبا', 'أهلا'],
@@ -108,7 +108,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
     const extractPreferences = (msg: string) => {
       const budgetKeywords = ['budget', 'affordable', 'expensive', 'cheap', 'ميزانية', 'رخيص', 'غالي'];
       const industryKeywords = ['office', 'hospital', 'school', 'retail', 'restaurant', 'مكتب', 'مستشفى', 'مدرسة'];
-      
+
       if (budgetKeywords.some(keyword => msg.includes(keyword))) {
         setUserPreferences(prev => ({ ...prev, budget: msg }));
       }
@@ -122,9 +122,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
     // Determine primary intent
     let primaryIntent = 'default';
     let confidence = 0;
-    
+
     for (const [intent, keywords] of Object.entries(intents)) {
-      const matches = keywords.filter(keyword => 
+      const matches = keywords.filter(keyword =>
         message.includes(keyword) || context.includes(keyword)
       ).length;
       if (matches > confidence) {
@@ -136,7 +136,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
     // Generate contextual response based on intent and preferences
     const generateResponse = (intent: string): Message => {
       const timestamp = new Date();
-      
+
       switch (intent) {
         case 'greeting':
           return {
@@ -151,11 +151,11 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               t('chatbot.quickQuestions.quote')
             ]
           };
-          
+
         case 'pricing':
           return {
             id: Date.now().toString(),
-            text: userPreferences.budget 
+            text: userPreferences.budget
               ? t('chatbot.responses.pricingPersonalized')
               : t('chatbot.responses.pricing'),
             sender: 'bot',
@@ -185,7 +185,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               }
             ]
           };
-          
+
         case 'products':
           return {
             id: Date.now().toString(),
@@ -200,7 +200,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               t('chatbot.suggestions.customSolutions')
             ]
           };
-          
+
         case 'contact':
           return {
             id: Date.now().toString(),
@@ -229,7 +229,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               }
             ]
           };
-          
+
         case 'quote':
           return {
             id: Date.now().toString(),
@@ -252,7 +252,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               }
             ]
           };
-          
+
         case 'features':
           return {
             id: Date.now().toString(),
@@ -267,7 +267,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               t('chatbot.suggestions.customBranding')
             ]
           };
-          
+
         case 'industries':
           return {
             id: Date.now().toString(),
@@ -282,7 +282,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               t('chatbot.suggestions.retail')
             ]
           };
-          
+
         default:
           return {
             id: Date.now().toString(),
@@ -320,7 +320,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
 
     // Simulate realistic typing delay based on response complexity
     const delay = 800 + Math.random() * 1200; // 0.8-2 seconds
-    
+
     setTimeout(() => {
       const botResponse = getBotResponse(userMessage.text);
       setMessages(prev => [...prev, botResponse]);
@@ -350,82 +350,83 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
   if (!isOpen) return null;
 
   return (
-    <div 
-      className={`fixed inset-0 z-[60] flex items-end p-2 sm:p-4 ${isRTL ? 'justify-start' : 'justify-end'}`}
+    <div
+      className={`fixed inset-0 z-[60] flex items-center justify-center p-1 xs:p-2 sm:items-end sm:p-4 ${isRTL ? 'sm:justify-start' : 'sm:justify-end'}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="chatbot-title"
       aria-describedby="chatbot-subtitle"
     >
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
         onClick={onClose}
         aria-label={t('common.close')}
       />
-      
+
       {/* Chat Widget */}
       <div className={`
-        relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-md 
-        h-[85vh] sm:h-[600px] max-h-[700px] min-h-[400px]
-        bg-white rounded-xl sm:rounded-2xl shadow-2xl
+        fixed w-full max-w-[95vw] xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md xl:max-w-lg
+        h-[90vh] xs:h-[85vh] sm:h-[600px] max-h-[700px] min-h-[350px] xs:min-h-[400px]
+        bg-white/95 backdrop-blur-md rounded-lg xs:rounded-xl sm:rounded-2xl shadow-2xl
         flex flex-col overflow-hidden transform transition-all duration-300 ease-out
-        border border-gray-200/50 backdrop-blur-sm
+        border border-inovara-primary/20
         ${isRTL ? 'rtl' : 'ltr'}
         animate-in slide-in-from-bottom-4 fade-in duration-300
         focus-within:ring-2 focus-within:ring-inovara-primary/20
+        overflow-y-auto
       `}>
         {/* Header */}
-        <div className={`bg-gradient-to-r from-inovara-primary to-inovara-secondary p-3 sm:p-4 flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} justify-between border-b border-white/10 shrink-0`}>
-          <div className={`flex items-center gap-2 sm:gap-3 min-w-0 flex-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shrink-0">
-              <Bot className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
+        <div className={`bg-gradient-to-r from-inovara-primary to-inovara-secondary p-2.5 xs:p-3 sm:p-4 flex items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} justify-between border-b border-white/10 shrink-0`}>
+          <div className={`flex items-center gap-1.5 xs:gap-2 sm:gap-3 min-w-0 flex-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-lg xs:rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shrink-0">
+              <Bot className="w-4 h-4 xs:w-5 xs:h-5 sm:w-7 sm:h-7 text-white" />
             </div>
             <div className={`min-w-0 flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-              <h3 id="chatbot-title" className="text-white font-black text-lg sm:text-xl leading-tight truncate">{t('chatbot.title')}</h3>
-              <p id="chatbot-subtitle" className="text-white/90 text-xs sm:text-sm font-medium mt-0.5 sm:mt-1 truncate">{t('chatbot.subtitle')}</p>
+              <h3 id="chatbot-title" className="text-white font-black text-base xs:text-lg sm:text-xl leading-tight truncate">{t('chatbot.title')}</h3>
+              <p id="chatbot-subtitle" className="text-white/90 text-xs xs:text-xs sm:text-sm font-medium mt-0.5 xs:mt-0.5 sm:mt-1 truncate">{t('chatbot.subtitle')}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className={`p-2 sm:p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg sm:rounded-xl transition-all duration-300 group shrink-0 touch-manipulation focus:outline-none focus:ring-2 focus:ring-white/30 ${isRTL ? 'mr-1 sm:mr-2' : 'ml-1 sm:ml-2'}`}
+            className={`p-1.5 xs:p-2 sm:p-3 text-white/80 hover:text-white hover:bg-white/10 rounded-md xs:rounded-lg sm:rounded-xl transition-all duration-300 group shrink-0 touch-manipulation focus:outline-none focus:ring-2 focus:ring-white/30 min-w-[44px] min-h-[44px] xs:min-w-[48px] xs:min-h-[48px] flex items-center justify-center ${isRTL ? 'mr-0.5 xs:mr-1 sm:mr-2' : 'ml-0.5 xs:ml-1 sm:ml-2'}`}
             aria-label={t('common.close')}
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-90 transition-transform duration-300" />
+            <X className="w-4 h-4 xs:w-4 xs:h-4 sm:w-5 sm:h-5 group-hover:rotate-90 transition-transform duration-300" />
           </button>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto p-2 xs:p-3 sm:p-4 space-y-2 xs:space-y-3 sm:space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-[calc(90vh-200px)] xs:max-h-[calc(85vh-200px)] sm:max-h-[calc(600px-200px)]">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.sender === 'user' ? (isRTL ? 'justify-start' : 'justify-end') : (isRTL ? 'justify-end' : 'justify-start')}`}
             >
               <div className={`
-                flex items-start gap-2 sm:gap-3 max-w-[90%] sm:max-w-[85%]
+                flex items-start gap-1.5 xs:gap-2 sm:gap-3 max-w-[95%] xs:max-w-[90%] sm:max-w-[85%]
                 ${message.sender === 'user' ? (isRTL ? 'flex-row-reverse' : 'flex-row') : (isRTL ? 'flex-row-reverse' : 'flex-row')}
               `}>
                 {/* Avatar */}
                 <div className={`
-                  w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0
-                  ${message.sender === 'user' 
-                    ? 'bg-inovara-primary text-white' 
+                  w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0
+                  ${message.sender === 'user'
+                    ? 'bg-inovara-primary text-white'
                     : 'bg-gray-100 text-gray-600'
                   }
                 `}>
                   {message.sender === 'user' ? (
-                    <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <User className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" />
                   ) : (
-                    <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Bot className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" />
                   )}
                 </div>
-                
+
                 {/* Message Content */}
-                <div className="flex flex-col gap-1.5 sm:gap-2 min-w-0 flex-1">
+                <div className="flex flex-col gap-1 xs:gap-1.5 sm:gap-2 min-w-0 flex-1">
                   {/* Message Bubble */}
                   <div className={`
-                    px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-sm shadow-sm border
+                    px-2.5 xs:px-3 sm:px-4 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl sm:rounded-2xl text-xs xs:text-sm sm:text-sm shadow-sm border
                     ${message.sender === 'user'
                       ? 'bg-gradient-to-r from-inovara-primary to-inovara-primary/90 text-white border-inovara-primary/20'
                       : 'bg-white text-gray-800 border-gray-200'
@@ -434,7 +435,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                   `}>
                     <p className={`${isRTL ? 'text-right' : 'text-left'} leading-relaxed`}>{message.text}</p>
                     <p className={`
-                      text-xs mt-1 opacity-70
+                      text-[10px] xs:text-xs mt-1 opacity-70
                       ${isRTL ? 'text-right' : 'text-left'}
                     `}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -443,7 +444,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
 
                   {/* Suggestions */}
                   {message.suggestions && message.suggestions.length > 0 && (
-                    <div className={`flex flex-wrap gap-1.5 sm:gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`flex flex-wrap gap-1 xs:gap-1.5 sm:gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
                       {message.suggestions.map((suggestion, index) => (
                         <button
                           key={index}
@@ -452,9 +453,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                             setTimeout(() => handleSendMessage(), 100);
                           }}
                           className={`
-                            text-xs px-2.5 sm:px-3 py-1.5 sm:py-2 bg-white hover:bg-inovara-primary/5 border border-gray-200 
-                            hover:border-inovara-primary/30 rounded-lg sm:rounded-xl transition-all duration-200 
-                            hover:shadow-sm cursor-pointer touch-manipulation active:scale-95
+                            text-[10px] xs:text-xs px-2 xs:px-2.5 sm:px-3 py-1 xs:py-1.5 sm:py-2 bg-white hover:bg-inovara-primary/5 border border-gray-200 
+                            hover:border-inovara-primary/30 rounded-md xs:rounded-lg sm:rounded-xl transition-all duration-200 
+                            hover:shadow-sm cursor-pointer touch-manipulation active:scale-95 min-h-[32px] xs:min-h-[36px]
                             ${isRTL ? 'text-right' : 'text-left'}
                             break-words
                           `}
@@ -467,7 +468,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
 
                   {/* Actions */}
                   {message.actions && message.actions.length > 0 && (
-                    <div className={`flex flex-wrap gap-1.5 sm:gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`flex flex-wrap gap-1 xs:gap-1.5 sm:gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
                       {message.actions.map((action) => {
                         const IconComponent = action.icon;
                         return (
@@ -475,8 +476,8 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                             key={action.id}
                             onClick={action.action}
                             className={`
-                              flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium
-                              transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation
+                              flex items-center gap-1 xs:gap-1.5 sm:gap-2 px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 rounded-md xs:rounded-lg sm:rounded-xl text-[10px] xs:text-xs sm:text-sm font-medium
+                              transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation min-h-[32px] xs:min-h-[36px]
                               ${action.type === 'primary'
                                 ? 'bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white hover:shadow-lg'
                                 : 'bg-white border border-gray-200 text-gray-700 hover:border-inovara-primary/30 hover:bg-inovara-primary/5'
@@ -484,7 +485,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                               ${isRTL ? 'flex-row-reverse' : 'flex-row'}
                             `}
                           >
-                            {IconComponent && <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+                            {IconComponent && <IconComponent className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" />}
                             <span className="truncate">{action.label}</span>
                           </button>
                         );
@@ -495,37 +496,37 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               </div>
             </div>
           ))}
-          
+
           {/* Typing Indicator */}
           {isTyping && (
             <div className={`flex ${isRTL ? 'justify-end' : 'justify-start'}`}>
-              <div className={`flex items-start gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <div className={`flex items-start gap-1.5 xs:gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0">
+                  <Bot className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" />
                 </div>
-                <div className="bg-white text-gray-800 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl shadow-sm border border-gray-200">
-                  <div className={`flex items-center gap-1.5 sm:gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
-                    <span className={`text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.typing')}</span>
+                <div className="bg-white text-gray-800 px-2.5 xs:px-3 sm:px-4 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl sm:rounded-2xl shadow-sm border border-gray-200">
+                  <div className={`flex items-center gap-1 xs:gap-1.5 sm:gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <Loader2 className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 animate-spin" />
+                    <span className={`text-[10px] xs:text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.typing')}</span>
                   </div>
                 </div>
               </div>
             </div>
           )}
-          
+
           <div ref={messagesEndRef} />
         </div>
 
         {/* Quick Questions */}
         {messages.length === 1 && messages[0]?.id === 'welcome' && (
-          <div className="px-3 sm:px-4 pb-2 shrink-0">
-            <p className={`text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 font-medium ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.quickQuestions.title')}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
+          <div className="px-2 xs:px-3 sm:px-4 pb-1.5 xs:pb-2 shrink-0 bg-white/50 backdrop-blur-sm">
+            <p className={`text-[10px] xs:text-xs sm:text-sm text-gray-600 mb-1.5 xs:mb-2 sm:mb-3 font-medium ${isRTL ? 'text-right' : 'text-left'}`}>{t('chatbot.quickQuestions.title')}</p>
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-1 xs:gap-1.5 sm:gap-2">
               {quickQuestions.map((question, index) => (
                 <button
                   key={index}
                   onClick={() => handleQuickQuestion(question)}
-                  className={`text-xs p-2.5 sm:p-3 bg-white hover:bg-inovara-primary/5 border border-gray-200 hover:border-inovara-primary/30 rounded-lg sm:rounded-xl transition-all duration-200 hover:shadow-sm touch-manipulation active:scale-95 ${isRTL ? 'text-right' : 'text-left'} break-words`}
+                  className={`text-[10px] xs:text-xs p-2 xs:p-2.5 sm:p-3 bg-white hover:bg-inovara-primary/5 border border-gray-200 hover:border-inovara-primary/30 rounded-md xs:rounded-lg sm:rounded-xl transition-all duration-200 hover:shadow-sm touch-manipulation active:scale-95 min-h-[32px] xs:min-h-[36px] ${isRTL ? 'text-right' : 'text-left'} break-words`}
                 >
                   {question}
                 </button>
@@ -535,8 +536,8 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
         )}
 
         {/* Input */}
-        <div className="p-3 sm:p-4 border-t border-gray-200/50 bg-white/95 backdrop-blur-sm shadow-lg shrink-0">
-          <div className={`flex items-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+        <div className="p-2 xs:p-3 sm:p-4 border-t border-gray-200/50 bg-white/95 backdrop-blur-sm shadow-lg shrink-0 sticky bottom-0">
+          <div className={`flex items-center gap-1.5 xs:gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <div className="flex-1 relative">
               <input
                 ref={inputRef}
@@ -546,13 +547,13 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                 onKeyPress={handleKeyPress}
                 placeholder={t('chatbot.inputPlaceholder')}
                 className={`
-                  w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-lg sm:rounded-xl
-                  focus:outline-none focus:ring-2 sm:focus:ring-4 focus:ring-inovara-primary/20 focus:border-inovara-primary
-                  text-sm placeholder-gray-500 bg-white/80 backdrop-blur-sm
+                  w-full px-2.5 xs:px-3 sm:px-4 py-2 xs:py-2.5 sm:py-3 border border-gray-200 rounded-md xs:rounded-lg sm:rounded-xl
+                  focus:outline-none focus:ring-2 xs:focus:ring-2 sm:focus:ring-4 focus:ring-inovara-primary/20 focus:border-inovara-primary
+                  text-xs xs:text-sm sm:text-sm placeholder-gray-500 bg-white/80 backdrop-blur-sm
                   transition-all duration-200 hover:border-gray-300
                   disabled:opacity-50 disabled:cursor-not-allowed
                   ${isRTL ? 'text-right' : 'text-left'}
-                  touch-manipulation
+                  touch-manipulation min-h-[44px] xs:min-h-[48px]
                 `}
                 dir={isRTL ? 'rtl' : 'ltr'}
                 disabled={isTyping}
@@ -572,12 +573,12 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isTyping}
               className={`
-                relative p-2.5 sm:p-3 text-white rounded-lg sm:rounded-xl transition-all duration-300 
-                focus:outline-none focus:ring-2 sm:focus:ring-4 focus:ring-inovara-primary/30
-                group overflow-hidden min-w-[44px] min-h-[44px] sm:min-w-[48px] sm:min-h-[48px] flex items-center justify-center
+                relative p-2 xs:p-2.5 sm:p-3 text-white rounded-md xs:rounded-lg sm:rounded-xl transition-all duration-300 
+                focus:outline-none focus:ring-2 xs:focus:ring-2 sm:focus:ring-4 focus:ring-inovara-primary/30
+                group overflow-hidden min-w-[44px] min-h-[44px] xs:min-w-[48px] xs:min-h-[48px] sm:min-w-[48px] sm:min-h-[48px] flex items-center justify-center
                 touch-manipulation
                 ${!inputValue.trim() || isTyping
-                  ? 'bg-gray-300 cursor-not-allowed' 
+                  ? 'bg-gray-300 cursor-not-allowed'
                   : 'bg-gradient-to-r from-inovara-primary to-inovara-secondary hover:from-inovara-primary/90 hover:to-inovara-secondary/90 hover:shadow-lg hover:scale-105 active:scale-95'
                 }
               `}
@@ -585,18 +586,18 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
               aria-disabled={!inputValue.trim() || isTyping}
             >
               {/* Background gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-md xs:rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
               {/* Send Icon */}
-              <Send className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 ${!inputValue.trim() || isTyping ? '' : 'group-hover:translate-x-0.5'}`} />
-              
+              <Send className={`w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 transition-transform duration-200 ${!inputValue.trim() || isTyping ? '' : 'group-hover:translate-x-0.5'}`} />
+
               {/* Loading spinner for typing state */}
               {isTyping && (
-                <Loader2 className="absolute w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
+                <Loader2 className="absolute w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 animate-spin" />
               )}
-              
+
               {/* Subtle border glow */}
-              <div className="absolute inset-0 rounded-lg sm:rounded-xl border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 rounded-md xs:rounded-lg sm:rounded-xl border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </div>
         </div>

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { AnimationConfig, ScrollAnimationConfig } from '../types';
+import { ScrollAnimationConfig } from '../types';
 
 interface UseScrollAnimationOptions extends ScrollAnimationConfig {
   triggerOnce?: boolean;
   rootMargin?: string;
 }
 
-export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
+export const useScrollAnimation = (options: Partial<UseScrollAnimationOptions> = {}) => {
   const {
     threshold = 0.1,
     rootMargin = '0px',
@@ -122,8 +122,6 @@ export const useParallaxScroll = (speed: number = 0.5) => {
     const handleScroll = () => {
       const element = elementRef.current;
       if (!element) return;
-
-      const rect = element.getBoundingClientRect();
       const scrolled = window.pageYOffset;
       const rate = scrolled * -speed;
       

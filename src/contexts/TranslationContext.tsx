@@ -7,7 +7,7 @@ export type Language = 'en' | 'ar';
 interface TranslationContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => any;
+  t: (key: string, variables?: Record<string, any>) => any;
   isRTL: boolean;
 }
 
