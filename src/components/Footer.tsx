@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Twitter, Instagram, Facebook, Linkedin, Github } from 'lucide-react';
+import { Twitter, Instagram, Facebook, Linkedin } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 import logo from '../../inovara.svg';
 
@@ -54,11 +54,10 @@ const Footer: React.FC = memo(() => {
   const { t, isRTL } = useTranslation();
 
   const socialLinks: SocialLink[] = useMemo(() => [
-    { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara' },
-    { name: t('footer.social.twitter'), icon: 'Twitter', url: 'https://twitter.com/inovara' },
-    { name: t('footer.social.instagram'), icon: 'Instagram', url: 'https://instagram.com/inovara' },
-    { name: t('footer.social.facebook'), icon: 'Facebook', url: 'https://facebook.com/inovara' },
-    { name: t('footer.social.github'), icon: 'Github', url: 'https://github.com/inovara' },
+    { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara-global' },
+    { name: t('footer.social.twitter'), icon: 'Twitter', url: 'https://twitter.com/inovara_global' },
+    { name: t('footer.social.instagram'), icon: 'Instagram', url: 'https://instagram.com/inovara.global' },
+    { name: t('footer.social.facebook'), icon: 'Facebook', url: 'https://facebook.com/inovara.global' },
   ], [t]);
 
   const quickLinks = useMemo(() => [
@@ -87,8 +86,6 @@ const Footer: React.FC = memo(() => {
         return <Facebook {...iconProps} />;
       case 'Linkedin':
         return <Linkedin {...iconProps} />;
-      case 'Github':
-        return <Github {...iconProps} />;
       default:
         return null;
     }
