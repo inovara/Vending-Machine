@@ -1,4 +1,4 @@
-import { ApiError, ApiResponse } from './types';
+import { ApiError, ApiResponse } from '../types/api';
 
 // Error handling utilities
 export class ServiceError extends Error {
