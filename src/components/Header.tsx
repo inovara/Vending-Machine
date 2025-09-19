@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import logo from '../../inovara.svg';
+import logo from '../../logo.svg';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { useTranslation } from '../contexts/TranslationContext';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -87,12 +87,8 @@ const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
                 <img
                   src={logo}
                   alt="Inovara Logo"
-                  className="h-12 w-auto transition-all duration-300 group-hover:scale-105"
+                  className="h-16 w-auto transition-all duration-300 group-hover:scale-105"
                 />
-                {/* Professional accent dot */}
-                <div className={`absolute -top-1 ${isRTL ? '-left-1' : '-right-1'} w-2 h-2 rounded-full bg-inovara-accent transition-all duration-300 ${
-                  isScrolled ? 'opacity-100' : 'opacity-80'
-                }`}></div>
               </div>
             </button>
           </div>
