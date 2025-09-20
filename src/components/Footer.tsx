@@ -60,8 +60,8 @@ const Footer: React.FC = memo(() => {
   const socialLinks: SocialLink[] = useMemo(() => [
     { name: t('footer.social.linkedin'), icon: 'Linkedin', url: 'https://linkedin.com/company/inovara-global' },
     { name: t('footer.social.twitter'), icon: 'Twitter', url: 'https://twitter.com/inovara_global' },
-    { name: t('footer.social.instagram'), icon: 'Instagram', url: 'https://instagram.com/inovara.global' },
-    { name: t('footer.social.facebook'), icon: 'Facebook', url: 'https://facebook.com/inovara.global' },
+    { name: t('footer.social.instagram'), icon: 'Instagram', url: 'https://instagram.com/inovara.vending' },
+    { name: t('footer.social.facebook'), icon: 'Facebook', url: 'https://facebook.com/inovara.vending' },
   ], [t]);
 
   const quickLinks = useMemo(() => [

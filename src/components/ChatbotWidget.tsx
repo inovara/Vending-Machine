@@ -213,7 +213,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                 id: 'whatsapp',
                 label: t('chatbot.actions.whatsapp'),
                 action: () => {
-                  window.open('https://wa.me/201234567890', '_blank');
+                  window.open('https://wa.me/201116392600', '_blank');
                 },
                 icon: MessageCircle,
                 type: 'primary'
@@ -222,7 +222,200 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                 id: 'email',
                 label: t('chatbot.actions.email'),
                 action: () => {
-                  window.location.href = 'mailto:info@inovara.com';
+                  const email = 'info@inovara.net';
+                  const subject = 'Inquiry about Smart Vending Solutions';
+                  const body = 'Hello,\n\nI am interested in your smart vending machine solutions. Please provide more information.\n\nBest regards,';
+                  
+                  // Professional notification system
+                  const showNotification = (message: string, type: 'success' | 'info' | 'warning' | 'error' = 'info', duration = 4000) => {
+                    // Remove any existing notifications
+                    const existingNotifications = document.querySelectorAll('.email-notification');
+                    existingNotifications.forEach(notification => {
+                      if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                      }
+                    });
+                    
+                    const notification = document.createElement('div');
+                    notification.className = 'email-notification';
+                    
+                    const colors = {
+                      success: '#10B981',
+                      info: '#3B82F6', 
+                      warning: '#F59E0B',
+                      error: '#EF4444'
+                    };
+                    
+                    const icons = {
+                      success: '✓',
+                      info: 'ℹ',
+                      warning: '⚠',
+                      error: '✕'
+                    };
+                    
+                    notification.style.cssText = `
+                      position: fixed;
+                      top: 20px;
+                      right: 20px;
+                      background: ${colors[type]};
+                      color: white;
+                      padding: 16px 24px;
+                      border-radius: 12px;
+                      z-index: 10000;
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                      font-size: 14px;
+                      font-weight: 500;
+                      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+                      backdrop-filter: blur(10px);
+                      border: 1px solid rgba(255,255,255,0.1);
+                      max-width: 350px;
+                      word-wrap: break-word;
+                      line-height: 1.4;
+                      transform: translateX(100%);
+                      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+                      opacity: 0;
+                    `;
+                    
+                    notification.innerHTML = `
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">
+                          ${icons[type]}
+                        </div>
+                        <span>${message}</span>
+                      </div>
+                    `;
+                    
+                    document.body.appendChild(notification);
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                      notification.style.transform = 'translateX(0)';
+                      notification.style.opacity = '1';
+                    }, 10);
+                    
+                    // Auto-remove
+                    setTimeout(() => {
+                      if (notification.parentNode) {
+                        notification.style.transform = 'translateX(100%)';
+                        notification.style.opacity = '0';
+                        setTimeout(() => {
+                          if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                          }
+                        }, 300);
+                      }
+                    }, duration);
+                  };
+                  
+                  // Show immediate feedback
+                  showNotification('Opening your email client...', 'info', 2000);
+                  
+                  // Advanced email opening with multiple methods
+                  let emailOpened = false;
+                  const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                  
+                  // Method 1: Create and click a temporary link (most reliable)
+                  try {
+                    const link = document.createElement('a');
+                    link.href = mailtoUrl;
+                    link.style.position = 'absolute';
+                    link.style.left = '-9999px';
+                    link.style.visibility = 'hidden';
+                    link.style.pointerEvents = 'none';
+                    link.style.opacity = '0';
+                    link.style.zIndex = '-1';
+                    
+                    document.body.appendChild(link);
+                    
+                    // Create a more reliable click event
+                    const clickEvent = new MouseEvent('click', {
+                      view: window,
+                      bubbles: true,
+                      cancelable: true,
+                      buttons: 1,
+                      clientX: 0,
+                      clientY: 0
+                    });
+                    
+                    link.dispatchEvent(clickEvent);
+                    
+                    // Clean up immediately
+                    setTimeout(() => {
+                      if (link.parentNode) {
+                        link.parentNode.removeChild(link);
+                      }
+                    }, 100);
+                    
+                    emailOpened = true;
+                    
+                    // Show success notification
+                    setTimeout(() => {
+                      showNotification('Email client opened successfully!', 'success', 3000);
+                    }, 500);
+                    
+                  } catch {
+                    console.log('Method 1 failed, trying fallback...');
+                  }
+                  
+                  // Method 2: Try window.location as fallback (only if method 1 failed)
+                  if (!emailOpened) {
+                    try {
+                      // Use a temporary iframe to avoid page navigation
+                      const iframe = document.createElement('iframe');
+                      iframe.style.display = 'none';
+                      iframe.style.position = 'absolute';
+                      iframe.style.left = '-9999px';
+                      iframe.style.width = '1px';
+                      iframe.style.height = '1px';
+                      iframe.src = mailtoUrl;
+                      document.body.appendChild(iframe);
+                      
+                      setTimeout(() => {
+                        if (iframe.parentNode) {
+                          iframe.parentNode.removeChild(iframe);
+                        }
+                      }, 1000);
+                      
+                      emailOpened = true;
+                      showNotification('Email client opened successfully!', 'success', 3000);
+                      
+                    } catch {
+                      console.log('Method 2 failed, trying clipboard fallback...');
+                    }
+                  }
+                  
+                  // Method 3: Clipboard fallback with enhanced UX
+                  if (!emailOpened) {
+                    setTimeout(() => {
+                      if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(email).then(() => {
+                          showNotification(`
+                            <div>
+                              <strong>Email copied to clipboard!</strong><br>
+                              <small style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-family: monospace;">${email}</small><br>
+                              <small style="opacity: 0.8;">Paste it into your email client</small>
+                            </div>
+                          `, 'success', 5000);
+                        }).catch(() => {
+                          showNotification(`
+                            <div>
+                              <strong>Contact Email:</strong><br>
+                              <code style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-family: monospace;">${email}</code><br>
+                              <small style="opacity: 0.8;">Please copy this email address</small>
+                            </div>
+                          `, 'warning', 6000);
+                        });
+                      } else {
+                        showNotification(`
+                          <div>
+                            <strong>Contact Email:</strong><br>
+                            <code style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-family: monospace;">${email}</code><br>
+                            <small style="opacity: 0.8;">Please copy this email address</small>
+                          </div>
+                        `, 'warning', 6000);
+                      }
+                    }, 1500);
+                  }
                 },
                 icon: ExternalLink,
                 type: 'secondary'

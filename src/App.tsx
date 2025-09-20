@@ -96,7 +96,7 @@ const App: React.FC = () => {
         <FloatingActionMenu 
           onChatbotOpen={openChatbot}
           onQuoteRequest={openQuoteForm}
-          whatsappNumber="+201234567890"
+          whatsappNumber="+201116392600"
           whatsappMessage="Hello! I'm interested in your smart vending machine solutions. Can you provide more information?"
         />
 
