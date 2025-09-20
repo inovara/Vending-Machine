@@ -8,7 +8,7 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://inovara.com/</loc>
+    <loc>https://vending.inovara.net/</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -17,7 +17,7 @@
   
   <!-- About Section -->
   <url>
-    <loc>https://inovara.com/#about</loc>
+    <loc>https://vending.inovara.net/#about</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -26,7 +26,7 @@
   
   <!-- Services Section -->
   <url>
-    <loc>https://inovara.com/#services</loc>
+    <loc>https://vending.inovara.net/#services</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -35,7 +35,7 @@
   
   <!-- Case Studies Section -->
   <url>
-    <loc>https://inovara.com/#case-studies</loc>
+    <loc>https://vending.inovara.net/#case-studies</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -44,7 +44,7 @@
   
   <!-- Contact Section -->
   <url>
-    <loc>https://inovara.com/#contact</loc>
+    <loc>https://vending.inovara.net/#contact</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -53,7 +53,7 @@
   
   <!-- Enterprise Solutions Page (if separate) -->
   <url>
-    <loc>https://inovara.com/enterprise-solutions</loc>
+    <loc>https://vending.inovara.net/enterprise-solutions</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -62,7 +62,7 @@
   
   <!-- AI Solutions Page (if separate) -->
   <url>
-    <loc>https://inovara.com/ai-solutions</loc>
+    <loc>https://vending.inovara.net/ai-solutions</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -71,7 +71,7 @@
   
   <!-- Digital Transformation Page (if separate) -->
   <url>
-    <loc>https://inovara.com/digital-transformation</loc>
+    <loc>https://vending.inovara.net/digital-transformation</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -80,7 +80,7 @@
   
   <!-- Privacy Policy -->
   <url>
-    <loc>https://inovara.com/privacy-policy</loc>
+    <loc>https://vending.inovara.net/privacy-policy</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -89,7 +89,7 @@
   
   <!-- Terms of Service -->
   <url>
-    <loc>https://inovara.com/terms-of-service</loc>
+    <loc>https://vending.inovara.net/terms-of-service</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
