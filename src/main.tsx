@@ -32,8 +32,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(_error: Error, errorInfo: React.ErrorInfo) {
-    // Log error in production (remove in production if needed)
-    console.error('Error caught by boundary:', _error, errorInfo);
+    // Silent error handling for production
   }
 
   render() {
@@ -80,11 +79,8 @@ root.render(
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        console.log('SW registered: ', registration);
-      })
-      .catch((registrationError) => {
-        console.log('SW registration failed: ', registrationError);
+      .catch(() => {
+        // Silent fail for service worker registration
       });
   });
 }
@@ -102,14 +98,20 @@ const initializePerformanceOptimizations = () => {
   // Initialize lazy loading
   performanceUtils.lazyLoadImages();
 
-  // Defer non-critical scripts
+  // Defer non-critical scripts with error handling
   performanceUtils.requestIdleCallback(() => {
-    // Initialize analytics after critical rendering
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'page_view', {
-        page_title: 'Inovara - Smart Vending Machine Solutions',
-        page_location: window.location.href
-      });
+    // Initialize analytics after critical rendering with error handling
+    try {
+      if (typeof gtag !== 'undefined' && typeof window !== 'undefined') {
+        gtag('event', 'page_view', {
+          page_title: 'Inovara - Smart Vending Machine Solutions',
+          page_location: window.location.href,
+          business_type: 'vending_solutions',
+          industry: 'retail_technology'
+        });
+      }
+    } catch (error) {
+      // Silent fail for analytics initialization
     }
   });
 };

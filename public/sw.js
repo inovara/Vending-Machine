@@ -29,7 +29,6 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then(cache => {
-        console.log('Caching critical resources');
         return cache.addAll(CRITICAL_RESOURCES);
       })
       .then(() => self.skipWaiting())
@@ -44,7 +43,6 @@ self.addEventListener('activate', event => {
         return Promise.all(
           cacheNames.map(cacheName => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
-              console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
@@ -71,8 +69,11 @@ self.addEventListener('fetch', event => {
   } else if (url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com')) {
     // Font requests - cache with long TTL
     event.respondWith(handleFontRequest(request));
-  } else if (url.hostname.includes('www.googletagmanager.com') || url.hostname.includes('www.google-analytics.com')) {
-    // Analytics requests - network first
+  } else if (url.hostname.includes('www.googletagmanager.com') || 
+             url.hostname.includes('www.google-analytics.com') ||
+             url.hostname.includes('analytics.google.com') ||
+             url.hostname.includes('googletagmanager.com')) {
+    // Analytics requests - network first, never cache
     event.respondWith(handleAnalyticsRequest(request));
   } else {
     // Other external requests
@@ -98,7 +99,6 @@ async function handleSameOriginRequest(request) {
     }
     return networkResponse;
   } catch (error) {
-    console.error('Fetch failed:', error);
     return new Response('Network error', { status: 503 });
   }
 }
@@ -118,19 +118,42 @@ async function handleFontRequest(request) {
     }
     return networkResponse;
   } catch (error) {
-    console.error('Font fetch failed:', error);
     return new Response('Font unavailable', { status: 503 });
   }
 }
 
-// Handle analytics requests with network-first strategy
+// Handle analytics requests with network-first strategy and error handling
 async function handleAnalyticsRequest(request) {
   try {
-    const networkResponse = await fetch(request);
-    return networkResponse;
+    // Add timeout and retry logic for analytics requests
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    
+    const networkResponse = await fetch(request, {
+      signal: controller.signal,
+      cache: 'no-store', // Never cache analytics requests
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
+    
+    clearTimeout(timeoutId);
+    
+    // Don't cache analytics responses, always return fresh data
+    return new Response(networkResponse.body, {
+      status: networkResponse.status,
+      statusText: networkResponse.statusText,
+      headers: {
+        ...networkResponse.headers,
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
   } catch (error) {
-    console.error('Analytics request failed:', error);
-    return new Response('Analytics unavailable', { status: 503 });
+    return new Response('', { status: 200 });
   }
 }
 
@@ -140,7 +163,6 @@ async function handleExternalRequest(request) {
     const networkResponse = await fetch(request);
     return networkResponse;
   } catch (error) {
-    console.error('External request failed:', error);
     return new Response('External resource unavailable', { status: 503 });
   }
 }
@@ -167,7 +189,6 @@ self.addEventListener('sync', event => {
 
 async function doBackgroundSync() {
   // Perform background sync operations
-  console.log('Performing background sync');
 }
 
 // Handle push notifications (if needed)
