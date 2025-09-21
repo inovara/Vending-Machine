@@ -50,6 +50,7 @@ export interface Product {
   currency?: string;
   image_url?: string;
   images?: string[];
+  videos?: string[];
   category?: {
     id: number;
     name: string;

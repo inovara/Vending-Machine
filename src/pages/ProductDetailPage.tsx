@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -6,6 +6,7 @@ import { useTranslation } from '../contexts/TranslationContext';
 import { productDetails } from '../network/product';
 import { queryKeys } from '../services/react-query/queryKeys';
 import { Product } from '../types/api';
+import VideoModal from '../components/VideoModal';
 
 export interface ProductDetailPageProps {
   onQuoteClick: (productId?: number) => void;
@@ -15,6 +16,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   const { slug } = useParams<{ slug: string }>();
   const { t, isRTL, language } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [videoPreloaded, setVideoPreloaded] = useState(false);
 
   const {
     data: product,
@@ -28,6 +31,21 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000, // 10 minutes
   });
+
+  // Preload video when product data is available
+  useEffect(() => {
+    if (product?.videos?.[0] && !videoPreloaded) {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      video.src = product.videos[0];
+      video.onloadedmetadata = () => {
+        setVideoPreloaded(true);
+      };
+      video.onerror = () => {
+        console.log('Video preload failed');
+      };
+    }
+  }, [product?.videos, videoPreloaded]);
 
   // Format price with currency - COMMENTED OUT TO HIDE PRICES
   // const formatPrice = (price: string | number, currency?: string) => {
@@ -295,11 +313,28 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
                 </button>
 
-                <button className="w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group">
+                <button 
+                  onClick={() => {
+                    if (product?.videos?.[0]) {
+                      setIsVideoModalOpen(true);
+                    } else {
+                      // Fallback: show alert or redirect to contact
+                      alert(t('productDetail.noVideoAvailable') || 'No demo video available for this product. Please contact us for more information.');
+                    }
+                  }}
+                  className={`w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group relative ${
+                    videoPreloaded ? 'ring-2 ring-green-400/50' : ''
+                  }`}
+                >
                   <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     {t('productDetail.watchDemo')}
                     <Play className={`w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                   </span>
+                  
+                  {/* Video ready indicator */}
+                  {videoPreloaded && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  )}
                 </button>
               </div>
             </div>
@@ -594,6 +629,14 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
           </div>
         </div>
       </section>
+
+      {/* Video Modal */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoUrl={product?.videos?.[0]}
+        title={product?.name}
+      />
     </div>
   );
 };
