@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { ApiResponse, ApiError } from './types';
+import { ApiResponse, ApiError } from '../types/api';
 
 // Create axios instance with proper typing
 export const axiosInstance: AxiosInstance = axios.create({
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
       message: error.message || 'An unexpected error occurred',
       status: error.response?.status,
       code: error.code,
-      validation: error.response?.data?.validation || error.response?.data?.errors,
+      validation: error.response?.data?.errors,
     };
 
     // Log errors

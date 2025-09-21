@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import logo from '../../inovara.svg';
+import logo from '../../logo.svg';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { useTranslation } from '../contexts/TranslationContext';
 import LanguageSwitcher from './LanguageSwitcher';
 
 interface HeaderProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
@@ -87,12 +87,8 @@ const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
                 <img
                   src={logo}
                   alt="Inovara Logo"
-                  className="h-12 w-auto transition-all duration-300 group-hover:scale-105"
+                  className="h-16 w-auto transition-all duration-300 group-hover:scale-105"
                 />
-                {/* Professional accent dot */}
-                <div className={`absolute -top-1 ${isRTL ? '-left-1' : '-right-1'} w-2 h-2 rounded-full bg-inovara-accent transition-all duration-300 ${
-                  isScrolled ? 'opacity-100' : 'opacity-80'
-                }`}></div>
               </div>
             </button>
           </div>
@@ -122,7 +118,7 @@ const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
             <LanguageSwitcher />
 
             <button
-              onClick={onQuoteClick}
+              onClick={() => onQuoteClick()}
               className="group relative px-6 py-3 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-inovara-accent/30 overflow-hidden"
             >
               {/* Shimmer Effect */}

@@ -15,6 +15,13 @@ export interface PaginatedResponse<T = unknown> extends ApiResponse<T[]> {
   };
 }
 
+export interface ApiError {
+  message: string;
+  status?: number;
+  code?: string;
+  validation?: any;
+}
+
 // Contact Types
 export interface ContactFormData {
   name: string;
@@ -50,6 +57,7 @@ export interface Product {
   currency?: string;
   image_url?: string;
   images?: string[];
+  videos?: string[];
   category?: {
     id: number;
     name: string;
@@ -99,7 +107,7 @@ export interface QuoteFormData {
   email: string;
   phone?: string;
   company?: string;
-  industry?: string;
+  products: { id: number }[];
   machines?: string;
   budget?: string;
   timeline?: string;

@@ -239,7 +239,7 @@ const PrivacyPolicyPage: React.FC = () => {
                       <Phone className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="font-bold text-inovara-primary mb-2">{t('legal.privacy.contact.phone.title')}</h3>
-                    <p className="text-sm text-inovara-primary/70">+20 123 456 7890</p>
+                    <p className="text-sm text-inovara-primary/70">+201116392600</p>
                   </div>
                   <div className="text-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-2xl flex items-center justify-center mx-auto mb-4">

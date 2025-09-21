@@ -7,7 +7,7 @@ import ContactSection from '../components/ContactSection';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface HomePageProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onQuoteClick }) => {

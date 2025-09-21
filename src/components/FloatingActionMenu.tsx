@@ -12,7 +12,7 @@ interface FloatingActionMenuProps {
 const FloatingActionMenu: React.FC<FloatingActionMenuProps> = ({
   onChatbotOpen,
   onQuoteRequest,
-  whatsappNumber = "+201234567890",
+  whatsappNumber = "+201116392600",
   whatsappMessage = "Hello! I'm interested in your smart vending machine solutions. Can you provide more information?"
 }) => {
   const { t, isRTL } = useTranslation();

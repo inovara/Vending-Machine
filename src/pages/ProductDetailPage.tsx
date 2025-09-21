@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Share2, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle, Maximize2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
 import { productDetails } from '../network/product';
 import { queryKeys } from '../services/react-query/queryKeys';
 import { Product } from '../types/api';
+import VideoModal from '../components/VideoModal';
+import ImageSkeleton from '../components/ImageSkeleton';
+import ImagePreviewModal from '../components/ImagePreviewModal';
 
 export interface ProductDetailPageProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) => {
   const { slug } = useParams<{ slug: string }>();
   const { t, isRTL, language } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false);
+  const [videoPreloaded, setVideoPreloaded] = useState(false);
+  const [mainImageLoaded, setMainImageLoaded] = useState(false);
+  const [thumbnailImagesLoaded, setThumbnailImagesLoaded] = useState<boolean[]>([]);
 
   const {
     data: product,
@@ -29,29 +37,29 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
     cacheTime: 10 * 60 * 1000, // 10 minutes
   });
 
-  // Format price with currency
-  const formatPrice = (price: string | number, currency?: string) => {
-    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-    if (isNaN(numericPrice)) return 'Price on request';
+  // Preload video when product data is available
+  useEffect(() => {
+    if (product?.videos?.[0] && !videoPreloaded) {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      video.src = product.videos[0];
+      video.onloadedmetadata = () => {
+        setVideoPreloaded(true);
+      };
+      video.onerror = () => {
+        // Video preload failed - silently continue
+      };
+    }
+  }, [product?.videos, videoPreloaded]);
 
-    return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
-      style: 'currency',
-      currency: currency || 'USD',
-      minimumFractionDigits: 0,
-    }).format(numericPrice);
-  };
+  // Initialize thumbnail loading states when product images change
+  useEffect(() => {
+    if (product?.images && Array.isArray(product.images)) {
+      setThumbnailImagesLoaded(new Array(product.images.length).fill(false));
+    }
+  }, [product?.images]);
 
-  // Get gradient color based on category
-  const getCategoryGradient = (categorySlug: string) => {
-    const gradients: Record<string, string> = {
-      'flower': 'from-pink-500 to-rose-600',
-      'snack': 'from-orange-500 to-amber-600',
-      'food': 'from-red-500 to-orange-600',
-      'beverage': 'from-blue-500 to-cyan-600',
-      'default': 'from-inovara-primary to-inovara-secondary'
-    };
-    return gradients[categorySlug] || gradients.default;
-  };
+
 
   // Loading state
   if (isLoading) {
@@ -143,17 +151,46 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               {/* Enhanced Main Image */}
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/10 to-inovara-secondary/10 rounded-2xl sm:rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
-                <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl group-hover:shadow-2xl sm:group-hover:shadow-3xl transition-all duration-500">
+                <div 
+                  className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl group-hover:shadow-2xl sm:group-hover:shadow-3xl transition-all duration-500 cursor-pointer"
+                  onClick={() => setIsImagePreviewOpen(true)}
+                  title="Click to preview image"
+                >
+                  {/* Skeleton Loading */}
+                  {!mainImageLoaded && (
+                    <ImageSkeleton
+                      className="w-full aspect-square"
+                      variant="hero"
+                      rounded="2xl"
+                    />
+                  )}
+                  
+                  {/* Actual Image */}
                   <img
                     src={productImages[selectedImage]}
                     alt={product.name}
-                    className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700"
+                    className={`w-full aspect-square object-cover group-hover:scale-105 transition-all duration-700 cursor-pointer ${
+                      mainImageLoaded ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                    }`}
                     loading="lazy"
+                    onLoad={() => setMainImageLoaded(true)}
                     onError={(e) => {
                       e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Product+Image';
+                      setMainImageLoaded(true);
                     }}
+                    onDoubleClick={() => setIsImagePreviewOpen(true)}
+                    title="Double-click to preview image"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Preview Button */}
+                  <button
+                    onClick={() => setIsImagePreviewOpen(true)}
+                    className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
+                    aria-label="Open image preview"
+                  >
+                    <Maximize2 className="w-5 h-5 text-inovara-primary" />
+                  </button>
                 </div>
 
                 {/* Enhanced Image Navigation */}
@@ -178,23 +215,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     </button>
                   </>
                 )}
-
-                {/* Enhanced Action Buttons */}
-                <div className={`absolute top-3 sm:top-4 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} flex flex-col gap-2`}>
-                  <button
-                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
-                    aria-label={isRTL ? 'مشاركة المنتج' : 'Share product'}
-                  >
-                    <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-primary group-hover:scale-110 transition-transform duration-200" />
-                  </button>
-                </div>
-
-                {/* Enhanced Category Badge */}
-                {product.category && (
-                  <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r ${getCategoryGradient(product.category.slug)} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg`}>
-                    {product.category.name}
-                  </div>
-                )}
               </div>
 
               {/* Enhanced Thumbnail Images */}
@@ -204,20 +224,57 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 group ${selectedImage === index
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 group relative ${selectedImage === index
                         ? 'border-inovara-primary shadow-lg scale-105'
                         : 'border-transparent hover:border-inovara-primary/50 hover:scale-105'
                         }`}
                       aria-label={`${isRTL ? 'عرض الصورة' : 'View image'} ${index + 1}`}
                     >
+                      {/* Thumbnail Skeleton */}
+                      {!thumbnailImagesLoaded[index] && (
+                        <ImageSkeleton
+                          className="absolute inset-0"
+                          variant="thumbnail"
+                          rounded="lg"
+                        />
+                      )}
+                      
+                      {/* Thumbnail Image */}
                       <img
                         src={image}
                         alt={`${product.name} ${index + 1}`}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
+                        className={`w-full h-full object-cover group-hover:scale-110 transition-all duration-200 ${
+                          thumbnailImagesLoaded[index] ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                        }`}
+                        onLoad={() => {
+                          setThumbnailImagesLoaded(prev => {
+                            const newState = [...prev];
+                            newState[index] = true;
+                            return newState;
+                          });
+                        }}
                         onError={(e) => {
                           e.currentTarget.src = 'https://via.placeholder.com/200x200?text=Image';
+                          setThumbnailImagesLoaded(prev => {
+                            const newState = [...prev];
+                            newState[index] = true;
+                            return newState;
+                          });
                         }}
                       />
+                      
+                      {/* Thumbnail Preview Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedImage(index);
+                          setIsImagePreviewOpen(true);
+                        }}
+                        className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+                        aria-label={`Preview image ${index + 1}`}
+                      >
+                        <Maximize2 className="w-4 h-4 text-white" />
+                      </button>
                     </button>
                   ))}
                 </div>
@@ -239,12 +296,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 <p className={`text-base sm:text-lg lg:text-xl text-inovara-primary/70 leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
                   {product.description}
                 </p>
-              </div>
-
-              {/* Enhanced Price */}
-              <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
-                <div className="text-2xl sm:text-3xl font-black text-inovara-primary mb-1 sm:mb-2">{formatPrice(product.price, product.currency)}</div>
-                <div className="text-sm sm:text-base text-inovara-primary/70">{t('productDetail.startingPrice')}</div>
               </div>
 
               {/* Enhanced Quick Features Preview */}
@@ -295,7 +346,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               {/* Enhanced Action Buttons */}
               <div className={`space-y-3 sm:space-y-4 ${isRTL ? 'text-right' : 'text-left'}`}>
                 <button
-                  onClick={onQuoteClick}
+                  onClick={() => onQuoteClick(product.id)}
                   className="w-full group relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                 >
                   <span className={`flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -305,11 +356,26 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
                 </button>
 
-                <button className="w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group">
-                  <span className={`flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Play className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200" />
-                    <span>{t('productDetail.watchDemo')}</span>
+                <button 
+                  onClick={() => {
+                    if (product?.videos?.[0]) {
+                      setIsVideoModalOpen(true);
+                    }
+                  }}
+                  disabled={!product?.videos?.[0]}
+                  className={`w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group relative disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-inovara-primary ${
+                    videoPreloaded ? 'ring-2 ring-green-400/50' : ''
+                  }`}
+                >
+                  <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    {t('productDetail.watchDemo')}
+                    <Play className={`w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                   </span>
+                  
+                  {/* Video ready indicator */}
+                  {videoPreloaded && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  )}
                 </button>
               </div>
             </div>
@@ -584,7 +650,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
 
             <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <button
-                onClick={onQuoteClick}
+                onClick={() => onQuoteClick(product.id)}
                 className="group px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 relative overflow-hidden"
               >
                 <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -604,6 +670,24 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
           </div>
         </div>
       </section>
+
+      {/* Video Modal */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoUrl={product?.videos?.[0]}
+        title={product?.name}
+      />
+
+      {/* Image Preview Modal */}
+      <ImagePreviewModal
+        isOpen={isImagePreviewOpen}
+        onClose={() => setIsImagePreviewOpen(false)}
+        images={productImages}
+        currentIndex={selectedImage}
+        onIndexChange={setSelectedImage}
+        productName={product?.name || 'Product'}
+      />
     </div>
   );
 };

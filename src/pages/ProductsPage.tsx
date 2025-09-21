@@ -6,14 +6,16 @@ import { useTranslation } from '../contexts/TranslationContext';
 import { listProducts } from '../network/product';
 import { queryKeys } from '../services/react-query/queryKeys';
 import { Product, PaginatedResponse } from '../types/api';
+import ImageSkeleton from '../components/ImageSkeleton';
 
 export interface ProductsPageProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
   const { t, isRTL, language } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
+  const [imageLoadedStates, setImageLoadedStates] = useState<Record<number, boolean>>({});
 
   const filters = {
     page: currentPage,
@@ -38,17 +40,17 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
 
   // Extract products from API response
   const products = useMemo(() => productsResponse?.data || [], [productsResponse?.data]);
-  // Format price with currency
-  const formatPrice = (price: string | number, currency?: string) => {
-    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-    if (isNaN(numericPrice)) return 'Price on request';
+  // Format price with currency - COMMENTED OUT TO HIDE PRICES
+  // const formatPrice = (price: string | number, currency?: string) => {
+  //   const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+  //   if (isNaN(numericPrice)) return 'Price on request';
 
-    return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
-      style: 'currency',
-      currency: currency || 'USD',
-      minimumFractionDigits: 0,
-    }).format(numericPrice);
-  };
+  //   return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
+  //     style: 'currency',
+  //     currency: currency || 'USD',
+  //     minimumFractionDigits: 0,
+  //   }).format(numericPrice);
+  // };
 
 
   return (
@@ -130,19 +132,23 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                   key={index}
                   className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden animate-pulse shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
-                  <div className="aspect-[4/3] bg-gradient-to-br from-gray-200 to-gray-300"></div>
+                  <ImageSkeleton
+                    className="aspect-[4/3]"
+                    variant="card"
+                    rounded="2xl"
+                  />
                   <div className="p-6 sm:p-8">
-                    <div className="h-5 sm:h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-3 sm:mb-4"></div>
-                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-2"></div>
-                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-4 sm:mb-6 w-3/4"></div>
+                    <div className="h-5 sm:h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-3 sm:mb-4 animate-pulse"></div>
+                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-2 animate-pulse"></div>
+                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-4 sm:mb-6 w-3/4 animate-pulse"></div>
                     <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
                       {Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded"></div>
+                        <div key={i} className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded animate-pulse"></div>
                       ))}
                     </div>
                     <div className="flex gap-3 sm:gap-4">
-                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl flex-1"></div>
-                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl w-20 sm:w-24"></div>
+                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl flex-1 animate-pulse"></div>
+                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl w-20 sm:w-24 animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -183,23 +189,45 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                   >
                     {/* Enhanced Image Container with Aspect Ratio */}
                     <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                      {/* Skeleton Loading */}
+                      {!imageLoadedStates[product.id] && (
+                        <ImageSkeleton
+                          className="absolute inset-0"
+                          variant="card"
+                          rounded="2xl"
+                        />
+                      )}
+                      
+                      {/* Actual Image */}
                       <img
                         src={product.images?.[0] || product.image_url || 'https://via.placeholder.com/600x400?text=Product+Image'}
                         alt={product.name}
-                        className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
+                        className={`w-full h-full object-contain group-hover:scale-110 transition-all duration-700 ease-out ${
+                          imageLoadedStates[product.id] ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                        }`}
                         loading="lazy"
+                        onLoad={() => {
+                          setImageLoadedStates(prev => ({
+                            ...prev,
+                            [product.id]: true
+                          }));
+                        }}
                         onError={(e) => {
                           e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Product+Image';
+                          setImageLoadedStates(prev => ({
+                            ...prev,
+                            [product.id]: true
+                          }));
                         }}
                       />
 
                       {/* Enhanced Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                      {/* Enhanced Price Badge */}
-                      <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-xl backdrop-blur-sm border border-white/20`}>
+                      {/* Enhanced Price Badge - COMMENTED OUT TO HIDE PRICES */}
+                      {/* <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-xl backdrop-blur-sm border border-white/20`}>
                         {formatPrice(product.price, product.currency)}
-                      </div>
+                      </div> */}
 
                       {/* New: Category Badge */}
                       {product.category?.name && (
@@ -214,8 +242,10 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                           to={`/products/${product.slug || product.id}`}
                           className="bg-white/90 backdrop-blur-sm text-inovara-primary px-6 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center gap-2"
                         >
-                          {t('products.viewDetails')}
-                          <ArrowRight className="w-4 h-4" />
+                          <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                            {t('products.viewDetails')}
+                            <ArrowRight className={`w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+                          </span>
                         </Link>
                       </div>
                     </div>
@@ -249,7 +279,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                         </Link>
 
                         <button
-                          onClick={onQuoteClick}
+                          onClick={() => onQuoteClick(product.id)}
                           className="px-4 sm:px-6 py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 text-sm sm:text-base"
                         >
                           {t('products.cta.getQuote')}
@@ -302,8 +332,8 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={`px-2 sm:px-3 py-2 rounded-lg transition-all duration-300 text-sm sm:text-base ${currentPage === page
-                          ? 'bg-inovara-primary text-white shadow-lg'
-                          : 'text-inovara-primary hover:bg-inovara-primary/10'
+                        ? 'bg-inovara-primary text-white shadow-lg'
+                        : 'text-inovara-primary hover:bg-inovara-primary/10'
                         }`}
                     >
                       {page}
@@ -337,7 +367,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
 
             <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <button
-                onClick={onQuoteClick}
+                onClick={() => onQuoteClick()}
                 className="group px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 relative overflow-hidden"
               >
                 <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>

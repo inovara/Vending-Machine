@@ -53,34 +53,6 @@
     "clearFilters": "Clear All Filters",
     "viewDetails": "View Details",
     "viewAll": "View All Products",
-    "flower": {
-      "title": "Flower Vending Machine",
-      "subtitle": "Fresh flowers available 24/7 with smart temperature control",
-      "description": "Revolutionary flower vending with temperature-controlled storage, automated watering, and freshness monitoring for premium blooms anytime.",
-      "price": "Starting at $9,999",
-      "category": "Flower Vending"
-    },
-    "snack": {
-      "title": "Smart Snack Machine",
-      "subtitle": "Advanced snack vending with real-time inventory tracking",
-      "description": "Intelligent snack vending with cashless payments, real-time analytics, and smart inventory management for maximum profitability.",
-      "price": "Starting at $7,999",
-      "category": "Snack Vending"
-    },
-    "pizza": {
-      "title": "Pizza Vending Machine",
-      "subtitle": "Fresh pizza in minutes with automated cooking technology",
-      "description": "Innovative pizza vending with automated cooking, fresh ingredients, and customizable options for delicious meals on demand.",
-      "price": "Starting at $18,999",
-      "category": "Food Vending"
-    },
-    "beverage": {
-      "title": "Beverage Vending Machine",
-      "subtitle": "Smart beverage dispensing with temperature control",
-      "description": "Advanced beverage vending with multiple temperature zones, cashless payments, and real-time consumption analytics.",
-      "price": "Starting at $6,999",
-      "category": "Beverage Vending"
-    },
     "cta": {
       "title": "Ready to Transform Your Business?",
       "description": "Explore our complete range of smart vending solutions and discover how we can help you maximize profitability and customer satisfaction.",
@@ -455,17 +427,26 @@
     "email": "Email Address",
     "phone": "Phone Number",
     "company": "Company Name",
-    "industry": "Industry",
-    "industryOptions": {
-      "office": "Office Buildings",
-      "healthcare": "Healthcare",
-      "manufacturing": "Manufacturing",
-      "education": "Education",
-      "hospitality": "Hospitality",
-      "retail": "Retail",
-      "other": "Other"
-    },
+    "product": "Select Product",
+    "selectProduct": "Choose a product...",
+    "productLoadError": "Failed to load products. Please try again.",
     "machines": "Machines Needed",
+    "requirements": "Requirements",
+    "requirementsPlaceholder": "Tell us about your specific needs...",
+    "submit": "Submit Quote",
+    "validation": {
+      "requiredFields": "Please fill in all required fields.",
+      "invalidEmail": "Please enter a valid email address."
+    },
+    "error": {
+      "submitFailed": "Failed to submit quote. Please try again."
+    },
+    "success": {
+      "title": "Quote Request Sent!",
+      "message": "Thank you for your interest! We'll send you a detailed quote within 24 hours.",
+      "requestAnother": "Request Another Quote",
+      "close": "Close"
+    },
     "machineOptions": {
       "1-5": "1-5 machines",
       "6-20": "6-20 machines",
@@ -1174,10 +1155,11 @@
     "loading": "Loading",
     "error": "Error",
     "success": "Success",
+    "back": "Back to Products",
+    "more": "More Details",
     "close": "Close",
     "next": "Next",
     "previous": "Previous",
-    "more": "More",
     "less": "Less",
     "readMore": "Read More",
     "showLess": "Show Less"
@@ -1389,6 +1371,15 @@
     "getFreeQuote": "Get Free Quote",
     "watchDemo": "Watch Demo Video",
     "startingPrice": "Starting price - Contact for custom quotes",
+    "videoModal": {
+      "close": "Close video",
+      "playPause": "Play/Pause video",
+      "restart": "Restart video",
+      "muteUnmute": "Mute/Unmute video",
+      "fullscreen": "Toggle fullscreen",
+      "notSupported": "Your browser does not support the video tag.",
+      "loading": "Loading video..."
+    },
     "fallbackFeatures": {
       "quality": "High Quality Materials",
       "reliability": "Reliable Performance",
@@ -1403,10 +1394,6 @@
       "operatingTemperature": "Operating Temperature",
       "operatingTemperatureDesc": "-10°C to 50°C"
     }
-  },
-  "common": {
-    "back": "Back to Products",
-    "more": "More Details"
   },
   "about": {
     "title": "About Us",
