@@ -29,7 +29,8 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
   const { 
     mutate: submitQuote, 
     isLoading: isSubmitting, 
-    isSuccess 
+    isSuccess,
+    reset: resetMutation
   } = useMutation<QuoteResponse, Error, QuoteFormData>({
     mutationFn: storeQuote,
     onSuccess: () => {
@@ -96,6 +97,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
       message: ''
     });
     setSubmitError(null);
+    resetMutation(); // Reset the mutation state to show the form again
   };
 
   const { 
