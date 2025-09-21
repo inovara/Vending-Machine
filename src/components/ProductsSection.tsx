@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles, AlertCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -6,6 +6,7 @@ import { useTranslation } from '../contexts/TranslationContext';
 import { listProducts } from '../network/product';
 import { queryKeys } from '../services/react-query/queryKeys';
 import { Product, PaginatedResponse } from '../types/api';
+import ImageSkeleton from './ImageSkeleton';
 
 interface ProductsSectionProps {
   onQuoteClick?: (productId?: number) => void;
@@ -14,6 +15,7 @@ interface ProductsSectionProps {
 const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
   const { t, isRTL, language } = useTranslation();
   const navigate = useNavigate();
+  const [imageLoadedStates, setImageLoadedStates] = useState<Record<number, boolean>>({});
 
   // Fetch products from API
   const {
@@ -102,14 +104,18 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
             {Array.from({ length: 4 }).map((_, index) => (
               <div
                 key={index}
-                className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden animate-pulse shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="aspect-[4/3] bg-gradient-to-br from-gray-200 to-gray-300"></div>
+                <ImageSkeleton
+                  className="aspect-[4/3]"
+                  variant="card"
+                  rounded="2xl"
+                />
                 <div className="p-5 sm:p-6">
-                  <div className="h-5 sm:h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-3"></div>
-                  <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-2"></div>
-                  <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-4 sm:mb-6 w-3/4"></div>
-                  <div className="h-12 sm:h-14 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl"></div>
+                  <div className="h-5 sm:h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-3 animate-pulse"></div>
+                  <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-2 animate-pulse"></div>
+                  <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-4 sm:mb-6 w-3/4 animate-pulse"></div>
+                  <div className="h-12 sm:h-14 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl animate-pulse"></div>
                 </div>
               </div>
             ))}
@@ -143,13 +149,35 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
                 >
                   {/* Enhanced Image Container with Aspect Ratio */}
                   <div className="relative aspect-[4/3] sm:aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                    {/* Skeleton Loading */}
+                    {!imageLoadedStates[product.id] && (
+                      <ImageSkeleton
+                        className="absolute inset-0"
+                        variant="card"
+                        rounded="2xl"
+                      />
+                    )}
+                    
+                    {/* Actual Image */}
                     <img
                       src={product.images?.[0] || product.image_url || 'https://via.placeholder.com/600x400?text=Product+Image'}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
+                      className={`w-full h-full object-contain group-hover:scale-110 transition-all duration-700 ease-out ${
+                        imageLoadedStates[product.id] ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                      }`}
                       loading="lazy"
+                      onLoad={() => {
+                        setImageLoadedStates(prev => ({
+                          ...prev,
+                          [product.id]: true
+                        }));
+                      }}
                       onError={(e) => {
                         e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Product+Image';
+                        setImageLoadedStates(prev => ({
+                          ...prev,
+                          [product.id]: true
+                        }));
                       }}
                     />
 

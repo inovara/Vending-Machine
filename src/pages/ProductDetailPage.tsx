@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle, Maximize2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
 import { productDetails } from '../network/product';
 import { queryKeys } from '../services/react-query/queryKeys';
 import { Product } from '../types/api';
 import VideoModal from '../components/VideoModal';
+import ImageSkeleton from '../components/ImageSkeleton';
+import ImagePreviewModal from '../components/ImagePreviewModal';
 
 export interface ProductDetailPageProps {
   onQuoteClick: (productId?: number) => void;
@@ -17,7 +19,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   const { t, isRTL, language } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(0);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false);
   const [videoPreloaded, setVideoPreloaded] = useState(false);
+  const [mainImageLoaded, setMainImageLoaded] = useState(false);
+  const [thumbnailImagesLoaded, setThumbnailImagesLoaded] = useState<boolean[]>([]);
 
   const {
     data: product,
@@ -46,6 +51,13 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       };
     }
   }, [product?.videos, videoPreloaded]);
+
+  // Initialize thumbnail loading states when product images change
+  useEffect(() => {
+    if (product?.images && Array.isArray(product.images)) {
+      setThumbnailImagesLoaded(new Array(product.images.length).fill(false));
+    }
+  }, [product?.images]);
 
 
 
@@ -139,17 +151,46 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
               {/* Enhanced Main Image */}
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/10 to-inovara-secondary/10 rounded-2xl sm:rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
-                <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl group-hover:shadow-2xl sm:group-hover:shadow-3xl transition-all duration-500">
+                <div 
+                  className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl group-hover:shadow-2xl sm:group-hover:shadow-3xl transition-all duration-500 cursor-pointer"
+                  onClick={() => setIsImagePreviewOpen(true)}
+                  title="Click to preview image"
+                >
+                  {/* Skeleton Loading */}
+                  {!mainImageLoaded && (
+                    <ImageSkeleton
+                      className="w-full aspect-square"
+                      variant="hero"
+                      rounded="2xl"
+                    />
+                  )}
+                  
+                  {/* Actual Image */}
                   <img
                     src={productImages[selectedImage]}
                     alt={product.name}
-                    className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700"
+                    className={`w-full aspect-square object-cover group-hover:scale-105 transition-all duration-700 cursor-pointer ${
+                      mainImageLoaded ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                    }`}
                     loading="lazy"
+                    onLoad={() => setMainImageLoaded(true)}
                     onError={(e) => {
                       e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Product+Image';
+                      setMainImageLoaded(true);
                     }}
+                    onDoubleClick={() => setIsImagePreviewOpen(true)}
+                    title="Double-click to preview image"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Preview Button */}
+                  <button
+                    onClick={() => setIsImagePreviewOpen(true)}
+                    className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
+                    aria-label="Open image preview"
+                  >
+                    <Maximize2 className="w-5 h-5 text-inovara-primary" />
+                  </button>
                 </div>
 
                 {/* Enhanced Image Navigation */}
@@ -183,20 +224,57 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 group ${selectedImage === index
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all duration-300 group relative ${selectedImage === index
                         ? 'border-inovara-primary shadow-lg scale-105'
                         : 'border-transparent hover:border-inovara-primary/50 hover:scale-105'
                         }`}
                       aria-label={`${isRTL ? 'عرض الصورة' : 'View image'} ${index + 1}`}
                     >
+                      {/* Thumbnail Skeleton */}
+                      {!thumbnailImagesLoaded[index] && (
+                        <ImageSkeleton
+                          className="absolute inset-0"
+                          variant="thumbnail"
+                          rounded="lg"
+                        />
+                      )}
+                      
+                      {/* Thumbnail Image */}
                       <img
                         src={image}
                         alt={`${product.name} ${index + 1}`}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
+                        className={`w-full h-full object-cover group-hover:scale-110 transition-all duration-200 ${
+                          thumbnailImagesLoaded[index] ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                        }`}
+                        onLoad={() => {
+                          setThumbnailImagesLoaded(prev => {
+                            const newState = [...prev];
+                            newState[index] = true;
+                            return newState;
+                          });
+                        }}
                         onError={(e) => {
                           e.currentTarget.src = 'https://via.placeholder.com/200x200?text=Image';
+                          setThumbnailImagesLoaded(prev => {
+                            const newState = [...prev];
+                            newState[index] = true;
+                            return newState;
+                          });
                         }}
                       />
+                      
+                      {/* Thumbnail Preview Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedImage(index);
+                          setIsImagePreviewOpen(true);
+                        }}
+                        className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+                        aria-label={`Preview image ${index + 1}`}
+                      >
+                        <Maximize2 className="w-4 h-4 text-white" />
+                      </button>
                     </button>
                   ))}
                 </div>
@@ -599,6 +677,16 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         onClose={() => setIsVideoModalOpen(false)}
         videoUrl={product?.videos?.[0]}
         title={product?.name}
+      />
+
+      {/* Image Preview Modal */}
+      <ImagePreviewModal
+        isOpen={isImagePreviewOpen}
+        onClose={() => setIsImagePreviewOpen(false)}
+        images={productImages}
+        currentIndex={selectedImage}
+        onIndexChange={setSelectedImage}
+        productName={product?.name || 'Product'}
       />
     </div>
   );

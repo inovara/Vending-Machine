@@ -6,6 +6,7 @@ import { useTranslation } from '../contexts/TranslationContext';
 import { listProducts } from '../network/product';
 import { queryKeys } from '../services/react-query/queryKeys';
 import { Product, PaginatedResponse } from '../types/api';
+import ImageSkeleton from '../components/ImageSkeleton';
 
 export interface ProductsPageProps {
   onQuoteClick: (productId?: number) => void;
@@ -14,6 +15,7 @@ export interface ProductsPageProps {
 const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
   const { t, isRTL, language } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
+  const [imageLoadedStates, setImageLoadedStates] = useState<Record<number, boolean>>({});
 
   const filters = {
     page: currentPage,
@@ -130,19 +132,23 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                   key={index}
                   className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden animate-pulse shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
-                  <div className="aspect-[4/3] bg-gradient-to-br from-gray-200 to-gray-300"></div>
+                  <ImageSkeleton
+                    className="aspect-[4/3]"
+                    variant="card"
+                    rounded="2xl"
+                  />
                   <div className="p-6 sm:p-8">
-                    <div className="h-5 sm:h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-3 sm:mb-4"></div>
-                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-2"></div>
-                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-4 sm:mb-6 w-3/4"></div>
+                    <div className="h-5 sm:h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-3 sm:mb-4 animate-pulse"></div>
+                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-2 animate-pulse"></div>
+                    <div className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded mb-4 sm:mb-6 w-3/4 animate-pulse"></div>
                     <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
                       {Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded"></div>
+                        <div key={i} className="h-3 sm:h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded animate-pulse"></div>
                       ))}
                     </div>
                     <div className="flex gap-3 sm:gap-4">
-                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl flex-1"></div>
-                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl w-20 sm:w-24"></div>
+                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl flex-1 animate-pulse"></div>
+                      <div className="h-10 sm:h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl sm:rounded-2xl w-20 sm:w-24 animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -183,13 +189,35 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                   >
                     {/* Enhanced Image Container with Aspect Ratio */}
                     <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                      {/* Skeleton Loading */}
+                      {!imageLoadedStates[product.id] && (
+                        <ImageSkeleton
+                          className="absolute inset-0"
+                          variant="card"
+                          rounded="2xl"
+                        />
+                      )}
+                      
+                      {/* Actual Image */}
                       <img
                         src={product.images?.[0] || product.image_url || 'https://via.placeholder.com/600x400?text=Product+Image'}
                         alt={product.name}
-                        className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
+                        className={`w-full h-full object-contain group-hover:scale-110 transition-all duration-700 ease-out ${
+                          imageLoadedStates[product.id] ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                        }`}
                         loading="lazy"
+                        onLoad={() => {
+                          setImageLoadedStates(prev => ({
+                            ...prev,
+                            [product.id]: true
+                          }));
+                        }}
                         onError={(e) => {
                           e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Product+Image';
+                          setImageLoadedStates(prev => ({
+                            ...prev,
+                            [product.id]: true
+                          }));
                         }}
                       />
 

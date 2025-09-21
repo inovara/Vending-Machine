@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ImageSkeleton from './ImageSkeleton';
 
 interface OptimizedImageProps {
   src: string;
@@ -9,6 +10,8 @@ interface OptimizedImageProps {
   priority?: boolean;
   placeholder?: string;
   sizes?: string;
+  skeletonVariant?: 'default' | 'card' | 'thumbnail' | 'hero';
+  skeletonRounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
 }
 
 const OptimizedImage: React.FC<OptimizedImageProps> = ({
@@ -19,7 +22,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   height,
   priority = false,
   placeholder,
-  sizes = '100vw'
+  sizes = '100vw',
+  skeletonVariant = 'default',
+  skeletonRounded = 'lg'
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
@@ -62,7 +67,18 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
       className={`relative overflow-hidden ${className}`}
       style={{ width, height }}
     >
-      {/* Placeholder */}
+      {/* Skeleton Loading */}
+      {!isLoaded && (
+        <ImageSkeleton
+          className="absolute inset-0"
+          width="100%"
+          height="100%"
+          variant={skeletonVariant}
+          rounded={skeletonRounded}
+        />
+      )}
+      
+      {/* Placeholder (if provided) */}
       {!isLoaded && placeholder && (
         <div 
           className="absolute inset-0 bg-gray-200 animate-pulse"
