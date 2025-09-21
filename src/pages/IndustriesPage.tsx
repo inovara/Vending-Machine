@@ -246,7 +246,7 @@ const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {
                 
                 <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
                   <button
-                    onClick={onQuoteClick}
+                    onClick={() => onQuoteClick()}
                     className="group px-8 py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 min-w-[200px]"
                   >
                     <span className={`flex items-center justify-center gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>

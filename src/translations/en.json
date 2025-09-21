@@ -459,6 +459,22 @@
     "selectProduct": "Choose a product...",
     "productLoadError": "Failed to load products. Please try again.",
     "machines": "Machines Needed",
+    "requirements": "Requirements",
+    "requirementsPlaceholder": "Tell us about your specific needs...",
+    "submit": "Submit Quote",
+    "validation": {
+      "requiredFields": "Please fill in all required fields.",
+      "invalidEmail": "Please enter a valid email address."
+    },
+    "error": {
+      "submitFailed": "Failed to submit quote. Please try again."
+    },
+    "success": {
+      "title": "Quote Request Sent!",
+      "message": "Thank you for your interest! We'll send you a detailed quote within 24 hours.",
+      "requestAnother": "Request Another Quote",
+      "close": "Close"
+    },
     "machineOptions": {
       "1-5": "1-5 machines",
       "6-20": "6-20 machines",

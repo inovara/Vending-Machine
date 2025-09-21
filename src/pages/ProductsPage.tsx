@@ -249,7 +249,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                         </Link>
 
                         <button
-                          onClick={onQuoteClick}
+                          onClick={() => onQuoteClick(product.id)}
                           className="px-4 sm:px-6 py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 text-sm sm:text-base"
                         >
                           {t('products.cta.getQuote')}
@@ -337,7 +337,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
 
             <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <button
-                onClick={onQuoteClick}
+                onClick={() => onQuoteClick()}
                 className="group px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 relative overflow-hidden"
               >
                 <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>

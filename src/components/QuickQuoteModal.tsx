@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
@@ -25,7 +25,16 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
   });
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Mutation for quote submission
+  useEffect(() => {
+    if (productId) {
+      setFormData(prev => ({
+        ...prev,
+        products: [{ id: productId }]
+      }));
+    }
+  }, [productId]);
+
+
   const { 
     mutate: submitQuote, 
     isLoading: isSubmitting, 
@@ -35,7 +44,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
     mutationFn: storeQuote,
     onSuccess: () => {
       setSubmitError(null);
-      // Reset form after successful submission
       setFormData({
         name: '',
         email: '',
@@ -46,41 +54,37 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
       });
     },
     onError: (error) => {
-      setSubmitError(error.message || 'Failed to submit quote. Please try again.');
+      setSubmitError(error.message || t('quote.error.submitFailed'));
     },
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (submitError) setSubmitError(null);
   };
 
   const handleProductChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const productId = parseInt(e.target.value);
-    if (productId) {
-      setFormData(prev => ({ ...prev, products: [{ id: productId }] }));
+    const selectedProductId = parseInt(e.target.value);
+    if (selectedProductId) {
+      setFormData(prev => ({ ...prev, products: [{ id: selectedProductId }] }));
     } else {
-      setFormData(prev => ({ ...prev, products: [] }));
+      setFormData(prev => ({ ...prev, products: productId ? [{ id: productId }] : [] }));
     }
-    // Clear error when user starts typing
     if (submitError) setSubmitError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
     if (!formData.name || !formData.email || !formData.company || (!productId && formData.products.length === 0)) {
-      setSubmitError('Please fill in all required fields.');
+      setSubmitError(t('quote.validation.requiredFields'));
       return;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setSubmitError('Please enter a valid email address.');
+      setSubmitError(t('quote.validation.invalidEmail'));
       return;
     }
 
@@ -97,7 +101,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
       message: ''
     });
     setSubmitError(null);
-    resetMutation(); // Reset the mutation state to show the form again
+    resetMutation();
   };
 
   const { 
@@ -108,8 +112,8 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
     queryKey: [queryKeys.listProducts, { page: 1, per_page: 100, category_id: 2 }, language],
     queryFn: () => listProducts({ page: 1, per_page: 100, category_id: 2 }),
     enabled: !!language,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
   });
 
   if (!isOpen) return null;
@@ -118,7 +122,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
       <div className="bg-white/95 backdrop-blur-md border border-inovara-primary/20 rounded-2xl sm:rounded-3xl max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl">
         <div className="p-4 sm:p-6 md:p-8">
-          {/* Header */}
           <div className={`flex items-start justify-between mb-6 sm:mb-8 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <div className={`flex items-center gap-3 sm:gap-4 flex-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
               <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -135,7 +138,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
             </button>
           </div>
 
-          {/* Error Message */}
           {submitError && (
             <div className={`mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl sm:rounded-2xl flex items-start gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
               <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0 mt-0.5" />
@@ -145,7 +147,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
 
           {!isSuccess ? (
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-              {/* Quick Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
                   <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -274,7 +275,6 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
                   </span>
                 )}
                 
-                {/* Button Hover Effect */}
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
               </button>
             </form>
@@ -283,9 +283,9 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
               <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-2xl">
                 <CheckCircle className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-white" />
               </div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-inovara-primary mb-3 sm:mb-4 leading-tight">Quote Request Sent!</h3>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-inovara-primary mb-3 sm:mb-4 leading-tight">{t('quote.success.title')}</h3>
               <p className="text-inovara-primary/70 text-sm sm:text-base md:text-lg font-medium mb-6 sm:mb-8 max-w-md mx-auto leading-relaxed">
-                Thank you for your interest! We'll send you a detailed quote within 24 hours.
+                {t('quote.success.message')}
               </p>
               <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
                 <button
@@ -294,14 +294,14 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
                 >
                   <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                    <span className="text-sm sm:text-base">Request Another Quote</span>
+                    <span className="text-sm sm:text-base">{t('quote.success.requestAnother')}</span>
                   </span>
                 </button>
                 <button
                   onClick={onClose}
                   className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
                 >
-                  <span className="text-sm sm:text-base">Close</span>
+                  <span className="text-sm sm:text-base">{t('quote.success.close')}</span>
                 </button>
               </div>
             </div>
