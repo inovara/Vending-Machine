@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Share2, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
 import { productDetails } from '../network/product';
@@ -15,7 +15,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
   const { slug } = useParams<{ slug: string }>();
   const { t, isRTL, language } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isSharing, setIsSharing] = useState(false);
 
   const {
     data: product,
@@ -52,59 +51,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       'default': 'from-inovara-primary to-inovara-secondary'
     };
     return gradients[categorySlug] || gradients.default;
-  };
-
-  // Share functionality
-  const handleShare = async () => {
-    if (!product) return;
-    
-    setIsSharing(true);
-    
-    const shareData = {
-      title: product.name,
-      text: product.description,
-      url: window.location.href,
-    };
-
-    try {
-      // Check if Web Share API is supported
-      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-        await navigator.share(shareData);
-      } else {
-        // Fallback: Copy to clipboard
-        await navigator.clipboard.writeText(window.location.href);
-        
-        // Show a temporary success message
-        const originalText = document.querySelector('[data-share-button]')?.textContent;
-        const shareButton = document.querySelector('[data-share-button]') as HTMLElement;
-        
-        if (shareButton) {
-          shareButton.textContent = t('productDetail.linkCopied');
-          setTimeout(() => {
-            shareButton.textContent = originalText || t('productDetail.share');
-          }, 2000);
-        }
-      }
-    } catch (error) {
-      console.error('Error sharing:', error);
-      
-      // Fallback: Copy to clipboard
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        const shareButton = document.querySelector('[data-share-button]') as HTMLElement;
-        if (shareButton) {
-          const originalText = shareButton.textContent;
-          shareButton.textContent = t('productDetail.linkCopied');
-          setTimeout(() => {
-            shareButton.textContent = originalText || t('productDetail.share');
-          }, 2000);
-        }
-      } catch (clipboardError) {
-        console.error('Clipboard error:', clipboardError);
-      }
-    } finally {
-      setIsSharing(false);
-    }
   };
 
   // Loading state
@@ -233,23 +179,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   </>
                 )}
 
-                {/* Enhanced Action Buttons */}
-                <div className={`absolute top-3 sm:top-4 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} flex flex-col gap-2`}>
-                  <button
-                    onClick={handleShare}
-                    disabled={isSharing}
-                    data-share-button
-                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
-                    aria-label={isRTL ? 'مشاركة المنتج' : 'Share product'}
-                  >
-                    {isSharing ? (
-                      <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-primary animate-spin" />
-                    ) : (
-                      <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-inovara-primary group-hover:scale-110 transition-transform duration-200" />
-                    )}
-                  </button>
-                </div>
-
                 {/* Enhanced Category Badge */}
                 {product.category && (
                   <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r ${getCategoryGradient(product.category.slug)} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg`}>
@@ -367,9 +296,9 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 </button>
 
                 <button className="w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group">
-                  <span className={`flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Play className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200" />
-                    <span>{t('productDetail.watchDemo')}</span>
+                  <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                    {t('productDetail.watchDemo')}
+                    <Play className={`w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                   </span>
                 </button>
               </div>
