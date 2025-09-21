@@ -99,7 +99,7 @@ export interface QuoteFormData {
   email: string;
   phone?: string;
   company?: string;
-  industry?: string;
+  products: { id: number }[];
   machines?: string;
   budget?: string;
   timeline?: string;

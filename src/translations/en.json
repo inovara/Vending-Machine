@@ -455,16 +455,9 @@
     "email": "Email Address",
     "phone": "Phone Number",
     "company": "Company Name",
-    "industry": "Industry",
-    "industryOptions": {
-      "office": "Office Buildings",
-      "healthcare": "Healthcare",
-      "manufacturing": "Manufacturing",
-      "education": "Education",
-      "hospitality": "Hospitality",
-      "retail": "Retail",
-      "other": "Other"
-    },
+    "product": "Select Product",
+    "selectProduct": "Choose a product...",
+    "productLoadError": "Failed to load products. Please try again.",
     "machines": "Machines Needed",
     "machineOptions": {
       "1-5": "1-5 machines",
@@ -1174,10 +1167,11 @@
     "loading": "Loading",
     "error": "Error",
     "success": "Success",
+    "back": "Back to Products",
+    "more": "More Details",
     "close": "Close",
     "next": "Next",
     "previous": "Previous",
-    "more": "More",
     "less": "Less",
     "readMore": "Read More",
     "showLess": "Show Less"
@@ -1403,10 +1397,6 @@
       "operatingTemperature": "Operating Temperature",
       "operatingTemperatureDesc": "-10°C to 50°C"
     }
-  },
-  "common": {
-    "back": "Back to Products",
-    "more": "More Details"
   },
   "about": {
     "title": "About Us",

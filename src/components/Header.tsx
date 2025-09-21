@@ -7,7 +7,7 @@ import { useTranslation } from '../contexts/TranslationContext';
 import LanguageSwitcher from './LanguageSwitcher';
 
 interface HeaderProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
@@ -118,7 +118,7 @@ const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
             <LanguageSwitcher />
 
             <button
-              onClick={onQuoteClick}
+              onClick={() => onQuoteClick()}
               className="group relative px-6 py-3 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-inovara-accent/30 overflow-hidden"
             >
               {/* Shimmer Effect */}

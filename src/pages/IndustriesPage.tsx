@@ -4,7 +4,7 @@ import { ArrowRight, Building2, Heart, GraduationCap, ShoppingBag, Factory, Trai
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface IndustriesPageProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const IndustriesPage: React.FC<IndustriesPageProps> = ({ onQuoteClick }) => {

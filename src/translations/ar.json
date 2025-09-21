@@ -389,16 +389,9 @@
     "email": "عنوان البريد الإلكتروني",
     "phone": "رقم الهاتف",
     "company": "اسم الشركة",
-    "industry": "القطاع",
-    "industryOptions": {
-      "office": "مباني المكاتب",
-      "healthcare": "الرعاية الصحية",
-      "manufacturing": "التصنيع",
-      "education": "التعليم",
-      "hospitality": "الضيافة",
-      "retail": "التجارة",
-      "other": "أخرى"
-    },
+    "product": "اختر المنتج",
+    "selectProduct": "اختر منتجاً...",
+    "productLoadError": "فشل في تحميل المنتجات. يرجى المحاولة مرة أخرى.",
     "machines": "عدد الماكينات المطلوبة",
     "machineOptions": {
       "1-5": "1-5 ماكينة",
@@ -1109,9 +1102,10 @@
     "error": "خطأ",
     "success": "نجح",
     "close": "إغلاق",
+    "back": "العودة إلى المنتجات",
+    "more": "تفاصيل أكثر",
     "next": "التالي",
     "previous": "السابق",
-    "more": "المزيد",
     "less": "أقل",
     "readMore": "اقرأ المزيد",
     "showLess": "أظهر أقل"
@@ -1356,10 +1350,6 @@
       "operatingTemperature": "درجة حرارة التشغيل",
       "operatingTemperatureDesc": "-10°C إلى 50°C"
     }
-  },
-  "common": {
-    "back": "العودة إلى المنتجات",
-    "more": "تفاصيل أكثر"
   },
   "about": {
     "title": "من نحن",

@@ -26,6 +26,7 @@ const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
 const App: React.FC = () => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<number | undefined>(undefined);
 
   // Optimized loading state management
   useEffect(() => {
@@ -37,7 +38,8 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const openQuoteForm = () => {
+  const openQuoteForm = (productId?: number) => {
+    setSelectedProductId(productId);
     setIsQuoteModalOpen(true);
   };
 
@@ -50,7 +52,7 @@ const App: React.FC = () => {
     <QueryProvider>
       <TranslationProvider>
         <div className="min-h-screen font-display overflow-x-hidden">
-        <Header onQuoteClick={() => setIsQuoteModalOpen(true)} />
+        <Header onQuoteClick={() => openQuoteForm()} />
 
           <ScrollToTop />
           <Suspense fallback={
@@ -59,10 +61,10 @@ const App: React.FC = () => {
             </div>
           }>
             <Routes>
-              <Route path="/" element={<HomePage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
-              <Route path="/products" element={<ProductsPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
-              <Route path="/products/:slug" element={<ProductDetailPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
-              <Route path="/industries" element={<IndustriesPage onQuoteClick={() => setIsQuoteModalOpen(true)} />} />
+              <Route path="/" element={<HomePage onQuoteClick={openQuoteForm} />} />
+              <Route path="/products" element={<ProductsPage onQuoteClick={openQuoteForm} />} />
+              <Route path="/products/:slug" element={<ProductDetailPage onQuoteClick={openQuoteForm} />} />
+              <Route path="/industries" element={<IndustriesPage onQuoteClick={openQuoteForm} />} />
               
               {/* Legal Pages */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
@@ -78,7 +80,11 @@ const App: React.FC = () => {
         <Suspense fallback={null}>
           <QuickQuoteModal
             isOpen={isQuoteModalOpen}
-            onClose={() => setIsQuoteModalOpen(false)}
+            onClose={() => {
+              setIsQuoteModalOpen(false);
+              setSelectedProductId(undefined);
+            }}
+            productId={selectedProductId}
           />
         </Suspense>
 

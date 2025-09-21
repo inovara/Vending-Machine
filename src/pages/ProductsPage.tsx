@@ -8,7 +8,7 @@ import { queryKeys } from '../services/react-query/queryKeys';
 import { Product, PaginatedResponse } from '../types/api';
 
 export interface ProductsPageProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {

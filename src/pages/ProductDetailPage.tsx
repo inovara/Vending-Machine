@@ -8,7 +8,7 @@ import { queryKeys } from '../services/react-query/queryKeys';
 import { Product } from '../types/api';
 
 export interface ProductDetailPageProps {
-  onQuoteClick: () => void;
+  onQuoteClick: (productId?: number) => void;
 }
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) => {

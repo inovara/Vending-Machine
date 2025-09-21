@@ -8,7 +8,7 @@ import { queryKeys } from '../services/react-query/queryKeys';
 import { Product, PaginatedResponse } from '../types/api';
 
 interface ProductsSectionProps {
-  onQuoteClick?: () => void;
+  onQuoteClick?: (productId?: number) => void;
 }
 
 const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
@@ -190,24 +190,33 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
                       {product.description}
                     </p>
                     
-                    {/* Enhanced Action Button */}
-                    <button
-                      onClick={() => handleViewDetails(product)}
-                      className={`
-                        w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary
-                        text-white font-bold py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl
-                        transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-inovara-accent/30
-                        ${isRTL ? 'rtl' : 'ltr'}
-                      `}
-                    >
-                      <span className={`flex items-center justify-center gap-2 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                        {t('showcase.viewDetails')}
-                        <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/btn:-translate-x-1' : ''}`} />
-                      </span>
+                    {/* Enhanced Action Buttons */}
+                    <div className="flex flex-col gap-2 sm:gap-3">
+                      <button
+                        onClick={() => handleViewDetails(product)}
+                        className={`
+                          w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary
+                          text-white font-bold py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl
+                          transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-inovara-accent/30
+                          ${isRTL ? 'rtl' : 'ltr'}
+                        `}
+                      >
+                        <span className={`flex items-center justify-center gap-2 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                          {t('showcase.viewDetails')}
+                          <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/btn:-translate-x-1' : ''}`} />
+                        </span>
+                        
+                        {/* Enhanced Button Hover Effect */}
+                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
+                      </button>
                       
-                      {/* Enhanced Button Hover Effect */}
-                      <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-                    </button>
+                      <button
+                        onClick={() => onQuoteClick?.(product.id)}
+                        className="w-full px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-inovara-primary text-inovara-primary font-bold text-xs sm:text-sm rounded-xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
+                      >
+                        {t('showcase.cta.getQuote')}
+                      </button>
+                    </div>
                   </div>
                   
                   {/* Enhanced Card Hover Glow */}
@@ -259,7 +268,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({ onQuoteClick }) => {
               </button>
               
               <button 
-                onClick={onQuoteClick}
+                onClick={() => onQuoteClick?.()}
                 className="px-8 sm:px-12 py-4 sm:py-5 border-2 border-inovara-primary text-inovara-primary font-bold text-base sm:text-lg rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20"
               >
                 {t('showcase.cta.getQuote')}

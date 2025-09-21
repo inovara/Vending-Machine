@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
 import { X, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from '../contexts/TranslationContext';
 import { storeQuote } from '../network/quote';
-import { QuoteFormData, QuoteResponse } from '../types/api';
+import { listProducts } from '../network/product';
+import { QuoteFormData, QuoteResponse, Product } from '../types/api';
+import { queryKeys } from '../services/react-query/queryKeys';
 
 interface QuickQuoteModalProps {
   isOpen: boolean;
   onClose: () => void;
+  productId?: number;
 }
 
-const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) => {
-  const { t, isRTL } = useTranslation();
+const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, productId }) => {
+  const { t, isRTL, language } = useTranslation();
   const [formData, setFormData] = useState<QuoteFormData>({
     name: '',
     email: '',
     phone: '',
     company: '',
-    industry: '',
-    machines: '',
-    budget: '',
+    products: productId ? [{ id: productId }] : [],
     message: ''
   });
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -27,7 +28,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
   // Mutation for quote submission
   const { 
     mutate: submitQuote, 
-    isLoading, 
+    isLoading: isSubmitting, 
     isSuccess 
   } = useMutation<QuoteResponse, Error, QuoteFormData>({
     mutationFn: storeQuote,
@@ -39,8 +40,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
         email: '',
         phone: '',
         company: '',
-        industry: '',
-        machines: '',
+        products: productId ? [{ id: productId }] : [],
         message: ''
       });
     },
@@ -56,11 +56,22 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
     if (submitError) setSubmitError(null);
   };
 
+  const handleProductChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const productId = parseInt(e.target.value);
+    if (productId) {
+      setFormData(prev => ({ ...prev, products: [{ id: productId }] }));
+    } else {
+      setFormData(prev => ({ ...prev, products: [] }));
+    }
+    // Clear error when user starts typing
+    if (submitError) setSubmitError(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.name || !formData.email || !formData.company || !formData.industry) {
+    if (!formData.name || !formData.email || !formData.company || (!productId && formData.products.length === 0)) {
       setSubmitError('Please fill in all required fields.');
       return;
     }
@@ -81,12 +92,23 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
       email: '',
       phone: '',
       company: '',
-      industry: '',
-      machines: '',
+      products: productId ? [{ id: productId }] : [],
       message: ''
     });
     setSubmitError(null);
   };
+
+  const { 
+    data: productsResponse, 
+    isLoading: isLoadingProducts, 
+    isError: isProductsError 
+  } = useQuery({
+    queryKey: [queryKeys.listProducts, { page: 1, per_page: 100, category_id: 2 }, language],
+    queryFn: () => listProducts({ page: 1, per_page: 100, category_id: 2 }),
+    enabled: !!language,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+  });
 
   if (!isOpen) return null;
 
@@ -187,49 +209,36 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
-                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
-                    {t('quote.industry')} <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    name="industry"
-                    value={formData.industry}
-                    onChange={handleInputChange}
-                    dir={isRTL ? 'rtl' : 'ltr'}
-                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
-                    required
-                  >
-                    <option value="" className="text-inovara-primary/50">{t('quote.industry')}</option>
-                    <option value="corporate" className="text-inovara-primary">{t('quote.industryOptions.office')}</option>
-                    <option value="healthcare" className="text-inovara-primary">{t('quote.industryOptions.healthcare')}</option>
-                    <option value="education" className="text-inovara-primary">{t('quote.industryOptions.education')}</option>
-                    <option value="retail" className="text-inovara-primary">{t('quote.industryOptions.retail')}</option>
-                    <option value="manufacturing" className="text-inovara-primary">{t('quote.industryOptions.manufacturing')}</option>
-                    <option value="hospitality" className="text-inovara-primary">{t('quote.industryOptions.hospitality')}</option>
-                    <option value="other" className="text-inovara-primary">{t('quote.industryOptions.other')}</option>
-                  </select>
+              {!productId && (
+                <div>
+                  <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
+                    <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                      {t('quote.product')} <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="products"
+                      value={formData.products[0]?.id || ''}
+                      onChange={handleProductChange}
+                      dir={isRTL ? 'rtl' : 'ltr'}
+                      className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
+                      required
+                      disabled={isLoadingProducts}
+                    >
+                      <option value="" className="text-inovara-primary/50">
+                        {isLoadingProducts ? t('common.loading') : t('quote.selectProduct')}
+                      </option>
+                      {productsResponse?.data?.map((product: Product) => (
+                        <option key={product.id} value={product.id} className="text-inovara-primary">
+                          {product.name}
+                        </option>
+                      ))}
+                    </select>
+                    {isProductsError && (
+                      <p className="text-red-500 text-xs mt-1">{t('quote.productLoadError')}</p>
+                    )}
+                  </div>
                 </div>
-                <div className={isRTL ? 'sm:order-1' : 'sm:order-2'}>
-                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
-                    {t('quote.machines')}
-                  </label>
-                  <select
-                    name="machines"
-                    value={formData.machines}
-                    onChange={handleInputChange}
-                    dir={isRTL ? 'rtl' : 'ltr'}
-                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
-                  >
-                    <option value="" className="text-inovara-primary/50">{t('quote.machines')}</option>
-                    <option value="1-5" className="text-inovara-primary">{t('quote.machineOptions.1-5')}</option>
-                    <option value="6-20" className="text-inovara-primary">{t('quote.machineOptions.6-20')}</option>
-                    <option value="21-50" className="text-inovara-primary">{t('quote.machineOptions.21-50')}</option>
-                    <option value="51-100" className="text-inovara-primary">{t('quote.machineOptions.51-100')}</option>
-                    <option value="100+" className="text-inovara-primary">{t('quote.machineOptions.100+')}</option>
-                  </select>
-                </div>
-              </div>
+              )}
 
               <div>
                 <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -248,10 +257,10 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose }) =>
 
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 className="w-full group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl hover:shadow-2xl sm:hover:shadow-3xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                     <span className="text-sm sm:text-base">{t('common.loading')}...</span>
