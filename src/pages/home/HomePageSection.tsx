@@ -9,8 +9,7 @@ interface HomePageSectionProps {
 
 export const HomePageSection: React.FC<HomePageSectionProps> = ({ 
   section, 
-  onQuoteClick,
-  onVisibilityChange 
+  onQuoteClick
 }) => {
   const { 
     id, 
