@@ -38,17 +38,17 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
 
   // Extract products from API response
   const products = useMemo(() => productsResponse?.data || [], [productsResponse?.data]);
-  // Format price with currency
-  const formatPrice = (price: string | number, currency?: string) => {
-    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-    if (isNaN(numericPrice)) return 'Price on request';
+  // Format price with currency - COMMENTED OUT TO HIDE PRICES
+  // const formatPrice = (price: string | number, currency?: string) => {
+  //   const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+  //   if (isNaN(numericPrice)) return 'Price on request';
 
-    return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
-      style: 'currency',
-      currency: currency || 'USD',
-      minimumFractionDigits: 0,
-    }).format(numericPrice);
-  };
+  //   return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
+  //     style: 'currency',
+  //     currency: currency || 'USD',
+  //     minimumFractionDigits: 0,
+  //   }).format(numericPrice);
+  // };
 
 
   return (
@@ -196,10 +196,10 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                       {/* Enhanced Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                      {/* Enhanced Price Badge */}
-                      <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-xl backdrop-blur-sm border border-white/20`}>
+                      {/* Enhanced Price Badge - COMMENTED OUT TO HIDE PRICES */}
+                      {/* <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-xl backdrop-blur-sm border border-white/20`}>
                         {formatPrice(product.price, product.currency)}
-                      </div>
+                      </div> */}
 
                       {/* New: Category Badge */}
                       {product.category?.name && (

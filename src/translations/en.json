@@ -53,34 +53,6 @@
     "clearFilters": "Clear All Filters",
     "viewDetails": "View Details",
     "viewAll": "View All Products",
-    "flower": {
-      "title": "Flower Vending Machine",
-      "subtitle": "Fresh flowers available 24/7 with smart temperature control",
-      "description": "Revolutionary flower vending with temperature-controlled storage, automated watering, and freshness monitoring for premium blooms anytime.",
-      "price": "Starting at $9,999",
-      "category": "Flower Vending"
-    },
-    "snack": {
-      "title": "Smart Snack Machine",
-      "subtitle": "Advanced snack vending with real-time inventory tracking",
-      "description": "Intelligent snack vending with cashless payments, real-time analytics, and smart inventory management for maximum profitability.",
-      "price": "Starting at $7,999",
-      "category": "Snack Vending"
-    },
-    "pizza": {
-      "title": "Pizza Vending Machine",
-      "subtitle": "Fresh pizza in minutes with automated cooking technology",
-      "description": "Innovative pizza vending with automated cooking, fresh ingredients, and customizable options for delicious meals on demand.",
-      "price": "Starting at $18,999",
-      "category": "Food Vending"
-    },
-    "beverage": {
-      "title": "Beverage Vending Machine",
-      "subtitle": "Smart beverage dispensing with temperature control",
-      "description": "Advanced beverage vending with multiple temperature zones, cashless payments, and real-time consumption analytics.",
-      "price": "Starting at $6,999",
-      "category": "Beverage Vending"
-    },
     "cta": {
       "title": "Ready to Transform Your Business?",
       "description": "Explore our complete range of smart vending solutions and discover how we can help you maximize profitability and customer satisfaction.",

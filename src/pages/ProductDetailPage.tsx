@@ -29,17 +29,17 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
     cacheTime: 10 * 60 * 1000, // 10 minutes
   });
 
-  // Format price with currency
-  const formatPrice = (price: string | number, currency?: string) => {
-    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-    if (isNaN(numericPrice)) return 'Price on request';
+  // Format price with currency - COMMENTED OUT TO HIDE PRICES
+  // const formatPrice = (price: string | number, currency?: string) => {
+  //   const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+  //   if (isNaN(numericPrice)) return 'Price on request';
 
-    return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
-      style: 'currency',
-      currency: currency || 'USD',
-      minimumFractionDigits: 0,
-    }).format(numericPrice);
-  };
+  //   return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
+  //     style: 'currency',
+  //     currency: currency || 'USD',
+  //     minimumFractionDigits: 0,
+  //   }).format(numericPrice);
+  // };
 
   // Get gradient color based on category
   const getCategoryGradient = (categorySlug: string) => {
@@ -231,11 +231,11 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 </p>
               </div>
 
-              {/* Enhanced Price */}
-              <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
+              {/* Enhanced Price - COMMENTED OUT TO HIDE PRICES */}
+              {/* <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
                 <div className="text-2xl sm:text-3xl font-black text-inovara-primary mb-1 sm:mb-2">{formatPrice(product.price, product.currency)}</div>
                 <div className="text-sm sm:text-base text-inovara-primary/70">{t('productDetail.startingPrice')}</div>
-              </div>
+              </div> */}
 
               {/* Enhanced Quick Features Preview */}
               <div>
