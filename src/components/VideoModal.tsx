@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, Volume2, VolumeX, Maximize, RotateCcw } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
-import Spinner from './Spinner';
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -364,12 +363,10 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
           {/* Loading Overlay */}
           {isLoading && (
             <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-300">
-              <Spinner
-                size="2xl"
-                color="white"
-                showText={true}
-                className="text-white"
-              />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 border-4 border-white/20 border-t-white rounded-full animate-spin mb-3 sm:mb-4"></div>
+              <div className="text-white text-xs sm:text-sm md:text-base font-medium text-center px-4">
+                {t('videoModal.loading')}
+              </div>
             </div>
           )}
 

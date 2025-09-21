@@ -19,7 +19,7 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   onIndexChange,
   productName
 }) => {
-  const { isRTL } = useTranslation();
+  const { t, isRTL } = useTranslation();
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
