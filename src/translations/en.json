@@ -1370,22 +1370,15 @@
     "ctaDesc": "Join hundreds of satisfied customers who have revolutionized their operations with our smart vending solutions.",
     "getFreeQuote": "Get Free Quote",
     "watchDemo": "Watch Demo Video",
-    "noVideoAvailable": "No demo video available for this product. Please contact us for more information.",
     "startingPrice": "Starting price - Contact for custom quotes",
     "videoModal": {
       "close": "Close video",
       "playPause": "Play/Pause video",
       "restart": "Restart video",
-      "pause": "Pause video",
-      "play": "Play video",
-      "mute": "Mute video",
-      "unmute": "Unmute video",
       "muteUnmute": "Mute/Unmute video",
       "fullscreen": "Toggle fullscreen",
       "notSupported": "Your browser does not support the video tag.",
-      "clickOutside": "Click outside the video to close",
-      "loading": "Loading video...",
-      "playing": "Playing"
+      "loading": "Loading video..."
     },
     "fallbackFeatures": {
       "quality": "High Quality Materials",

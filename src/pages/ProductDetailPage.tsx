@@ -42,34 +42,12 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
         setVideoPreloaded(true);
       };
       video.onerror = () => {
-        console.log('Video preload failed');
+        // Video preload failed - silently continue
       };
     }
   }, [product?.videos, videoPreloaded]);
 
-  // Format price with currency - COMMENTED OUT TO HIDE PRICES
-  // const formatPrice = (price: string | number, currency?: string) => {
-  //   const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-  //   if (isNaN(numericPrice)) return 'Price on request';
 
-  //   return new Intl.NumberFormat(language === 'ar' ? 'ar-SA' : 'en-US', {
-  //     style: 'currency',
-  //     currency: currency || 'USD',
-  //     minimumFractionDigits: 0,
-  //   }).format(numericPrice);
-  // };
-
-  // Get gradient color based on category
-  const getCategoryGradient = (categorySlug: string) => {
-    const gradients: Record<string, string> = {
-      'flower': 'from-pink-500 to-rose-600',
-      'snack': 'from-orange-500 to-amber-600',
-      'food': 'from-red-500 to-orange-600',
-      'beverage': 'from-blue-500 to-cyan-600',
-      'default': 'from-inovara-primary to-inovara-secondary'
-    };
-    return gradients[categorySlug] || gradients.default;
-  };
 
   // Loading state
   if (isLoading) {
@@ -196,13 +174,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     </button>
                   </>
                 )}
-
-                {/* Enhanced Category Badge */}
-                {product.category && (
-                  <div className={`absolute top-3 sm:top-4 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} bg-gradient-to-r ${getCategoryGradient(product.category.slug)} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg`}>
-                    {product.category.name}
-                  </div>
-                )}
               </div>
 
               {/* Enhanced Thumbnail Images */}
@@ -248,12 +219,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   {product.description}
                 </p>
               </div>
-
-              {/* Enhanced Price - COMMENTED OUT TO HIDE PRICES */}
-              {/* <div className={`bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-inovara-primary/10 hover:border-inovara-primary/20 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}>
-                <div className="text-2xl sm:text-3xl font-black text-inovara-primary mb-1 sm:mb-2">{formatPrice(product.price, product.currency)}</div>
-                <div className="text-sm sm:text-base text-inovara-primary/70">{t('productDetail.startingPrice')}</div>
-              </div> */}
 
               {/* Enhanced Quick Features Preview */}
               <div>
@@ -317,12 +282,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   onClick={() => {
                     if (product?.videos?.[0]) {
                       setIsVideoModalOpen(true);
-                    } else {
-                      // Fallback: show alert or redirect to contact
-                      alert(t('productDetail.noVideoAvailable') || 'No demo video available for this product. Please contact us for more information.');
                     }
                   }}
-                  className={`w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group relative ${
+                  disabled={!product?.videos?.[0]}
+                  className={`w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group relative disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-inovara-primary ${
                     videoPreloaded ? 'ring-2 ring-green-400/50' : ''
                   }`}
                 >

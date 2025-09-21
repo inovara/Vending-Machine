@@ -9,23 +9,6 @@ interface VideoModalProps {
   title?: string;
 }
 
-// Preload component for better performance
-const VideoPreloader: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
-  useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'video';
-    link.href = videoUrl;
-    document.head.appendChild(link);
-
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, [videoUrl]);
-
-  return null;
-};
-
 const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, title }) => {
   const { t, isRTL } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -34,7 +17,6 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
   const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
 
   // Handle escape key to close modal
   useEffect(() => {
@@ -90,7 +72,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
 
   // Auto-play when modal opens
   useEffect(() => {
-    if (isOpen && videoRef.current && !hasAutoPlayed) {
+    if (isOpen && videoRef.current) {
       const video = videoRef.current;
       
       // Set video to muted for autoplay (browser requirement)
@@ -102,11 +84,8 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
         try {
           await video.play();
           setIsPlaying(true);
-          setHasAutoPlayed(true);
-        } catch (error) {
-          console.log('Autoplay failed, user interaction required:', error);
-          // If autoplay fails, just show the video ready to play
-          setHasAutoPlayed(true);
+        } catch {
+          // Autoplay failed - user interaction required, continue silently
         }
       };
       
@@ -115,7 +94,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
       
       return () => clearTimeout(timer);
     }
-  }, [isOpen, hasAutoPlayed]);
+  }, [isOpen]);
 
   // Reset state when modal closes
   useEffect(() => {
@@ -123,7 +102,6 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
       setIsPlaying(false);
       setProgress(0);
       setIsLoading(true);
-      setHasAutoPlayed(false);
       
       // Pause and reset video when modal closes
       if (videoRef.current) {
@@ -191,8 +169,6 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      {/* Video Preloader for better performance */}
-      <VideoPreloader videoUrl={videoUrl} />
       <div className={`relative w-full h-full max-w-7xl max-h-[90vh] mx-4 ${isRTL ? 'rtl' : 'ltr'}`}>
         {/* Close Button */}
         <button
@@ -306,21 +282,8 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
             </div>
           )}
 
-          {/* Auto-play indicator */}
-          {!isLoading && isPlaying && hasAutoPlayed && (
-            <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-white text-xs font-medium">{t('videoModal.playing')}</span>
-            </div>
-          )}
         </div>
 
-        {/* Video Info */}
-        <div className="mt-4 sm:mt-6 text-center">
-          <p className="text-white/80 text-sm sm:text-base">
-            {t('videoModal.clickOutside')}
-          </p>
-        </div>
       </div>
     </div>
   );

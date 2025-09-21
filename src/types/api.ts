@@ -15,6 +15,13 @@ export interface PaginatedResponse<T = unknown> extends ApiResponse<T[]> {
   };
 }
 
+export interface ApiError {
+  message: string;
+  status?: number;
+  code?: string;
+  validation?: any;
+}
+
 // Contact Types
 export interface ContactFormData {
   name: string;
