@@ -42,23 +42,46 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
     const video = videoRef.current;
     if (!video) return;
 
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
     const handleTimeUpdate = () => {
       if (video.duration) {
         setProgress((video.currentTime / video.duration) * 100);
       }
     };
-    const handleLoadedData = () => setIsLoading(false);
-    const handleLoadStart = () => setIsLoading(true);
-    const handleVolumeChange = () => setIsMuted(video.muted);
+    const handleLoadedData = () => {
+      setIsLoading(false);
+    };
+    const handleLoadStart = () => {
+      setIsLoading(true);
+    };
+    const handleVolumeChange = () => {
+      setIsMuted(video.muted);
+    };
+    const handleCanPlay = () => {
+      setIsLoading(false);
+    };
+    const handleWaiting = () => {
+      setIsLoading(true);
+    };
 
+    // Add all event listeners
     video.addEventListener('play', handlePlay);
     video.addEventListener('pause', handlePause);
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('loadstart', handleLoadStart);
     video.addEventListener('volumechange', handleVolumeChange);
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('waiting', handleWaiting);
+
+    // Set initial states
+    setIsPlaying(!video.paused);
+    setIsMuted(video.muted);
 
     return () => {
       video.removeEventListener('play', handlePlay);
@@ -67,8 +90,10 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('loadstart', handleLoadStart);
       video.removeEventListener('volumechange', handleVolumeChange);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('waiting', handleWaiting);
     };
-  }, [videoUrl]);
+  }, [videoUrl, isOpen]);
 
   // Auto-play when modal opens
   useEffect(() => {
@@ -79,6 +104,9 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
       video.muted = true;
       setIsMuted(true);
       
+      // Set initial playing state
+      setIsPlaying(!video.paused);
+      
       // Attempt to play the video
       const playVideo = async () => {
         try {
@@ -86,6 +114,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
           setIsPlaying(true);
         } catch {
           // Autoplay failed - user interaction required, continue silently
+          setIsPlaying(false);
         }
       };
       
@@ -102,6 +131,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
       setIsPlaying(false);
       setProgress(0);
       setIsLoading(true);
+      setIsMuted(false);
       
       // Pause and reset video when modal closes
       if (videoRef.current) {
@@ -111,6 +141,24 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
     }
   }, [isOpen]);
 
+  // Sync state with video element periodically to ensure consistency
+  useEffect(() => {
+    if (!isOpen || !videoRef.current) return;
+
+    const syncInterval = setInterval(() => {
+      const video = videoRef.current;
+      if (video) {
+        setIsPlaying(!video.paused);
+        setIsMuted(video.muted);
+        if (video.duration) {
+          setProgress((video.currentTime / video.duration) * 100);
+        }
+      }
+    }, 100);
+
+    return () => clearInterval(syncInterval);
+  }, [isOpen]);
+
   // Handle click outside modal to close
   const handleBackdropClick = (event: React.MouseEvent) => {
     if (event.target === modalRef.current) {
@@ -118,11 +166,23 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
     }
   };
 
+  // Handle touch events for better mobile experience
+  const handleTouchStart = (event: React.TouchEvent) => {
+    event.stopPropagation();
+  };
+
+  // Handle double tap to play/pause on mobile
+  const handleVideoDoubleClick = () => {
+    togglePlay();
+  };
+
   // Handle video controls
   const togglePlay = () => {
     if (videoRef.current) {
       if (videoRef.current.paused) {
-        videoRef.current.play();
+        videoRef.current.play().catch(() => {
+          // Handle play error silently
+        });
       } else {
         videoRef.current.pause();
       }
@@ -131,7 +191,9 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
+      const newMutedState = !videoRef.current.muted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
     }
   };
 
@@ -148,7 +210,10 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
   const restartVideo = () => {
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
-      videoRef.current.play();
+      setProgress(0);
+      videoRef.current.play().catch(() => {
+        // Handle play error silently
+      });
     }
   };
 
@@ -166,21 +231,24 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
   return (
     <div
       ref={modalRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4"
       onClick={handleBackdropClick}
     >
-      <div className={`relative w-full h-full max-w-7xl max-h-[90vh] mx-4 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <div className={`relative w-full h-full max-w-7xl max-h-[95vh] sm:max-h-[90vh] ${isRTL ? 'rtl' : 'ltr'}`}>
         {/* Close Button */}
         <button
           onClick={onClose}
-          className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} z-10 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30`}
+          className={`absolute top-2 ${isRTL ? 'left-2' : 'right-2'} sm:top-4 ${isRTL ? 'sm:left-4' : 'sm:right-4'} z-10 w-8 h-8 sm:w-10 sm:h-10 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30 touch-manipulation`}
           aria-label={t('videoModal.close')}
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Video Container */}
-        <div className="relative w-full h-full bg-black rounded-lg sm:rounded-xl overflow-hidden shadow-2xl">
+        <div 
+          className="relative w-full h-full bg-black rounded-lg sm:rounded-xl overflow-hidden shadow-2xl"
+          onTouchStart={handleTouchStart}
+        >
           <video
             ref={videoRef}
             className="w-full h-full object-contain"
@@ -189,9 +257,13 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
             playsInline
             muted
             poster=""
-            onLoadStart={() => setIsLoading(true)}
-            onCanPlay={() => setIsLoading(false)}
-            onError={() => setIsLoading(false)}
+            webkit-playsinline="true"
+            onDoubleClick={handleVideoDoubleClick}
+            style={{ 
+              maxHeight: 'calc(100vh - 4rem)', 
+              maxWidth: '100%',
+              touchAction: 'manipulation'
+            }}
           >
             <source src={videoUrl} type="video/mp4" />
             <track kind="captions" src="" srcLang="en" label="English" />
@@ -199,84 +271,100 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
           </video>
 
           {/* Custom Video Controls */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 sm:p-6">
-            <div className={`flex items-center justify-between gap-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 sm:p-4 md:p-6">
+            <div className={`flex items-center justify-between gap-2 sm:gap-3 md:gap-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
               {/* Play/Pause Button */}
               <button
                 onClick={togglePlay}
-                className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30 touch-manipulation active:scale-95"
                 aria-label={t('videoModal.playPause')}
               >
                 {isPlaying ? (
-                  <Pause className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  <Pause className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                 ) : (
-                  <Play className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  <Play className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                 )}
               </button>
 
               {/* Video Title */}
               {title && (
-                <div className="flex-1 px-2 sm:px-4">
-                  <h3 className="text-white font-semibold text-sm sm:text-base truncate">
+                <div className="flex-1 px-2 sm:px-3 md:px-4 min-w-0">
+                  <h3 className="text-white font-semibold text-xs sm:text-sm md:text-base truncate">
                     {title}
                   </h3>
                 </div>
               )}
 
               {/* Control Buttons */}
-              <div className={`flex items-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+              <div className={`flex items-center gap-1 sm:gap-2 md:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                 {/* Restart Button */}
                 <button
                   onClick={restartVideo}
-                  className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30"
+                  className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30 touch-manipulation active:scale-95"
                   aria-label={t('videoModal.restart')}
                 >
-                  <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                 </button>
 
                 {/* Mute/Unmute Button */}
                 <button
                   onClick={toggleMute}
-                  className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30"
+                  className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30 touch-manipulation active:scale-95"
                   aria-label={t('videoModal.muteUnmute')}
                 >
                   {isMuted ? (
-                    <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                    <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                   ) : (
-                    <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                    <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                   )}
                 </button>
 
                 {/* Fullscreen Button */}
                 <button
                   onClick={toggleFullscreen}
-                  className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30"
+                  className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white/30 touch-manipulation active:scale-95"
                   aria-label={t('videoModal.fullscreen')}
                 >
-                  <Maximize className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  <Maximize className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                 </button>
               </div>
             </div>
 
             {/* Progress Bar */}
-            <div className="mt-3 sm:mt-4">
+            <div className="mt-2 sm:mt-3 md:mt-4">
               <div 
-                className="w-full h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer hover:h-2 transition-all duration-300"
+                className="w-full h-2 sm:h-3 md:h-4 bg-white/20 rounded-full overflow-hidden cursor-pointer hover:h-3 sm:hover:h-4 md:hover:h-5 transition-all duration-300 touch-manipulation"
                 onClick={handleProgressClick}
+                role="progressbar"
+                aria-label="Video progress"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const syntheticEvent = {
+                      clientX: 0,
+                      currentTarget: e.currentTarget
+                    } as React.MouseEvent<HTMLDivElement>;
+                    handleProgressClick(syntheticEvent);
+                  }
+                }}
               >
                 <div 
-                  className="h-full bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full transition-all duration-300" 
+                  className="h-full bg-gradient-to-r from-inovara-primary to-inovara-secondary rounded-full transition-all duration-300 relative"
                   style={{ width: `${progress}%` }}
-                ></div>
+                >
+                  {/* Progress indicator dot */}
+                  <div className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full shadow-lg border-2 border-inovara-primary"></div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Loading Overlay */}
           {isLoading && (
-            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center transition-opacity duration-300">
-              <div className="w-16 h-16 border-4 border-white/20 border-t-white rounded-full animate-spin mb-4"></div>
-              <div className="text-white text-sm font-medium">
+            <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center transition-opacity duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 border-4 border-white/20 border-t-white rounded-full animate-spin mb-3 sm:mb-4"></div>
+              <div className="text-white text-xs sm:text-sm md:text-base font-medium text-center px-4">
                 {t('videoModal.loading')}
               </div>
             </div>
