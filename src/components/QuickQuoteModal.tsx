@@ -270,8 +270,8 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
                   </span>
                 ) : (
                   <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
                     <span className="text-sm sm:text-base">{t('quote.submit')}</span>
+                    <Send className={`w-4 h-4 sm:w-6 sm:h-6 roup-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-360 group-hover:-translate-x-1' : ''}`} />
                   </span>
                 )}
                 
@@ -293,8 +293,8 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
                   className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                 >
                   <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
                     <span className="text-sm sm:text-base">{t('quote.success.requestAnother')}</span>
+                    <Send className={`w-4 h-4 sm:w-6 sm:h-6 roup-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-360 group-hover:-translate-x-1' : ''}`} />
                   </span>
                 </button>
                 <button

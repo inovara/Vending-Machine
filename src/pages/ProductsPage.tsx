@@ -214,8 +214,10 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                           to={`/products/${product.slug || product.id}`}
                           className="bg-white/90 backdrop-blur-sm text-inovara-primary px-6 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center gap-2"
                         >
-                          {t('products.viewDetails')}
-                          <ArrowRight className="w-4 h-4" />
+                          <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                            {t('products.viewDetails')}
+                            <ArrowRight className={`w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+                          </span>
                         </Link>
                       </div>
                     </div>
@@ -302,8 +304,8 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={`px-2 sm:px-3 py-2 rounded-lg transition-all duration-300 text-sm sm:text-base ${currentPage === page
-                          ? 'bg-inovara-primary text-white shadow-lg'
-                          : 'text-inovara-primary hover:bg-inovara-primary/10'
+                        ? 'bg-inovara-primary text-white shadow-lg'
+                        : 'text-inovara-primary hover:bg-inovara-primary/10'
                         }`}
                     >
                       {page}
