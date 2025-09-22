@@ -264,7 +264,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                       </div>
 
                       {/* Enhanced Action Buttons */}
-                      <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+                      <div className={`flex flex-col lg:flex-row gap-3 sm:gap-4 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
                         <Link
                           to={`/products/${product.slug || product.id}`}
                           className="flex-1 group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
