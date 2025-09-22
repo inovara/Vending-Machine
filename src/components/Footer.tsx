@@ -2,7 +2,7 @@ import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Twitter, Instagram, Facebook, Linkedin } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
-import logo from '../../inovara.svg';
+import logo from '../../logo.svg';
 
 interface SocialLink {
   name: string;
