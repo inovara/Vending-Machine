@@ -100,9 +100,9 @@ const Footer: React.FC = memo(() => {
     <footer className={`w-full bg-gradient-to-br from-inovara-primary via-inovara-primary/95 to-inovara-primary border-t border-inovara-accent/20 ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className={`grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 ${isRTL ? 'lg:grid-flow-col-dense' : ''}`}>
+        <div className={`grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 ${isRTL ? 'md:grid-flow-col-dense' : ''}`}>
           {/* Company Info - Spans 2 columns, positioned based on RTL */}
-          <div className={`lg:col-span-2 ${isRTL ? 'lg:col-start-3 lg:col-end-5' : 'lg:col-start-1 lg:col-end-3'}`}>
+          <div className={`lg:col-span-2 ${isRTL ? 'md:col-start-3 md:col-end-5' : 'md:col-start-1 md:col-end-3'}`}>
             <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
               {/* Company Branding */}
               <div className="mb-8">
