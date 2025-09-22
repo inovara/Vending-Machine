@@ -12,36 +12,9 @@
   "categories": ["business", "productivity", "technology"],
   "icons": [
     {
-      "src": "/inovara.svg",
+      "src": "/logo.svg",
       "sizes": "any",
       "type": "image/svg+xml"
-    },
-    {
-      "src": "/inovara.svg",
-      "sizes": "16x16",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/inovara.svg",
-      "sizes": "32x32",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/inovara.svg",
-      "sizes": "180x180",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/inovara.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/inovara.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
     }
   ],
   "screenshots": [
@@ -66,7 +39,7 @@
       "url": "/#products",
       "icons": [
         {
-          "src": "/inovara.svg",
+          "src": "/logo.svg",
           "sizes": "32x32",
           "type": "image/svg+xml"
         }
@@ -79,7 +52,7 @@
       "url": "/#contact",
       "icons": [
         {
-          "src": "/inovara.svg",
+          "src": "/logo.svg",
           "sizes": "32x32",
           "type": "image/svg+xml"
         }
