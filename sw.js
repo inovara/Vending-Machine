@@ -10,7 +10,7 @@ const CRITICAL_RESOURCES = [
   '/src/main.tsx',
   '/src/App.tsx',
   '/src/index.css',
-  '/inovara.svg',
+  '/logo.svg',
   '/site.webmanifest'
 ];
 
@@ -19,7 +19,7 @@ const STATIC_RESOURCES = [
   '/src/main.tsx',
   '/src/App.tsx',
   '/src/index.css',
-  '/inovara.svg',
+  '/logo.svg',
   '/site.webmanifest',
   '/browserconfig.xml'
 ];
@@ -205,8 +205,8 @@ self.addEventListener('push', event => {
     const data = event.data.json();
     const options = {
       body: data.body,
-      icon: '/inovara.svg',
-      badge: '/inovara.svg',
+      icon: '/logo.svg',
+      badge: '/logo.svg',
       vibrate: [100, 50, 100],
       data: {
         dateOfArrival: Date.now(),
