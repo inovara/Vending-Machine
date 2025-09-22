@@ -1,153 +1,97 @@
-// Professional Service Worker for Inovara Vending Solutions
-// Version: 2.0.0 - Complete rewrite with comprehensive error handling
-
-const CACHE_NAME = 'inovara-vending-v2.0.0';
-const STATIC_CACHE = 'static-cache-v2.0';
-const DYNAMIC_CACHE = 'dynamic-cache-v2.0';
+// Optimized Service Worker for Performance
+const CACHE_NAME = 'inovara-vending-v1.0.2';
+const STATIC_CACHE = 'static-cache-v1.2';
+const DYNAMIC_CACHE = 'dynamic-cache-v1.2';
 
 // Critical resources to cache immediately
 const CRITICAL_RESOURCES = [
   '/',
   '/index.html',
+  '/src/main.tsx',
+  '/src/App.tsx',
+  '/src/index.css',
   '/logo.svg',
   '/site.webmanifest'
 ];
 
-// Utility function to check if URL is cacheable
-function isCacheableUrl(url) {
-  try {
-    const urlObj = new URL(url);
-    return urlObj.protocol.startsWith('http') && 
-           !urlObj.protocol.includes('chrome-extension') &&
-           !urlObj.protocol.includes('moz-extension') &&
-           !urlObj.protocol.includes('safari-extension') &&
-           !urlObj.protocol.includes('data') &&
-           !urlObj.protocol.includes('blob');
-  } catch (error) {
-    return false;
-  }
-}
-
-// Utility function to safely cache a response
-async function safeCachePut(cache, request, response) {
-  try {
-    if (isCacheableUrl(request.url)) {
-      await cache.put(request, response);
-      return true;
-    }
-  } catch (error) {
-    console.debug('Cache put failed for URL:', request.url, error.message);
-  }
-  return false;
-}
+// Resources to cache with longer TTL
+const STATIC_RESOURCES = [
+  '/src/main.tsx',
+  '/src/App.tsx',
+  '/src/index.css',
+  '/logo.svg',
+  '/site.webmanifest',
+  '/browserconfig.xml'
+];
 
 // Install event - cache critical resources
 self.addEventListener('install', event => {
-  console.log('Service Worker installing...');
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then(cache => {
-        console.log('Caching critical resources...');
         return cache.addAll(CRITICAL_RESOURCES);
       })
-      .then(() => {
-        console.log('Service Worker installed successfully');
-        return self.skipWaiting();
-      })
-      .catch(error => {
-        console.error('Service Worker installation failed:', error);
-      })
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activate event - clean up old caches and take control
+// Activate event - clean up old caches
 self.addEventListener('activate', event => {
-  console.log('Service Worker activating...');
   event.waitUntil(
     caches.keys()
       .then(cacheNames => {
-        const deletePromises = cacheNames.map(cacheName => {
-          if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        });
-        return Promise.all(deletePromises);
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
       })
-      .then(() => {
-        console.log('Service Worker activated successfully');
-        return self.clients.claim();
-      })
-      .catch(error => {
-        console.error('Service Worker activation failed:', error);
-      })
+      .then(() => self.clients.claim())
   );
 });
 
-// Fetch event - professional caching strategy
+// Fetch event - optimized caching strategy
 self.addEventListener('fetch', event => {
   const { request } = event;
-  
+  const url = new URL(request.url);
+
   // Skip non-GET requests
   if (request.method !== 'GET') {
     return;
   }
 
-  // Skip non-cacheable URLs entirely
-  if (!isCacheableUrl(request.url)) {
+  // Skip non-HTTP/HTTPS schemes (chrome-extension, data, blob, etc.)
+  if (!url.protocol.startsWith('http')) {
     return;
   }
 
-  try {
-    const url = new URL(request.url);
-    
-    // Handle different types of requests
-    if (url.origin === location.origin) {
-      // Same-origin requests - cache first strategy
-      event.respondWith(handleSameOriginRequest(request));
-    } else if (isFontRequest(url)) {
-      // Font requests - cache with long TTL
-      event.respondWith(handleFontRequest(request));
-    } else if (isAnalyticsRequest(url)) {
-      // Analytics requests - network first, never cache
-      event.respondWith(handleAnalyticsRequest(request));
-    } else {
-      // Other external requests - network first
-      event.respondWith(handleExternalRequest(request));
-    }
-  } catch (error) {
-    console.debug('Fetch event error:', error.message);
-    // Let the browser handle the request normally
+  // Handle different types of requests
+  if (url.origin === location.origin) {
+    // Same-origin requests
+    event.respondWith(handleSameOriginRequest(request));
+  } else if (url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com')) {
+    // Font requests - cache with long TTL
+    event.respondWith(handleFontRequest(request));
+  } else if (url.hostname.includes('www.googletagmanager.com') || 
+             url.hostname.includes('www.google-analytics.com') ||
+             url.hostname.includes('analytics.google.com') ||
+             url.hostname.includes('googletagmanager.com')) {
+    // Analytics requests - network first, never cache
+    event.respondWith(handleAnalyticsRequest(request));
+  } else {
+    // Other external requests
+    event.respondWith(handleExternalRequest(request));
   }
 });
-
-// Check if request is for fonts
-function isFontRequest(url) {
-  return url.hostname.includes('fonts.googleapis.com') || 
-         url.hostname.includes('fonts.gstatic.com') ||
-         url.pathname.includes('.woff') ||
-         url.pathname.includes('.woff2') ||
-         url.pathname.includes('.ttf') ||
-         url.pathname.includes('.eot');
-}
-
-// Check if request is for analytics
-function isAnalyticsRequest(url) {
-  return url.hostname.includes('googletagmanager.com') ||
-         url.hostname.includes('google-analytics.com') ||
-         url.hostname.includes('analytics.google.com') ||
-         url.hostname.includes('gtag') ||
-         url.hostname.includes('ga.js') ||
-         url.hostname.includes('analytics.js');
-}
 
 // Handle same-origin requests with cache-first strategy
 async function handleSameOriginRequest(request) {
   try {
-    // Try cache first
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
-      // Update cache in background
+      // Serve from cache and update in background
       updateCacheInBackground(request);
       return cachedResponse;
     }
@@ -156,11 +100,17 @@ async function handleSameOriginRequest(request) {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       const cache = await caches.open(STATIC_CACHE);
-      await safeCachePut(cache, request, networkResponse.clone());
+      // Only cache if the request is cacheable
+      if (request.url.startsWith('http')) {
+        try {
+          cache.put(request, networkResponse.clone());
+        } catch (cacheError) {
+          // Silently fail for unsupported schemes
+        }
+      }
     }
     return networkResponse;
   } catch (error) {
-    console.debug('Same-origin request failed:', error.message);
     return new Response('Network error', { status: 503 });
   }
 }
@@ -176,24 +126,24 @@ async function handleFontRequest(request) {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       const cache = await caches.open(STATIC_CACHE);
-      await safeCachePut(cache, request, networkResponse.clone());
+      cache.put(request, networkResponse.clone());
     }
     return networkResponse;
   } catch (error) {
-    console.debug('Font request failed:', error.message);
     return new Response('Font unavailable', { status: 503 });
   }
 }
 
-// Handle analytics requests with network-first strategy
+// Handle analytics requests with network-first strategy and error handling
 async function handleAnalyticsRequest(request) {
   try {
+    // Add timeout and retry logic for analytics requests
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
     
     const networkResponse = await fetch(request, {
       signal: controller.signal,
-      cache: 'no-store',
+      cache: 'no-store', // Never cache analytics requests
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
@@ -203,7 +153,7 @@ async function handleAnalyticsRequest(request) {
     
     clearTimeout(timeoutId);
     
-    // Return fresh response without caching
+    // Don't cache analytics responses, always return fresh data
     return new Response(networkResponse.body, {
       status: networkResponse.status,
       statusText: networkResponse.statusText,
@@ -215,42 +165,46 @@ async function handleAnalyticsRequest(request) {
       }
     });
   } catch (error) {
-    console.debug('Analytics request failed:', error.message);
     return new Response('', { status: 200 });
   }
 }
 
-// Handle external requests
+// Handle external requests with fallback
 async function handleExternalRequest(request) {
   try {
     const networkResponse = await fetch(request);
     return networkResponse;
   } catch (error) {
-    console.debug('External request failed:', error.message);
     return new Response('External resource unavailable', { status: 503 });
   }
 }
 
-// Update cache in background - professional implementation
+// Update cache in background
 async function updateCacheInBackground(request) {
-  // Skip if not cacheable
-  if (!isCacheableUrl(request.url)) {
-    return;
-  }
-
   try {
+    // Skip non-HTTP requests entirely
+    if (!request.url.startsWith('http')) {
+      return;
+    }
+    
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       const cache = await caches.open(STATIC_CACHE);
-      await safeCachePut(cache, request, networkResponse.clone());
+      // Double-check the URL before caching
+      if (request.url.startsWith('http')) {
+        try {
+          cache.put(request, networkResponse.clone());
+        } catch (cacheError) {
+          // Silently fail for unsupported schemes
+        }
+      }
     }
   } catch (error) {
     // Silently fail for background updates
-    console.debug('Background cache update failed:', error.message);
   }
 }
 
-// Handle background sync
+// Handle background sync for offline functionality
 self.addEventListener('sync', event => {
   if (event.tag === 'background-sync') {
     event.waitUntil(doBackgroundSync());
@@ -259,31 +213,26 @@ self.addEventListener('sync', event => {
 
 async function doBackgroundSync() {
   // Perform background sync operations
-  console.log('Background sync executed');
 }
 
-// Handle push notifications
+// Handle push notifications (if needed)
 self.addEventListener('push', event => {
   if (event.data) {
-    try {
-      const data = event.data.json();
-      const options = {
-        body: data.body,
-        icon: '/logo.svg',
-        badge: '/logo.svg',
-        vibrate: [100, 50, 100],
-        data: {
-          dateOfArrival: Date.now(),
-          primaryKey: 1
-        }
-      };
-      
-      event.waitUntil(
-        self.registration.showNotification(data.title, options)
-      );
-    } catch (error) {
-      console.error('Push notification error:', error);
-    }
+    const data = event.data.json();
+    const options = {
+      body: data.body,
+      icon: '/logo.svg',
+      badge: '/logo.svg',
+      vibrate: [100, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: 1
+      }
+    };
+    
+    event.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
   }
 });
 
@@ -294,14 +243,3 @@ self.addEventListener('notificationclick', event => {
     clients.openWindow('/')
   );
 });
-
-// Handle service worker errors
-self.addEventListener('error', event => {
-  console.error('Service Worker error:', event.error);
-});
-
-self.addEventListener('unhandledrejection', event => {
-  console.error('Service Worker unhandled rejection:', event.reason);
-});
-
-console.log('Service Worker loaded successfully');
