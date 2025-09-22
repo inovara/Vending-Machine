@@ -62,6 +62,11 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Skip non-HTTP/HTTPS schemes (chrome-extension, data, blob, etc.)
+  if (!url.protocol.startsWith('http')) {
+    return;
+  }
+
   // Handle different types of requests
   if (url.origin === location.origin) {
     // Same-origin requests
@@ -95,7 +100,10 @@ async function handleSameOriginRequest(request) {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, networkResponse.clone());
+      // Only cache if the request is cacheable
+      if (request.url.startsWith('http')) {
+        cache.put(request, networkResponse.clone());
+      }
     }
     return networkResponse;
   } catch (error) {
@@ -171,7 +179,7 @@ async function handleExternalRequest(request) {
 async function updateCacheInBackground(request) {
   try {
     const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
+    if (networkResponse.ok && request.url.startsWith('http')) {
       const cache = await caches.open(STATIC_CACHE);
       cache.put(request, networkResponse.clone());
     }
