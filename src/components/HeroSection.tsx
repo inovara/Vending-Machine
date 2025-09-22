@@ -43,7 +43,7 @@ const HeroSection: React.FC = memo(() => {
         </div>
 
         {/* Enhanced Value Propositions with Mobile-Optimized Layout */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 xs:gap-3 sm:gap-4 max-w-6xl mx-auto mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 xs:gap-3 sm:gap-4 max-w-6xl mx-auto mb-6 sm:mb-8">
           <div className={`flex items-center p-3 sm:p-4 bg-white/80 backdrop-blur-sm border border-inovara-primary/15 rounded-xl hover:bg-white/95 hover:border-inovara-primary/25 transition-all duration-300 hover:-translate-y-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-lg flex items-center justify-center flex-shrink-0" style={{marginRight: isRTL ? '0' : '0.75rem', marginLeft: isRTL ? '0.75rem' : '0'}}>
               <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
