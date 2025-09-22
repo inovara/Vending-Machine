@@ -1,7 +1,7 @@
 // Optimized Service Worker for Performance
-const CACHE_NAME = 'inovara-vending-v1.0.0';
-const STATIC_CACHE = 'static-cache-v1';
-const DYNAMIC_CACHE = 'dynamic-cache-v1';
+const CACHE_NAME = 'inovara-vending-v1.0.2';
+const STATIC_CACHE = 'static-cache-v1.2';
+const DYNAMIC_CACHE = 'dynamic-cache-v1.2';
 
 // Critical resources to cache immediately
 const CRITICAL_RESOURCES = [
@@ -102,7 +102,11 @@ async function handleSameOriginRequest(request) {
       const cache = await caches.open(STATIC_CACHE);
       // Only cache if the request is cacheable
       if (request.url.startsWith('http')) {
-        cache.put(request, networkResponse.clone());
+        try {
+          cache.put(request, networkResponse.clone());
+        } catch (cacheError) {
+          // Silently fail for unsupported schemes
+        }
       }
     }
     return networkResponse;
@@ -178,10 +182,22 @@ async function handleExternalRequest(request) {
 // Update cache in background
 async function updateCacheInBackground(request) {
   try {
+    // Skip non-HTTP requests entirely
+    if (!request.url.startsWith('http')) {
+      return;
+    }
+    
     const networkResponse = await fetch(request);
-    if (networkResponse.ok && request.url.startsWith('http')) {
+    if (networkResponse.ok) {
       const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, networkResponse.clone());
+      // Double-check the URL before caching
+      if (request.url.startsWith('http')) {
+        try {
+          cache.put(request, networkResponse.clone());
+        } catch (cacheError) {
+          // Silently fail for unsupported schemes
+        }
+      }
     }
   } catch (error) {
     // Silently fail for background updates
