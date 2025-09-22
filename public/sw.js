@@ -1,149 +1,153 @@
-// Professional Service Worker for Production
+// Professional Service Worker for Inovara Vending Solutions
+// Version: 2.0.0 - Complete rewrite with comprehensive error handling
+
 const CACHE_NAME = 'inovara-vending-v2.0.0';
-const STATIC_CACHE = 'static-cache-v2';
-const DYNAMIC_CACHE = 'dynamic-cache-v2';
+const STATIC_CACHE = 'static-cache-v2.0';
+const DYNAMIC_CACHE = 'dynamic-cache-v2.0';
 
 // Critical resources to cache immediately
 const CRITICAL_RESOURCES = [
   '/',
   '/index.html',
-  '/src/main.tsx',
-  '/src/App.tsx',
-  '/src/index.css',
   '/logo.svg',
   '/site.webmanifest'
 ];
 
-// Resources to cache with longer TTL
-const STATIC_RESOURCES = [
-  '/src/main.tsx',
-  '/src/App.tsx',
-  '/src/index.css',
-  '/logo.svg',
-  '/site.webmanifest',
-  '/browserconfig.xml'
-];
-
-// Professional error handling utility
-const handleCacheError = (error, context = 'cache operation') => {
-  console.debug(`Service Worker ${context} failed:`, error.message);
-  // In production, we silently fail to avoid cluttering console
-  return false;
-};
-
-// Professional request validation
-const isValidRequest = (request) => {
-  // Only handle GET requests
-  if (request.method !== 'GET') {
-    return false;
-  }
-  
-  // Only handle HTTP/HTTPS requests
-  if (!request.url.startsWith('http')) {
-    return false;
-  }
-  
-  // Skip chrome-extension, data, blob, and other non-web schemes
+// Utility function to check if URL is cacheable
+function isCacheableUrl(url) {
   try {
-    const url = new URL(request.url);
-    return url.protocol === 'http:' || url.protocol === 'https:';
+    const urlObj = new URL(url);
+    return urlObj.protocol.startsWith('http') && 
+           !urlObj.protocol.includes('chrome-extension') &&
+           !urlObj.protocol.includes('moz-extension') &&
+           !urlObj.protocol.includes('safari-extension') &&
+           !urlObj.protocol.includes('data') &&
+           !urlObj.protocol.includes('blob');
   } catch (error) {
     return false;
   }
-};
+}
 
-// Professional cache operation with error handling
-const safeCachePut = async (cache, request, response) => {
+// Utility function to safely cache a response
+async function safeCachePut(cache, request, response) {
   try {
-    if (isValidRequest(request)) {
+    if (isCacheableUrl(request.url)) {
       await cache.put(request, response);
       return true;
     }
   } catch (error) {
-    handleCacheError(error, 'cache put');
+    console.debug('Cache put failed for URL:', request.url, error.message);
   }
   return false;
-};
+}
 
 // Install event - cache critical resources
 self.addEventListener('install', event => {
+  console.log('Service Worker installing...');
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then(cache => {
+        console.log('Caching critical resources...');
         return cache.addAll(CRITICAL_RESOURCES);
       })
       .then(() => {
-        // Force activation of new service worker
+        console.log('Service Worker installed successfully');
         return self.skipWaiting();
       })
       .catch(error => {
-        handleCacheError(error, 'install');
+        console.error('Service Worker installation failed:', error);
       })
   );
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches and take control
 self.addEventListener('activate', event => {
+  console.log('Service Worker activating...');
   event.waitUntil(
     caches.keys()
       .then(cacheNames => {
-        return Promise.all(
-          cacheNames.map(cacheName => {
-            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
-              return caches.delete(cacheName);
-            }
-          })
-        );
+        const deletePromises = cacheNames.map(cacheName => {
+          if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        });
+        return Promise.all(deletePromises);
       })
       .then(() => {
-        // Take control of all clients immediately
+        console.log('Service Worker activated successfully');
         return self.clients.claim();
       })
       .catch(error => {
-        handleCacheError(error, 'activate');
+        console.error('Service Worker activation failed:', error);
       })
   );
 });
 
-// Professional fetch event handler
+// Fetch event - professional caching strategy
 self.addEventListener('fetch', event => {
   const { request } = event;
   
-  // Validate request before processing
-  if (!isValidRequest(request)) {
+  // Skip non-GET requests
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  // Skip non-cacheable URLs entirely
+  if (!isCacheableUrl(request.url)) {
     return;
   }
 
   try {
     const url = new URL(request.url);
     
-    // Route requests based on origin
+    // Handle different types of requests
     if (url.origin === location.origin) {
+      // Same-origin requests - cache first strategy
       event.respondWith(handleSameOriginRequest(request));
-    } else if (url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com')) {
+    } else if (isFontRequest(url)) {
+      // Font requests - cache with long TTL
       event.respondWith(handleFontRequest(request));
-    } else if (url.hostname.includes('www.googletagmanager.com') || 
-               url.hostname.includes('www.google-analytics.com') ||
-               url.hostname.includes('analytics.google.com') ||
-               url.hostname.includes('googletagmanager.com')) {
+    } else if (isAnalyticsRequest(url)) {
+      // Analytics requests - network first, never cache
       event.respondWith(handleAnalyticsRequest(request));
     } else {
+      // Other external requests - network first
       event.respondWith(handleExternalRequest(request));
     }
   } catch (error) {
-    handleCacheError(error, 'fetch routing');
-    // Fallback to network request
-    event.respondWith(fetch(request));
+    console.debug('Fetch event error:', error.message);
+    // Let the browser handle the request normally
   }
 });
 
-// Professional same-origin request handler
+// Check if request is for fonts
+function isFontRequest(url) {
+  return url.hostname.includes('fonts.googleapis.com') || 
+         url.hostname.includes('fonts.gstatic.com') ||
+         url.pathname.includes('.woff') ||
+         url.pathname.includes('.woff2') ||
+         url.pathname.includes('.ttf') ||
+         url.pathname.includes('.eot');
+}
+
+// Check if request is for analytics
+function isAnalyticsRequest(url) {
+  return url.hostname.includes('googletagmanager.com') ||
+         url.hostname.includes('google-analytics.com') ||
+         url.hostname.includes('analytics.google.com') ||
+         url.hostname.includes('gtag') ||
+         url.hostname.includes('ga.js') ||
+         url.hostname.includes('analytics.js');
+}
+
+// Handle same-origin requests with cache-first strategy
 async function handleSameOriginRequest(request) {
   try {
-    // Check cache first
+    // Try cache first
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
-      // Serve from cache and update in background
+      // Update cache in background
       updateCacheInBackground(request);
       return cachedResponse;
     }
@@ -156,12 +160,12 @@ async function handleSameOriginRequest(request) {
     }
     return networkResponse;
   } catch (error) {
-    handleCacheError(error, 'same-origin request');
+    console.debug('Same-origin request failed:', error.message);
     return new Response('Network error', { status: 503 });
   }
 }
 
-// Professional font request handler
+// Handle font requests with long-term caching
 async function handleFontRequest(request) {
   try {
     const cachedResponse = await caches.match(request);
@@ -176,16 +180,16 @@ async function handleFontRequest(request) {
     }
     return networkResponse;
   } catch (error) {
-    handleCacheError(error, 'font request');
+    console.debug('Font request failed:', error.message);
     return new Response('Font unavailable', { status: 503 });
   }
 }
 
-// Professional analytics request handler
+// Handle analytics requests with network-first strategy
 async function handleAnalyticsRequest(request) {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
     
     const networkResponse = await fetch(request, {
       signal: controller.signal,
@@ -199,6 +203,7 @@ async function handleAnalyticsRequest(request) {
     
     clearTimeout(timeoutId);
     
+    // Return fresh response without caching
     return new Response(networkResponse.body, {
       status: networkResponse.status,
       statusText: networkResponse.statusText,
@@ -210,41 +215,42 @@ async function handleAnalyticsRequest(request) {
       }
     });
   } catch (error) {
-    handleCacheError(error, 'analytics request');
+    console.debug('Analytics request failed:', error.message);
     return new Response('', { status: 200 });
   }
 }
 
-// Professional external request handler
+// Handle external requests
 async function handleExternalRequest(request) {
   try {
     const networkResponse = await fetch(request);
     return networkResponse;
   } catch (error) {
-    handleCacheError(error, 'external request');
+    console.debug('External request failed:', error.message);
     return new Response('External resource unavailable', { status: 503 });
   }
 }
 
-// Professional background cache update
+// Update cache in background - professional implementation
 async function updateCacheInBackground(request) {
+  // Skip if not cacheable
+  if (!isCacheableUrl(request.url)) {
+    return;
+  }
+
   try {
-    // Validate request before processing
-    if (!isValidRequest(request)) {
-      return;
-    }
-    
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       const cache = await caches.open(STATIC_CACHE);
       await safeCachePut(cache, request, networkResponse.clone());
     }
   } catch (error) {
-    handleCacheError(error, 'background update');
+    // Silently fail for background updates
+    console.debug('Background cache update failed:', error.message);
   }
 }
 
-// Professional background sync handler
+// Handle background sync
 self.addEventListener('sync', event => {
   if (event.tag === 'background-sync') {
     event.waitUntil(doBackgroundSync());
@@ -252,15 +258,11 @@ self.addEventListener('sync', event => {
 });
 
 async function doBackgroundSync() {
-  // Professional background sync operations
-  try {
-    // Add any background sync logic here
-  } catch (error) {
-    handleCacheError(error, 'background sync');
-  }
+  // Perform background sync operations
+  console.log('Background sync executed');
 }
 
-// Professional push notification handler
+// Handle push notifications
 self.addEventListener('push', event => {
   if (event.data) {
     try {
@@ -280,12 +282,12 @@ self.addEventListener('push', event => {
         self.registration.showNotification(data.title, options)
       );
     } catch (error) {
-      handleCacheError(error, 'push notification');
+      console.error('Push notification error:', error);
     }
   }
 });
 
-// Professional notification click handler
+// Handle notification clicks
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil(
@@ -293,18 +295,13 @@ self.addEventListener('notificationclick', event => {
   );
 });
 
-// Professional message handler for force updates
-self.addEventListener('message', event => {
-  if (event.data && event.data.action === 'skipWaiting') {
-    self.skipWaiting();
-  }
-});
-
-// Professional error reporting
+// Handle service worker errors
 self.addEventListener('error', event => {
-  handleCacheError(event.error, 'global error');
+  console.error('Service Worker error:', event.error);
 });
 
 self.addEventListener('unhandledrejection', event => {
-  handleCacheError(event.reason, 'unhandled promise rejection');
+  console.error('Service Worker unhandled rejection:', event.reason);
 });
+
+console.log('Service Worker loaded successfully');
