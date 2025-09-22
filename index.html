@@ -556,27 +556,12 @@
 
   <!-- Service Worker Registration for Performance -->
   <script>
-    // Professional service worker registration with force update
+    // Register service worker for caching and performance
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js?v=2.0.0')
-          .then(function(registration) {
-            // Force update on every page load in development
-            if (registration.waiting) {
-              registration.waiting.postMessage({ action: 'skipWaiting' });
-            }
-            registration.addEventListener('updatefound', function() {
-              const newWorker = registration.installing;
-              newWorker.addEventListener('statechange', function() {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // New service worker available, reload page
-                  window.location.reload();
-                }
-              });
-            });
-          })
+        navigator.serviceWorker.register('/sw.js')
           .catch(function(error) {
-            console.debug('Service worker registration failed:', error);
+            // Silent fail for service worker registration
           });
       });
     }
