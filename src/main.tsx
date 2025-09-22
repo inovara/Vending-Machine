@@ -72,40 +72,11 @@ root.render(
 
 // Service Worker registration for PWA capabilities
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      // Unregister any existing service workers first
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      for (const registration of registrations) {
-        await registration.unregister();
-        console.log('Unregistered old service worker');
-      }
-      
-      // Register new service worker
-      const registration = await navigator.serviceWorker.register('/sw.js?v=2.0.0');
-      console.log('Service Worker registered successfully:', registration);
-      
-      // Force update
-      if (registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-      }
-      
-      // Listen for updates
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
-        if (newWorker) {
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New service worker is available
-              window.location.reload();
-            }
-          });
-        }
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .catch(() => {
+        // Silent fail for service worker registration
       });
-      
-    } catch (error) {
-      console.error('Service Worker registration failed:', error);
-    }
   });
 }
 
