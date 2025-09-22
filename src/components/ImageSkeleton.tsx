@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface ImageSkeletonProps {
   className?: string;
@@ -8,7 +8,7 @@ interface ImageSkeletonProps {
   variant?: 'default' | 'card' | 'thumbnail' | 'hero';
 }
 
-const ImageSkeleton: React.FC<ImageSkeletonProps> = ({
+const ImageSkeleton: React.FC<ImageSkeletonProps> = memo(({
   className = '',
   width,
   height,
@@ -85,6 +85,8 @@ const ImageSkeleton: React.FC<ImageSkeletonProps> = ({
       </div>
     </div>
   );
-};
+});
+
+ImageSkeleton.displayName = 'ImageSkeleton';
 
 export default ImageSkeleton;

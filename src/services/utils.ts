@@ -17,10 +17,10 @@ export class ServiceError extends Error {
 
 // Response validation
 export const validateApiResponse = <T>(response: ApiResponse<T>): T => {
-  if (!response.success) {
+  if (!(response as any).success) {
     throw new ServiceError({
       message: response.message || 'API request failed',
-      validation: response.errors || response.validation,
+      validation: response.errors || (response as any).validation,
     });
   }
   return response.data;

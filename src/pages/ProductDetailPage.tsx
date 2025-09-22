@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Truck, Shield as ShieldIcon, Users, Zap, ChevronLeft, ChevronRight, Play, Loader2, AlertCircle, Maximize2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -59,7 +59,37 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
     }
   }, [product?.images]);
 
+  // Use product images or fallback to single image
+  const productImages = product?.images && Array.isArray(product.images) && product.images.length > 0
+    ? product.images
+    : [product?.image_url || 'https://via.placeholder.com/800x600?text=Product+Image'];
 
+  // Memoized navigation handlers
+  const handlePreviousImage = useCallback(() => {
+    if (isRTL) {
+      setSelectedImage(Math.min(productImages.length - 1, selectedImage + 1));
+    } else {
+      setSelectedImage(Math.max(0, selectedImage - 1));
+    }
+  }, [isRTL, productImages.length, selectedImage]);
+
+  const handleNextImage = useCallback(() => {
+    if (isRTL) {
+      setSelectedImage(Math.max(0, selectedImage - 1));
+    } else {
+      setSelectedImage(Math.min(productImages.length - 1, selectedImage + 1));
+    }
+  }, [isRTL, productImages.length, selectedImage]);
+
+  const handleImagePreview = useCallback(() => {
+    setIsImagePreviewOpen(true);
+  }, []);
+
+  const handleVideoModal = useCallback(() => {
+    if (product?.videos?.[0]) {
+      setIsVideoModalOpen(true);
+    }
+  }, [product?.videos]);
 
   // Loading state
   if (isLoading) {
@@ -103,11 +133,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
       </div>
     );
   }
-
-  // Use product images or fallback to single image
-  const productImages = product?.images && Array.isArray(product.images) && product.images.length > 0
-    ? product.images
-    : [product?.image_url || 'https://via.placeholder.com/800x600?text=Product+Image'];
 
   return (
     <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -153,7 +178,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 <div className="absolute inset-0 bg-gradient-to-br from-inovara-primary/10 to-inovara-secondary/10 rounded-2xl sm:rounded-3xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500"></div>
                 <div 
                   className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl group-hover:shadow-2xl sm:group-hover:shadow-3xl transition-all duration-500 cursor-pointer"
-                  onClick={() => setIsImagePreviewOpen(true)}
+                  onClick={handleImagePreview}
                   title="Click to preview image"
                 >
                   {/* Skeleton Loading */}
@@ -185,7 +210,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                   
                   {/* Preview Button */}
                   <button
-                    onClick={() => setIsImagePreviewOpen(true)}
+                    onClick={handleImagePreview}
                     className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
                     aria-label="Open image preview"
                   >
@@ -197,7 +222,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 {productImages.length > 1 && (
                   <>
                     <button
-                      onClick={() => setSelectedImage(Math.max(0, selectedImage - 1))}
+                      onClick={handlePreviousImage}
                       disabled={selectedImage === 0}
                       className={`absolute top-1/2 ${isRTL ? 'right-3 sm:right-4' : 'left-3 sm:left-4'} transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group`}
                       aria-label={isRTL ? 'الصورة السابقة' : 'Previous image'}
@@ -206,7 +231,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                     </button>
 
                     <button
-                      onClick={() => setSelectedImage(Math.min(productImages.length - 1, selectedImage + 1))}
+                      onClick={handleNextImage}
                       disabled={selectedImage === productImages.length - 1}
                       className={`absolute top-1/2 ${isRTL ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group`}
                       aria-label={isRTL ? 'الصورة التالية' : 'Next image'}
@@ -357,11 +382,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ onQuoteClick }) =
                 </button>
 
                 <button 
-                  onClick={() => {
-                    if (product?.videos?.[0]) {
-                      setIsVideoModalOpen(true);
-                    }
-                  }}
+                  onClick={handleVideoModal}
                   disabled={!product?.videos?.[0]}
                   className={`w-full py-3 sm:py-4 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 group relative disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-inovara-primary ${
                     videoPreloaded ? 'ring-2 ring-green-400/50' : ''

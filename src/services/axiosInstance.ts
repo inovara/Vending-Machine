@@ -1,10 +1,11 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { ApiResponse, ApiError } from '../types/api';
+import { API_BASE_URL, API_TIMEOUT, ENABLE_DEBUG_LOGS } from '../config/env';
 
 // Create axios instance with proper typing
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "https://api.inovara.net/api/v1/client",
-  timeout: 10000,
+  baseURL: API_BASE_URL,
+  timeout: API_TIMEOUT,
   headers: {
     "Content-Type": "application/json",
     withCredentials: true,
@@ -26,7 +27,6 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error: AxiosError): Promise<AxiosError> => {
-    console.error('Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
@@ -35,7 +35,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse<ApiResponse>): AxiosResponse<ApiResponse> => {
     // Log successful responses in development
-    if (import.meta.env.DEV) {
+    if (ENABLE_DEBUG_LOGS) {
       console.log(`API Success [${response.config.method?.toUpperCase()}] ${response.config.url}:`, response.data);
     }
     return response;
@@ -48,14 +48,15 @@ axiosInstance.interceptors.response.use(
       validation: error.response?.data?.errors,
     };
 
-    // Log errors
-    console.error('API Error:', {
-      url: error.config?.url,
-      method: error.config?.method,
-      status: error.response?.status,
-      message: apiError.message,
-      validation: apiError.validation,
-    });
+    // Log critical errors only in development
+    if (ENABLE_DEBUG_LOGS && error.response?.status && error.response.status >= 500) {
+      console.error('API Error:', {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response.status,
+        message: apiError.message,
+      });
+    }
 
     // Handle specific error cases
     if (error.response?.status === 401) {

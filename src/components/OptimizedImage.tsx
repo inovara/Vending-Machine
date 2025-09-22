@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { ENABLE_DEBUG_LOGS } from '../config/env';
 import ImageSkeleton from './ImageSkeleton';
 
 interface OptimizedImageProps {
@@ -58,7 +59,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   const handleError = () => {
-    console.error(`Failed to load image: ${src}`);
+    if (ENABLE_DEBUG_LOGS) {
+      console.error(`Failed to load image: ${src}`);
+    }
   };
 
   return (

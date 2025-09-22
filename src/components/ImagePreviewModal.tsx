@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCw, Download } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
@@ -11,7 +11,7 @@ interface ImagePreviewModalProps {
   productName: string;
 }
 
-const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
+const ImagePreviewModal: React.FC<ImagePreviewModalProps> = memo(({
   isOpen,
   onClose,
   images,
@@ -19,7 +19,7 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   onIndexChange,
   productName
 }) => {
-  const { t, isRTL } = useTranslation();
+  const { isRTL } = useTranslation();
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -276,6 +276,8 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
       )}
     </div>
   );
-};
+});
+
+ImagePreviewModal.displayName = 'ImagePreviewModal';
 
 export default ImagePreviewModal;

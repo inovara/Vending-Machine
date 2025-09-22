@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
-import { performanceUtils } from './utils/performance';
 
 // Declare gtag for Google Analytics
 declare global {
@@ -29,10 +28,6 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true };
-  }
-
-  componentDidCatch(_error: Error, errorInfo: React.ErrorInfo) {
-    // Silent error handling for production
   }
 
   render() {
@@ -85,36 +80,26 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Initialize performance optimizations
-const initializePerformanceOptimizations = () => {
-  // Preload critical resources
-  performanceUtils.preloadResource(
-    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap',
-    'style'
-  );
-  
-  performanceUtils.preloadResource('/inovara.svg', 'image', 'image/svg+xml');
-
-  // Initialize lazy loading
-  performanceUtils.lazyLoadImages();
-
-  // Defer non-critical scripts with error handling
-  performanceUtils.requestIdleCallback(() => {
-    // Initialize analytics after critical rendering with error handling
-    try {
-      if (typeof gtag !== 'undefined' && typeof window !== 'undefined') {
-        gtag('event', 'page_view', {
-          page_title: 'Inovara - Smart Vending Machine Solutions',
-          page_location: window.location.href,
-          business_type: 'vending_solutions',
-          industry: 'retail_technology'
-        });
+// Initialize analytics
+const initializeAnalytics = () => {
+  // Defer analytics initialization
+  if (typeof window !== 'undefined') {
+    setTimeout(() => {
+      try {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_view', {
+            page_title: 'Inovara - Smart Vending Machine Solutions',
+            page_location: window.location.href,
+            business_type: 'vending_solutions',
+            industry: 'retail_technology'
+          });
+        }
+      } catch {
+        // Silent fail for analytics initialization
       }
-    } catch (error) {
-      // Silent fail for analytics initialization
-    }
-  });
+    }, 1000);
+  }
 };
 
-// Run performance optimizations
-initializePerformanceOptimizations();
+// Run analytics initialization
+initializeAnalytics();

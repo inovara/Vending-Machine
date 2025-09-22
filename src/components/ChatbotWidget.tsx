@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Send, Bot, User, Loader2, MessageCircle, FileText, ShoppingCart, ExternalLink } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
+import { ENABLE_DEBUG_LOGS } from '../config/env';
 
 interface Message {
   id: string;
@@ -354,7 +355,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                     }, 500);
                     
                   } catch {
-                    console.log('Method 1 failed, trying fallback...');
+                    if (ENABLE_DEBUG_LOGS) {
+                      console.log('Method 1 failed, trying fallback...');
+                    }
                   }
                   
                   // Method 2: Try window.location as fallback (only if method 1 failed)
@@ -380,7 +383,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ isOpen, onClose, onQuoteR
                       showNotification('Email client opened successfully!', 'success', 3000);
                       
                     } catch {
-                      console.log('Method 2 failed, trying clipboard fallback...');
+                      if (ENABLE_DEBUG_LOGS) {
+                        console.log('Method 2 failed, trying clipboard fallback...');
+                      }
                     }
                   }
                   

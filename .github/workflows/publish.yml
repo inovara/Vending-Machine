@@ -21,11 +21,34 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          NODE_ENV: production
+          VITE_API_BASE_URL: https://api.inovara.net/api/v1/client
+          VITE_APP_NAME: Inovara Vending Machine
+          VITE_APP_VERSION: 1.0.0
+          VITE_ENABLE_ANALYTICS: true
+          VITE_ENABLE_DEBUG_LOGS: false
+          VITE_CACHE_TIME: 600000
+          VITE_STALE_TIME: 300000
+          VITE_ENABLE_CSRF_PROTECTION: true
+          VITE_SESSION_TIMEOUT: 3600000
 
       - name: Debug - Check Build Output
         run: ls -al ./dist
 
-      - name: Push dist folder to branch
+      - name: Verify Production Build
+        run: |
+          echo "Checking if dist folder exists and contains files..."
+          if [ -d "./dist" ] && [ "$(ls -A ./dist)" ]; then
+            echo "✅ Build successful - dist folder contains files"
+            echo "Files in dist:"
+            ls -la ./dist/
+          else
+            echo "❌ Build failed - dist folder is empty or missing"
+            exit 1
+          fi
+
+      - name: Push dist folder to build branch
         uses: s0/git-publish-subdir-action@develop
         env:
           REPO: self

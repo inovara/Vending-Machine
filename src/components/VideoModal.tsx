@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import { X, Play, Pause, Volume2, VolumeX, Maximize, RotateCcw } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
@@ -9,7 +9,7 @@ interface VideoModalProps {
   title?: string;
 }
 
-const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, title }) => {
+const VideoModal: React.FC<VideoModalProps> = memo(({ isOpen, onClose, videoUrl, title }) => {
   const { t, isRTL } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -372,6 +372,8 @@ const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose, videoUrl, titl
       </div>
     </div>
   );
-};
+});
+
+VideoModal.displayName = 'VideoModal';
 
 export default VideoModal;
