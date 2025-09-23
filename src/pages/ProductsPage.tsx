@@ -126,11 +126,18 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
 
           {/* Enhanced Loading State */}
           {isLoading && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8">
+            <div 
+              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8 ${isRTL ? 'rtl' : 'ltr'}`}
+              style={{ 
+                direction: isRTL ? 'rtl' : 'ltr',
+                gridAutoFlow: isRTL ? 'row dense' : 'row'
+              }}
+            >
               {Array.from({ length: 4 }).map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden animate-pulse shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  className={`bg-white/90 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden animate-pulse shadow-lg hover:shadow-xl transition-shadow duration-300 ${isRTL ? 'rtl' : 'ltr'}`}
+                  style={{ direction: isRTL ? 'rtl' : 'ltr' }}
                 >
                   <ImageSkeleton
                     className="aspect-[4/3]"
@@ -179,13 +186,22 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
 
           {/* Enhanced Products Grid */}
           {!isLoading && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8">
+            <div 
+              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8 ${isRTL ? 'rtl' : 'ltr'}`}
+              style={{ 
+                direction: isRTL ? 'rtl' : 'ltr',
+                gridAutoFlow: isRTL ? 'row dense' : 'row'
+              }}
+            >
               {products.map((product, index) => {
                 return (
                   <div
                     key={product.id}
                     className={`group relative bg-white/95 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:-translate-y-2 sm:hover:-translate-y-3 transition-all duration-700 shadow-lg hover:shadow-2xl hover:shadow-inovara-primary/20 ${isRTL ? 'rtl' : 'ltr'}`}
-                    style={{ animationDelay: `${index * 100}ms` }}
+                    style={{ 
+                      animationDelay: `${index * 100}ms`,
+                      direction: isRTL ? 'rtl' : 'ltr'
+                    }}
                   >
                     {/* Enhanced Image Container with Aspect Ratio */}
                     <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
@@ -242,7 +258,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                           to={`/products/${product.slug || product.id}`}
                           className="bg-white/90 backdrop-blur-sm text-inovara-primary px-6 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center gap-2"
                         >
-                          <span className={`flex items-center justify-center gap-2 sm:gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                          <span className={`flex items-center justify-center gap-2 sm:gap-3`}>
                             {t('products.viewDetails')}
                             <ArrowRight className={`w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                           </span>
@@ -264,12 +280,12 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ onQuoteClick }) => {
                       </div>
 
                       {/* Enhanced Action Buttons */}
-                      <div className={`flex flex-col lg:flex-row gap-3 sm:gap-4 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+                      <div className={`flex flex-col lg:flex-row gap-3 sm:gap-4`}>
                         <Link
                           to={`/products/${product.slug || product.id}`}
                           className="flex-1 group/btn relative overflow-hidden bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-inovara-accent/30"
                         >
-                          <span className={`flex items-center justify-center gap-2 text-sm sm:text-base ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                          <span className={`flex items-center justify-center gap-2 text-sm sm:text-base`}>
                             {t('products.viewDetails')}
                             <ArrowRight className={`w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/btn:-translate-x-1' : ''}`} />
                           </span>
