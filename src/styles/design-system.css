@@ -553,59 +553,205 @@ body {
   @apply px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-inovara-primary text-inovara-primary font-bold rounded-xl sm:rounded-2xl hover:bg-inovara-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-inovara-primary/20 text-sm sm:text-base;
 }
 
-/* Unified Grid System */
-.unified-grid {
-  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8;
+/* Enterprise Layout System */
+.enterprise-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-.unified-grid-2 {
-  @apply grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8;
+.enterprise-container-sm {
+  @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-.unified-grid-products {
-  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8;
+.enterprise-container-lg {
+  @apply max-w-8xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* Unified Spacing */
-.unified-section-padding {
-  @apply py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8;
+.enterprise-section {
+  @apply py-16 sm:py-20 lg:py-24;
 }
 
-.unified-container-padding {
-  @apply p-4 sm:p-6 lg:p-8;
+.enterprise-section-sm {
+  @apply py-12 sm:py-16 lg:py-20;
 }
 
-.unified-content-spacing {
-  @apply space-y-6 sm:space-y-8;
+.enterprise-section-lg {
+  @apply py-20 sm:py-24 lg:py-32;
 }
 
-.unified-button-spacing {
-  @apply space-y-3 sm:space-y-4;
+/* Enterprise Grid System */
+.enterprise-grid {
+  @apply grid gap-8 sm:gap-12 lg:gap-16;
 }
 
-/* Unified Typography */
-.unified-heading-xl {
-  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-inovara-primary leading-tight;
+.enterprise-grid-2 {
+  @apply enterprise-grid grid-cols-1 lg:grid-cols-2;
 }
 
-.unified-heading-lg {
-  @apply text-xl sm:text-2xl md:text-3xl font-black text-inovara-primary leading-tight;
+.enterprise-grid-3 {
+  @apply enterprise-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
 }
 
-.unified-heading-md {
-  @apply text-lg sm:text-xl md:text-2xl font-black text-inovara-primary leading-tight;
+.enterprise-grid-4 {
+  @apply enterprise-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
 }
 
-.unified-body-lg {
-  @apply text-base sm:text-lg lg:text-xl text-inovara-primary/70 font-light leading-relaxed;
+.enterprise-grid-auto {
+  @apply enterprise-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-auto-fit;
 }
 
-.unified-body-md {
-  @apply text-sm sm:text-base text-inovara-primary/70 font-light leading-relaxed;
+/* Enterprise Flex Layouts */
+.enterprise-flex {
+  @apply flex items-center gap-8 sm:gap-12 lg:gap-16;
 }
 
-.unified-caption {
-  @apply text-xs sm:text-sm text-inovara-primary/70;
+.enterprise-flex-between {
+  @apply flex items-center justify-between gap-8;
+}
+
+.enterprise-flex-center {
+  @apply flex items-center justify-center gap-8;
+}
+
+/* Enterprise Spacing */
+.enterprise-stack {
+  @apply space-y-8 sm:space-y-12 lg:space-y-16;
+}
+
+.enterprise-stack-sm {
+  @apply space-y-4 sm:space-y-6 lg:space-y-8;
+}
+
+.enterprise-stack-lg {
+  @apply space-y-12 sm:space-y-16 lg:space-y-20;
+}
+
+.enterprise-inline {
+  @apply space-x-4 sm:space-x-6 lg:space-x-8 rtl:space-x-reverse;
+}
+
+.enterprise-inline-sm {
+  @apply space-x-2 sm:space-x-4 lg:space-x-6 rtl:space-x-reverse;
+}
+
+.enterprise-inline-lg {
+  @apply space-x-6 sm:space-x-8 lg:space-x-12 rtl:space-x-reverse;
+}
+
+/* Enterprise Section Layouts */
+.enterprise-hero {
+  @apply relative flex min-h-[80vh] items-center justify-center overflow-hidden;
+}
+
+.enterprise-features {
+  @apply enterprise-section bg-gradient-to-b from-white to-neutral-50/50;
+}
+
+.enterprise-cta {
+  @apply enterprise-section-sm bg-gradient-to-r from-inovara-primary/5 to-inovara-secondary/5;
+}
+
+.enterprise-testimonials {
+  @apply enterprise-section bg-white;
+}
+
+/* Enterprise Card Layouts */
+.enterprise-card {
+  @apply bg-white/95 backdrop-blur-sm border border-inovara-primary/10 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300;
+}
+
+.enterprise-card-hover {
+  @apply enterprise-card hover:-translate-y-1 hover:border-inovara-accent/20;
+}
+
+.enterprise-card-feature {
+  @apply enterprise-card-hover text-center;
+}
+
+.enterprise-card-testimonial {
+  @apply enterprise-card relative;
+}
+
+/* Enterprise Content Layouts */
+.enterprise-content {
+  @apply max-w-3xl mx-auto text-center;
+}
+
+.enterprise-content-lg {
+  @apply max-w-4xl mx-auto text-center;
+}
+
+.enterprise-content-left {
+  @apply text-left rtl:text-right;
+}
+
+.enterprise-content-right {
+  @apply text-right rtl:text-left;
+}
+
+/* Enterprise Typography System */
+.enterprise-display {
+  @apply text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-inovara-primary leading-[1.1] tracking-tight;
+}
+
+.enterprise-heading-1 {
+  @apply text-3xl sm:text-4xl lg:text-5xl font-black text-inovara-primary leading-tight tracking-tight;
+}
+
+.enterprise-heading-2 {
+  @apply text-2xl sm:text-3xl lg:text-4xl font-bold text-inovara-primary leading-tight;
+}
+
+.enterprise-heading-3 {
+  @apply text-xl sm:text-2xl lg:text-3xl font-bold text-inovara-primary leading-snug;
+}
+
+.enterprise-heading-4 {
+  @apply text-lg sm:text-xl lg:text-2xl font-bold text-inovara-primary leading-snug;
+}
+
+.enterprise-title {
+  @apply text-base sm:text-lg font-bold text-inovara-primary leading-normal;
+}
+
+.enterprise-subtitle {
+  @apply text-lg sm:text-xl lg:text-2xl text-inovara-primary/80 font-medium leading-relaxed;
+}
+
+.enterprise-body-lg {
+  @apply text-lg sm:text-xl text-inovara-primary/70 leading-relaxed;
+}
+
+.enterprise-body {
+  @apply text-base sm:text-lg text-inovara-primary/70 leading-relaxed;
+}
+
+.enterprise-body-sm {
+  @apply text-sm sm:text-base text-inovara-primary/70 leading-relaxed;
+}
+
+.enterprise-caption {
+  @apply text-sm text-inovara-primary/60 leading-normal;
+}
+
+.enterprise-overline {
+  @apply text-sm font-medium uppercase tracking-wider text-inovara-accent;
+}
+
+.enterprise-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-inovara-primary to-inovara-secondary;
+}
+
+/* Enterprise Text Alignments */
+.enterprise-text-center {
+  @apply text-center;
+}
+
+.enterprise-text-left {
+  @apply text-left rtl:text-right;
+}
+
+.enterprise-text-right {
+  @apply text-right rtl:text-left;
 }
 
 /* Unified Badge */
