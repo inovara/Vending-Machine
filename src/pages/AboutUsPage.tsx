@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, Users, Target, Handshake, TrendingUp, Award, Globe, Zap, Shield, Heart, Lightbulb, CheckCircle, Star } from 'lucide-react';
+import { ArrowRight, Building2, Users, Target, Handshake, TrendingUp, Award, Globe, Zap, Shield, Heart, Lightbulb, CheckCircle } from 'lucide-react';
 import { useTranslation } from '../contexts/TranslationContext';
 
 interface AboutUsPageProps {
@@ -41,55 +41,55 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
   const achievements = [
     {
       icon: TrendingUp,
-      number: "500+",
-      label: "Businesses Served",
-      description: "Companies transformed with our solutions"
+      number: t('about.achievements.stats.businesses.number'),
+      label: t('about.achievements.stats.businesses.label'),
+      description: t('about.achievements.stats.businesses.description')
     },
     {
       icon: Award,
-      number: "99.9%",
-      label: "Uptime Guarantee",
-      description: "Reliable performance you can count on"
+      number: t('about.achievements.stats.uptime.number'),
+      label: t('about.achievements.stats.uptime.label'),
+      description: t('about.achievements.stats.uptime.description')
     },
     {
       icon: Globe,
-      number: "24/7",
-      label: "Global Support",
-      description: "Round-the-clock assistance worldwide"
+      number: t('about.achievements.stats.support.number'),
+      label: t('about.achievements.stats.support.label'),
+      description: t('about.achievements.stats.support.description')
     },
     {
       icon: Zap,
-      number: "40%",
-      label: "ROI Increase",
-      description: "Average revenue boost for clients"
+      number: t('about.achievements.stats.roi.number'),
+      label: t('about.achievements.stats.roi.label'),
+      description: t('about.achievements.stats.roi.description')
     }
   ];
 
   const features = [
     {
       icon: Shield,
-      title: "Enterprise Security",
-      description: "Bank-grade security with advanced encryption and monitoring systems to protect your business data and operations."
+      title: t('about.features.items.security.title'),
+      description: t('about.features.items.security.description')
     },
     {
       icon: Heart,
-      title: "Customer-Centric",
-      description: "We prioritize customer satisfaction with personalized support, quick response times, and tailored solutions."
+      title: t('about.features.items.customer.title'),
+      description: t('about.features.items.customer.description')
     },
     {
       icon: Lightbulb,
-      title: "Innovation First",
-      description: "Cutting-edge technology and continuous innovation drive our solutions, keeping you ahead of the competition."
+      title: t('about.features.items.innovation.title'),
+      description: t('about.features.items.innovation.description')
     },
     {
       icon: CheckCircle,
-      title: "Proven Results",
-      description: "Track record of successful implementations with measurable business outcomes and satisfied clients."
+      title: t('about.features.items.results.title'),
+      description: t('about.features.items.results.description')
     }
   ];
 
   return (
-    <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Hero Section */}
       <section
         className="relative pt-16 sm:pt-20 lg:pt-24 px-4 sm:px-6 overflow-hidden"
@@ -105,7 +105,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
 
         <div className="relative z-10 max-w-7xl mx-auto">
           {/* Breadcrumb */}
-          <nav className={`flex items-center gap-1 sm:gap-2 mb-6 sm:mb-8 text-xs sm:text-sm ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+          <nav className={`flex items-center gap-1 sm:gap-2 mb-6 sm:mb-8 text-xs sm:text-sm`}>
             <Link to="/" className="text-inovara-primary/70 hover:text-inovara-primary transition-colors px-2 py-1 rounded-lg hover:bg-inovara-primary/5">
               {t('about.breadcrumb.home')}
             </Link>
@@ -120,10 +120,10 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
                 {t('about.title')}
               </h1>
             </div>
-            
+
             {/* Professional Divider */}
             <div className={`w-24 h-1 bg-gradient-to-r from-inovara-accent to-inovara-secondary mx-auto mb-8 rounded-full ${isRTL ? 'bg-gradient-to-l' : 'bg-gradient-to-r'}`}></div>
-            
+
             <div className="max-w-3xl mx-auto">
               <p className="text-lg md:text-xl text-inovara-primary/80 font-medium leading-relaxed">
                 {t('about.description')}
@@ -138,38 +138,27 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Story Content */}
-            <div className={`${isRTL ? 'lg:order-2' : 'lg:order-1'}`}>
+            <div>
               <h2 className="text-3xl md:text-4xl font-black text-inovara-primary mb-6 leading-tight">
-                Our Story
+                {t('about.story.title')}
               </h2>
               <div className="space-y-4 text-inovara-primary/80 font-medium leading-relaxed">
-                <p>
-                  Founded with a vision to revolutionize the vending industry, Inovara emerged from a simple yet powerful idea: 
-                  what if vending machines could be intelligent, connected, and truly beneficial for businesses?
-                </p>
-                <p>
-                  We started as a small team of passionate engineers and business experts who saw the potential for smart 
-                  technology to transform traditional vending into a powerful business tool. Today, we're proud to serve 
-                  hundreds of businesses across various industries.
-                </p>
-                <p>
-                  Our journey has been marked by continuous innovation, customer-centric development, and a commitment to 
-                  delivering solutions that not only meet but exceed expectations. Every machine we deploy is a step 
-                  toward a more connected, efficient, and profitable future for our clients.
-                </p>
+                <p>{t('about.story.content1')}</p>
+                <p>{t('about.story.content2')}</p>
+                <p>{t('about.story.content3')}</p>
               </div>
             </div>
 
             {/* Visual Element */}
-            <div className={`${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
+            <div>
               <div className="relative">
                 <div className="bg-gradient-to-br from-inovara-primary/10 to-inovara-secondary/10 rounded-3xl p-8 h-80 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-24 h-24 bg-gradient-to-br from-inovara-accent to-inovara-secondary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
                       <Building2 className="w-12 h-12 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-inovara-primary mb-2">Innovation</h3>
-                    <p className="text-inovara-primary/70">Driving the future of vending</p>
+                    <h3 className="text-2xl font-bold text-inovara-primary mb-2">{t('about.innovation.title')}</h3>
+                    <p className="text-inovara-primary/70">{t('about.innovation.description')}</p>
                   </div>
                 </div>
                 {/* Decorative elements */}
@@ -197,28 +186,28 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
 
         <div className="relative z-10 max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className={`text-center mb-16 ${isRTL ? 'rtl' : 'ltr'}`}>
+          <div className={`text-center mb-16`}>
             <h2 className="text-3xl md:text-4xl font-black text-inovara-primary mb-6 leading-tight">
-              Our Values
+              {t('about.values.title')}
             </h2>
             <p className="text-lg text-inovara-primary/80 font-medium max-w-2xl mx-auto">
-              The principles that guide everything we do and shape our commitment to excellence
+              {t('about.values.description')}
             </p>
           </div>
 
           {/* Values Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {companyValues.map((value, index) => (
-              <div 
-                key={index} 
-                className={`group relative bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-inovara-primary/10 ${isRTL ? 'rtl' : 'ltr'}`}
+              <div
+                key={index}
+                className={`group relative bg-white/90 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-8 hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-inovara-primary/10`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Icon Container */}
                 <div className={`w-16 h-16 bg-gradient-to-br ${value.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 mx-auto`}>
                   <value.icon className="w-8 h-8 text-white" />
                 </div>
-                
+
                 {/* Content */}
                 <h3 className={`text-xl font-bold text-inovara-primary mb-4 group-hover:text-inovara-accent transition-colors duration-300 text-center`}>
                   {value.title}
@@ -226,7 +215,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
                 <p className={`text-sm text-inovara-primary/70 font-medium leading-relaxed text-center`}>
                   {value.description}
                 </p>
-                
+
                 {/* Hover Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-inovara-accent/5 to-inovara-secondary/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
@@ -240,10 +229,10 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-black text-inovara-primary mb-6 leading-tight">
-              Our Achievements
+              {t('about.achievements.title')}
             </h2>
             <p className="text-lg text-inovara-primary/80 font-medium max-w-2xl mx-auto">
-              Numbers that reflect our commitment to excellence and client success
+              {t('about.achievements.subtitle')}
             </p>
           </div>
 
@@ -272,10 +261,10 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onQuoteClick: _onQuoteClick }
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-black text-inovara-primary mb-6 leading-tight">
-              Why Choose Inovara
+              {t('about.features.title')}
             </h2>
             <p className="text-lg text-inovara-primary/80 font-medium max-w-2xl mx-auto">
-              Discover what sets us apart in the vending industry
+              {t('about.features.subtitle')}
             </p>
           </div>
 
