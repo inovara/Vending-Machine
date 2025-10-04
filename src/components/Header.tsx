@@ -20,8 +20,8 @@ const Header: React.FC<HeaderProps> = memo(({ onQuoteClick }) => {
 
   const navigationItems = [
     { name: t('nav.home'), href: '#home', type: 'scroll' },
-    { name: t('nav.about'), href: '#about', type: 'scroll' },
     { name: t('nav.products'), href: '/products', type: 'page' },
+    { name: t('nav.about'), href: '#about', type: 'scroll' },
     { name: t('nav.industries'), href: '/industries', type: 'page' },
     { name: t('nav.contact'), href: '#contact', type: 'scroll' }
   ];

@@ -19,9 +19,9 @@ const HomePage: React.FC<HomePageProps> = ({ onQuoteClick }) => {
       role="main"
       aria-label="Inovara smart vending machine solutions homepage"
     >
-      <HeroSection />
-      <AboutSection />
+      <HeroSection onQuoteClick={onQuoteClick}/>
       <ProductsSection onQuoteClick={onQuoteClick} />
+      <AboutSection />
       <WhyChooseUsSection />
       <ContactSection />
     </main>

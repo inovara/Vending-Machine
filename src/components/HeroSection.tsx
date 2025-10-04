@@ -3,7 +3,11 @@ import { ArrowRight, TrendingUp, Shield, Zap, Users } from 'lucide-react';
 import { navigateToSection } from '../utils/navigation';
 import { useTranslation } from '../contexts/TranslationContext';
 
-const HeroSection: React.FC = memo(() => {
+interface HeroSectionProps {
+  onQuoteClick?: () => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = memo(({ onQuoteClick }) => {
   const { t, isRTL } = useTranslation();
 
   return (
@@ -90,7 +94,7 @@ const HeroSection: React.FC = memo(() => {
           {/* Primary CTA */}
           <button
             className="group relative px-6 sm:px-8 lg:px-10 py-3 sm:py-4 bg-gradient-to-r from-inovara-primary to-inovara-secondary text-white font-bold text-base sm:text-lg rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-inovara-accent/30 overflow-hidden w-full sm:w-auto"
-            onClick={() => navigateToSection('#contact')}
+            onClick={() => onQuoteClick?.()}
             aria-label="Get free B2B quote for smart vending machines"
           >
             <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full ${isRTL ? 'translate-x-full group-hover:-translate-x-full' : '-translate-x-full'}`}></div>

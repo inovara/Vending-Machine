@@ -35,9 +35,9 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
   }, [productId]);
 
 
-  const { 
-    mutate: submitQuote, 
-    isLoading: isSubmitting, 
+  const {
+    mutate: submitQuote,
+    isLoading: isSubmitting,
     isSuccess,
     reset: resetMutation
   } = useMutation<QuoteResponse, Error, QuoteFormData>({
@@ -76,7 +76,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.company || (!productId && formData.products.length === 0)) {
       setSubmitError(t('quote.validation.requiredFields'));
       return;
@@ -104,10 +104,10 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
     resetMutation();
   };
 
-  const { 
-    data: productsResponse, 
-    isLoading: isLoadingProducts, 
-    isError: isProductsError 
+  const {
+    data: productsResponse,
+    isLoading: isLoadingProducts,
+    isError: isProductsError
   } = useQuery({
     queryKey: [queryKeys.listProducts, { page: 1, per_page: 100, category_id: 2 }, language],
     queryFn: () => listProducts({ page: 1, per_page: 100, category_id: 2 }),
@@ -212,36 +212,34 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
                 </div>
               </div>
 
-              {!productId && (
-                <div>
-                  <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
-                    <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
-                      {t('quote.product')} <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      name="products"
-                      value={formData.products[0]?.id || ''}
-                      onChange={handleProductChange}
-                      dir={isRTL ? 'rtl' : 'ltr'}
-                      className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
-                      required
-                      disabled={isLoadingProducts}
-                    >
-                      <option value="" className="text-inovara-primary/50">
-                        {isLoadingProducts ? t('common.loading') : t('quote.selectProduct')}
+              <div>
+                <div className={isRTL ? 'sm:order-2' : 'sm:order-1'}>
+                  <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    {t('quote.product')} <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="products"
+                    value={formData.products[0]?.id || ''}
+                    onChange={handleProductChange}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-3 sm:px-4 py-3 sm:py-4 bg-white border-2 border-inovara-primary/20 rounded-xl sm:rounded-2xl text-inovara-primary focus:border-inovara-accent focus:ring-4 focus:ring-inovara-accent/20 focus:outline-none transition-all duration-300 text-sm sm:text-base ${isRTL ? 'text-right' : 'text-left'}`}
+                    required
+                    disabled={isLoadingProducts}
+                  >
+                    <option value="" className="text-inovara-primary/50">
+                      {isLoadingProducts ? t('common.loading') : t('quote.selectProduct')}
+                    </option>
+                    {productsResponse?.data?.map((product: Product) => (
+                      <option key={product.id} value={product.id} className="text-inovara-primary">
+                        {product.name}
                       </option>
-                      {productsResponse?.data?.map((product: Product) => (
-                        <option key={product.id} value={product.id} className="text-inovara-primary">
-                          {product.name}
-                        </option>
-                      ))}
-                    </select>
-                    {isProductsError && (
-                      <p className="text-red-500 text-xs mt-1">{t('quote.productLoadError')}</p>
-                    )}
-                  </div>
+                    ))}
+                  </select>
+                  {isProductsError && (
+                    <p className="text-red-500 text-xs mt-1">{t('quote.productLoadError')}</p>
+                  )}
                 </div>
-              )}
+              </div>
 
               <div>
                 <label className={`block text-inovara-primary font-bold text-xs sm:text-sm mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -274,7 +272,7 @@ const QuickQuoteModal: React.FC<QuickQuoteModalProps> = ({ isOpen, onClose, prod
                     <Send className={`w-4 h-4 sm:w-6 sm:h-6 roup-hover/btn:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-360 group-hover:-translate-x-1' : ''}`} />
                   </span>
                 )}
-                
+
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
               </button>
             </form>
