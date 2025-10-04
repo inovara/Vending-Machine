@@ -18,6 +18,8 @@ const ChatbotWidget = lazy(() => import('./components/ChatbotWidget'));
 const ProductsPage = lazy(() => import('./pages/ProductsPage'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage.tsx'));
 const IndustriesPage = lazy(() => import('./pages/IndustriesPage'));
+const AboutUsPage = lazy(() => import('./pages/AboutUsPage'));
+const ContactUsPage = lazy(() => import('./pages/ContactUsPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
 const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage'));
@@ -65,6 +67,8 @@ const App: React.FC = () => {
               <Route path="/products" element={<ProductsPage onQuoteClick={openQuoteForm} />} />
               <Route path="/products/:slug" element={<ProductDetailPage onQuoteClick={openQuoteForm} />} />
               <Route path="/industries" element={<IndustriesPage onQuoteClick={openQuoteForm} />} />
+              <Route path="/about" element={<AboutUsPage onQuoteClick={openQuoteForm} />} />
+              <Route path="/contact" element={<ContactUsPage onQuoteClick={openQuoteForm} />} />
               
               {/* Legal Pages */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />

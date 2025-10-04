@@ -498,13 +498,17 @@
   "contact": {
     "title": "Let's Talk Business",
     "description": "Ready to transform your business with smart vending solutions? Get in touch with our team of experts for a personalized consultation and custom quote.",
+    "breadcrumb": {
+      "home": "Home",
+      "contact": "Contact"
+    },
     "company": {
       "name": "Inovara Vending Solutions",
       "tagline": "Your Trusted Partner in Smart Vending Technology"
     },
     "form": {
-      "title": "Get Your Free Quote",
-      "subtitle": "Tell us about your business needs and we'll provide a customized solution",
+      "title": "Contact Us",
+      "subtitle": "Get in touch with our team for personalized consultation and support",
       "name": "Full Name",
       "email": "Email Address",
       "phone": "Phone Number",
@@ -524,9 +528,9 @@
       "button": "Let's Talk Business"
     },
     "success": {
-      "title": "Quote Request Received!",
-      "message": "Thank you for your interest! We'll send you a detailed quote for your vending machines within 24 hours. No obligation, just honest pricing.",
-      "submitAnother": "Submit Another Request",
+      "title": "Message Sent Successfully!",
+      "message": "Thank you for contacting us! We'll get back to you within 24 hours with a personalized response to your inquiry.",
+      "submitAnother": "Send Another Message",
       "downloadBrochure": "Download Brochure"
     },
     "info": {
@@ -535,21 +539,12 @@
       "email": "info@inovara.net",
       "hours": "Mon-Fri: 9AM-6PM"
     },
-    "cta": {
-      "title": "Ready to Get Started?",
-      "description": "Join hundreds of businesses already using our smart vending solutions.",
-      "button": "Get Free Quote"
-    },
     "solutions": {
       "title": "Our Solutions",
       "smartVending": "Smart Vending",
       "paymentSystems": "Payment Systems",
       "managementSoftware": "Management Software",
       "iotIntegration": "IoT Integration"
-    },
-    "response": {
-      "time": "Response Time",
-      "within24Hours": "Within 24 Hours"
     }
   },
   "info": {
@@ -1398,6 +1393,10 @@
   "about": {
     "title": "About Us",
     "description": "We are a trusted partner for enterprise vending solutions, committed to delivering smart technology that drives business success. Our expertise in intelligent automation helps organizations optimize operations, enhance customer experiences, and achieve sustainable growth through innovative vending solutions.",
+    "breadcrumb": {
+      "home": "Home",
+      "about": "About"
+    },
     "values": {
       "enterprise": {
         "title": "Enterprise Focus",
