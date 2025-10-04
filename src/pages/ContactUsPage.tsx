@@ -317,41 +317,47 @@ const ContactUsPage: React.FC<ContactUsPageProps> = ({ onQuoteClick: _onQuoteCli
                     {/* Additional Contact Methods */}
                     <div className="grid md:grid-cols-3 gap-6 mb-12">
                         {/* WhatsApp Contact */}
-                        <div className="bg-white/95 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 group">
+                        <div className={`bg-white/95 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 group ${isRTL ? 'rtl' : 'ltr'}`}>
                             <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
                                 <MessageSquare className="w-8 h-8 text-white" />
                             </div>
-                            <h4 className="text-lg font-bold text-inovara-primary mb-2">WhatsApp Support</h4>
-                            <p className="text-inovara-primary/70 text-sm mb-4">Quick support via WhatsApp</p>
+                            <h4 className="text-lg font-bold text-inovara-primary mb-2">{t('contact.additionalMethods.whatsapp.title')}</h4>
+                            <p className="text-inovara-primary/70 text-sm mb-4">{t('contact.additionalMethods.whatsapp.description')}</p>
                             <a
-                                href="https://wa.me/201116392600?text=Hello! I'm interested in your smart vending machine solutions."
+                                href={`https://wa.me/201116392600?text=${encodeURIComponent(t('contact.additionalMethods.whatsapp.message'))}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors duration-300"
+                                className={`inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors duration-300 ${isRTL ? 'flex-row-reverse' : ''}`}
                             >
                                 <MessageSquare className="w-4 h-4" />
-                                Start Chat
+                                {t('contact.additionalMethods.whatsapp.button')}
                             </a>
                         </div>
 
-                        {/* Business Hours */}
-                        <div className="bg-white/95 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 group">
+                        {/* Email Support */}
+                        <div className={`bg-white/95 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 group ${isRTL ? 'rtl' : 'ltr'}`}>
                             <div className="w-16 h-16 bg-gradient-to-br from-inovara-accent to-inovara-accent/80 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                <Clock className="w-8 h-8 text-white" />
+                                <Mail className="w-8 h-8 text-white" />
                             </div>
-                            <h4 className="text-lg font-bold text-inovara-primary mb-2">Business Hours</h4>
-                            <p className="text-inovara-primary/70 text-sm mb-2">Monday - Friday</p>
-                            <p className="text-inovara-primary font-semibold">9:00 AM - 6:00 PM</p>
+                            <h4 className="text-lg font-bold text-inovara-primary mb-2">{t('contact.additionalMethods.email.title')}</h4>
+                            <p className="text-inovara-primary/70 text-sm mb-4">{t('contact.additionalMethods.email.description')}</p>
+                            <a
+                                href="mailto:info@inovara.net"
+                                className={`inline-flex items-center gap-2 bg-inovara-accent hover:bg-inovara-accent/90 text-white px-4 py-2 rounded-lg font-semibold transition-colors duration-300 ${isRTL ? 'flex-row-reverse' : ''}`}
+                            >
+                                <Mail className="w-4 h-4" />
+                                {t('contact.additionalMethods.email.button')}
+                            </a>
                         </div>
 
-                        {/* Global Reach */}
-                        <div className="bg-white/95 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 group">
+                        {/* Service Locations */}
+                        <div className={`bg-white/95 backdrop-blur-sm border border-inovara-primary/15 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 group ${isRTL ? 'rtl' : 'ltr'}`}>
                             <div className="w-16 h-16 bg-gradient-to-br from-inovara-secondary to-inovara-secondary/80 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
                                 <Globe className="w-8 h-8 text-white" />
                             </div>
-                            <h4 className="text-lg font-bold text-inovara-primary mb-2">Global Reach</h4>
-                            <p className="text-inovara-primary/70 text-sm mb-2">Serving businesses</p>
-                            <p className="text-inovara-primary font-semibold">Worldwide</p>
+                            <h4 className="text-lg font-bold text-inovara-primary mb-2">{t('contact.additionalMethods.locations.title')}</h4>
+                            <p className="text-inovara-primary/70 text-sm mb-2">{t('contact.additionalMethods.locations.description')}</p>
+                            <p className="text-inovara-primary font-semibold">{t('contact.additionalMethods.locations.coverage')}</p>
                         </div>
                     </div>
 
@@ -381,7 +387,7 @@ const ContactUsPage: React.FC<ContactUsPageProps> = ({ onQuoteClick: _onQuoteCli
                                     className="group px-8 py-4 border-2 border-green-500 text-green-600 hover:bg-green-500 hover:text-white font-bold text-lg rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-500/30"
                                 >
                                     <span className={`flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'} gap-3`}>
-                                        WhatsApp Support
+                                        {t('contact.whatsappSupport.cta')}
                                         <MessageSquare className={`w-5 h-5 group-hover:scale-110 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
                                     </span>
                                 </a>

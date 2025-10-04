@@ -496,6 +496,28 @@
     }
   },
   "contact": {
+    "whatsappSupport": {
+      "title": "WhatsApp Support",
+      "cta": "Start WhatsApp Support"
+    },
+    "additionalMethods": {
+      "whatsapp": {
+        "title": "WhatsApp Support",
+        "description": "Quick support via WhatsApp",
+        "button": "Start Chat",
+        "message": "Hello! I'm interested in your smart vending machine solutions."
+      },
+      "email": {
+        "title": "Email Support",
+        "description": "Get detailed assistance",
+        "button": "Send Email"
+      },
+      "locations": {
+        "title": "Service Locations",
+        "description": "Serving businesses across",
+        "coverage": "Egypt & MENA Region"
+      }
+    },
     "title": "Let's Talk Business",
     "description": "Ready to transform your business with smart vending solutions? Get in touch with our team of experts for a personalized consultation and custom quote.",
     "breadcrumb": {
@@ -535,9 +557,12 @@
     },
     "info": {
       "address": "123 Business Street, Cairo, Egypt",
-      "phone": "+20 123 456 7890",
+      "phone": "+20 111 639 2600",
       "email": "info@inovara.net",
-      "hours": "Mon-Fri: 9AM-6PM"
+      "hours": "Mon-Fri: 9AM-6PM",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "addressLabel": "Address"
     },
     "solutions": {
       "title": "Our Solutions",
@@ -545,6 +570,10 @@
       "paymentSystems": "Payment Systems",
       "managementSoftware": "Management Software",
       "iotIntegration": "IoT Integration"
+    },
+    "validation": {
+      "requiredFields": "Please fill in all required fields.",
+      "invalidEmail": "Please enter a valid email address."
     }
   },
   "info": {
@@ -1398,6 +1427,8 @@
       "about": "About"
     },
     "values": {
+      "title": "Our Values",
+      "description": "The principles that guide everything we do and shape our commitment to excellence",
       "enterprise": {
         "title": "Enterprise Focus",
         "description": "Built for business success and operational excellence"
@@ -1415,10 +1446,68 @@
         "description": "Proven track record in vending technology and business automation"
       }
     },
+    "innovation": {
+      "title": "Innovation",
+      "description": "Driving the future of vending"
+    },
     "cta": {
       "title": "Partner with Industry Leaders",
       "description": "Join forward-thinking businesses that trust Inovara for their vending technology needs. Experience the difference that true partnership makes.",
       "trust": "Trusted by businesses across industries"
+    },
+    "story": {
+      "title": "Our Story",
+      "content1": "Founded with a vision to revolutionize the vending industry, Inovara emerged from a simple yet powerful idea: what if vending machines could be intelligent, connected, and truly beneficial for businesses?",
+      "content2": "We started as a small team of passionate engineers and business experts who saw the potential for smart technology to transform traditional vending into a powerful business tool. Today, we're proud to serve hundreds of businesses across various industries.",
+      "content3": "Our journey has been marked by continuous innovation, customer-centric development, and a commitment to delivering solutions that not only meet but exceed expectations. Every machine we deploy is a step toward a more connected, efficient, and profitable future for our clients."
+    },
+    "achievements": {
+      "title": "Our Achievements",
+      "subtitle": "Numbers that reflect our commitment to excellence and client success",
+      "stats": {
+        "businesses": {
+          "number": "500+",
+          "label": "Businesses Served",
+          "description": "Companies transformed with our solutions"
+        },
+        "uptime": {
+          "number": "99.9%",
+          "label": "Uptime Guarantee",
+          "description": "Reliable performance you can count on"
+        },
+        "support": {
+          "number": "24/7",
+          "label": "Global Support",
+          "description": "Round-the-clock assistance worldwide"
+        },
+        "roi": {
+          "number": "40%",
+          "label": "ROI Increase",
+          "description": "Average revenue boost for clients"
+        }
+      }
+    },
+    "features": {
+      "title": "Why Choose Inovara",
+      "subtitle": "Discover what sets us apart in the vending industry",
+      "items": {
+        "security": {
+          "title": "Enterprise Security",
+          "description": "Bank-grade security with advanced encryption and monitoring systems to protect your business data and operations."
+        },
+        "customer": {
+          "title": "Customer-Centric",
+          "description": "We prioritize customer satisfaction with personalized support, quick response times, and tailored solutions."
+        },
+        "innovation": {
+          "title": "Innovation First",
+          "description": "Cutting-edge technology and continuous innovation drive our solutions, keeping you ahead of the competition."
+        },
+        "results": {
+          "title": "Proven Results",
+          "description": "Track record of successful implementations with measurable business outcomes and satisfied clients."
+        }
+      }
     }
   }
 }
